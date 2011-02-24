@@ -1,0 +1,244 @@
+
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import sun.audio.*;
+import java.applet.*;
+
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+
+
+public class Board extends JPanel implements Runnable{
+
+    
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5438534791450927749L;
+
+    private Thread animator;
+    private boolean ingame=true;
+    private Font bigfont = new Font("Helvetica", Font.BOLD, 28);
+    private Font smallfont=new Font("Helvetica", Font.BOLD, 14);
+    private Integer score=0;
+    private Double airQual=1000.0;
+   
+    private final int DELAY = 50;
+   
+    ArrayList<Trash> trash= new ArrayList<Trash>();
+    ArrayList<Tower> towers= new ArrayList<Tower>();
+    ArrayList<Integer> pathX=new ArrayList<Integer>();
+    ArrayList<Integer> pathY=new ArrayList<Integer>();
+    
+    //Board Dimensions used for making the path
+    private final int boardWidth=600;
+    private final int boardHeight=600;
+    private final int pathWidth=30;
+    private final int pathHeight=30;
+    private final int pathPad=70;
+    private final int gapPad=140;
+    private Image background;
+    private Image landFill;
+ 
+
+    public Board() {
+        
+        setDoubleBuffered(true);
+        
+        pathX.add(0);
+        pathY.add(pathPad);
+        
+        pathX.add(boardWidth-pathPad-pathWidth);
+        pathY.add(pathPad);
+        
+        pathX.add(boardWidth-pathPad-pathWidth);
+        pathY.add(pathPad+pathHeight+gapPad);
+        
+        pathX.add(pathPad);
+        pathY.add(pathPad+pathHeight+gapPad);
+        
+        pathX.add(pathPad);
+        pathY.add(pathPad+pathHeight*2+gapPad*2);
+        
+        pathX.add(boardWidth-pathPad-pathWidth);
+        pathY.add(pathPad+pathHeight*2+gapPad*2);
+        
+        pathX.add(boardWidth-pathPad-pathWidth);
+        pathY.add(boardHeight+pathHeight);
+        
+        pathX.add(-pathWidth);
+        pathY.add(boardHeight+pathHeight);
+        
+        pathX.add(-pathWidth);
+        pathY.add(pathPad);
+        
+        ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/board.png"));
+        background = ii.getImage();
+        
+        ii= new ImageIcon(this.getClass().getResource("pics/landfill.png"));
+        landFill=ii.getImage(); 
+        
+        Trash.TrashType[] types= {Trash.TrashType.paper,Trash.TrashType.plastic};
+        
+        WaveGen Wave= new WaveGen(24,35,1,pathPad,types);
+        
+        trash=Wave.getWave();
+       
+    }
+
+    public void addNotify() {
+        super.addNotify();
+        animator = new Thread(this);
+        animator.start();
+    }
+
+    public void paint(Graphics g) {
+	super.paint(g);
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.drawImage(background,0,0,this);
+       
+       
+	if(ingame){
+	    
+	    g2d.drawImage(landFill,0,0,this);
+            //Draw each piece of trash in our trash array onto the frame
+            for(int i=0; i<trash.size(); i++){
+                Trash curTrash=trash.get(i);
+                g2d.drawImage(curTrash.getImage(), (int)curTrash.getX(),(int) curTrash.getY(), this);
+            }
+            
+            for(int i=0; i<towers.size(); i++){
+                Tower curTower=towers.get(i);
+                g2d.drawImage(curTower.getImage(), (int)curTower.getX(),(int) curTower.getY(), this);
+            }
+          
+           
+	}else{
+	   g2d.setFont(bigfont);
+	   g2d.drawString("GAME OVER", 250, 300);
+            
+	}
+	g2d.setFont(smallfont);
+	g2d.drawString("Score: "+score.toString(), 250, 615);
+	Toolkit.getDefaultToolkit().sync();
+        g.dispose();
+    }
+
+    public void addTowerToBoard(int x, int y, int type){
+	
+	if(type==1){
+	    Tower newTower= new Tower(x,y,1,25,Tower.TowerType.recycle);
+	    towers.add(newTower);
+		
+	}else{
+	    Tower newTower= new Tower(x,y,1,25,Tower.TowerType.incenerator);
+	    towers.add(newTower);
+	}
+	
+	
+    }
+    
+
+    public void run() {
+
+        long beforeTime, timeDiff, sleep;
+        
+        addTowerToBoard(300,25,2);
+        addTowerToBoard(200,25,1);
+        
+        beforeTime = System.currentTimeMillis();
+        int counter=0;
+        
+          
+	try {
+	    
+	    InputStream in = new FileInputStream("C:\\Users\\Richard\\workspace\\Trashed\\src\\Menu.au");
+	    AudioStream as = new AudioStream(in); 
+	    AudioPlayer.player.start(as);
+	    
+	} catch (FileNotFoundException e1) {
+	    e1.printStackTrace();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+                 
+                 
+        
+        ingame=true;
+        
+        
+        
+        while (trash.size()>0) {
+            counter++;     
+            for(int i=0; i<trash.size(); i++){
+        	
+        	trash.get(i).followPath(pathX, pathY);
+        	
+        	for(int j=0; j<towers.size(); j++){
+        	   
+        	    if(trash.get(i).detectCollisions(towers.get(j)) &&
+        		    !trash.get(i).isKilled() && !towers.get(j).getFiring()){
+            	    		
+        		towers.get(j).setFiring(true);
+        		trash.get(i).setKilled();
+        
+        	    }
+        	    
+        	    if(towers.get(j).getFiring() && (trash.get(i).isKilled() || towers.get(j).getFireCounter()>=9)  ){
+        		
+        		//Only fire every other frame
+        		if(counter % 2==0){
+        		    
+                		towers.get(j).fire();
+                		
+                		//System.out.println(towers.get(j).getFireCounter());
+                		
+                		if(towers.get(j).getFireCounter()==9 && trash.get(i).isKilled() ){
+                		    trash.remove(i);
+                		    score+=100;
+                		    break;
+                		}
+        		}
+        	    }
+        	}
+        	
+            }
+           
+            repaint();
+
+            timeDiff = System.currentTimeMillis() - beforeTime;
+            sleep = DELAY - timeDiff;
+
+            if (sleep < 0)
+                sleep = 2;
+            try {
+                Thread.sleep(sleep);
+            } catch (InterruptedException e) {
+                System.out.println("interrupted");
+            }
+
+            beforeTime = System.currentTimeMillis();
+        }
+        ingame=false;
+        repaint();
+        
+    }  
+}
