@@ -169,8 +169,10 @@ public class Board extends JPanel implements Runnable{
         
           
 	try {
+		
 	    
-	    InputStream in = new FileInputStream("C:\\Users\\Richard\\workspace\\Trashed\\src\\Menu.au");
+		InputStream in = new FileInputStream("C:\\Users\\Richard\\workspace\\Trashed\\src\\Menu.au");
+	    // InputStream in = new FileInputStream("/Users/zachg/Trashed/src/Menu.au");
 	    AudioStream as = new AudioStream(in); 
 	    AudioPlayer.player.start(as);
 	    
