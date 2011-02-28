@@ -44,7 +44,7 @@ public class Board extends JPanel implements Runnable{
     private final int DELAY = 50;
    
     ArrayList<Trash> trash= new ArrayList<Trash>();
-    ArrayList<Tower> towers= new ArrayList<Tower>();
+    static ArrayList<Tower> towers= new ArrayList<Tower>(); //not sure if this should be static but am trying to add towers on button press
     ArrayList<Integer> pathX=new ArrayList<Integer>();
     ArrayList<Integer> pathY=new ArrayList<Integer>();
     
@@ -90,7 +90,8 @@ public class Board extends JPanel implements Runnable{
         pathX.add(-pathWidth);
         pathY.add(pathPad);
         
-        ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/board.png"));
+       //My computer wants Board capitalized.  -JJ
+        ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Board.png"));
         background = ii.getImage();
         
         ii= new ImageIcon(this.getClass().getResource("pics/landfill.png"));
@@ -170,10 +171,12 @@ public class Board extends JPanel implements Runnable{
           
 	try {
 		
+	    //JJ- commented this out becasue it throws a file not found exception
+		//InputStream in = new FileInputStream("C:\\Users\\Richard\\workspace\\Trashed\\src\\Menu.au");
+		InputStream in = new FileInputStream("//Trashed//src//Menu.au");
+		// InputStream in = new FileInputStream("/Users/zachg/Trashed/src/Menu.au");
 	    
-		InputStream in = new FileInputStream("C:\\Users\\Richard\\workspace\\Trashed\\src\\Menu.au");
-	    // InputStream in = new FileInputStream("/Users/zachg/Trashed/src/Menu.au");
-	    AudioStream as = new AudioStream(in); 
+		AudioStream as = new AudioStream(in); 
 	    AudioPlayer.player.start(as);
 	    
 	} catch (FileNotFoundException e1) {
@@ -182,7 +185,7 @@ public class Board extends JPanel implements Runnable{
 	    e.printStackTrace();
 	}
                  
-                 
+		
         
         ingame=true;
         
@@ -242,5 +245,10 @@ public class Board extends JPanel implements Runnable{
         ingame=false;
         repaint();
         
-    }  
+    }
+    //JJ
+    public static void addTower(Tower t)
+    {
+    towers.add(t);	
+    }
 }
