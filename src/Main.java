@@ -28,7 +28,7 @@ public class Main extends JFrame {
 	Board board= new Board();
 	add(board,BorderLayout.CENTER);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800,650);
+        setSize(900,650);
         setLocationRelativeTo(null);
         setTitle("Trashed");
         setResizable(false);

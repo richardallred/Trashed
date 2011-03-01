@@ -70,13 +70,11 @@ public class Menu extends JPanel {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			mousePressed(e);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			mousePressed(e);
 		}
 
 		@Override
@@ -97,7 +95,6 @@ public class Menu extends JPanel {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			mousePressed(e);
 		}
 		
 	}
