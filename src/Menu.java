@@ -9,34 +9,51 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 
-public class Menu extends JPanel {
+
+public class Menu extends JPanel implements Runnable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5237335232850181080L;
-	private GridLayout layoutMGR =new GridLayout(0,2,10,10);
+	private Thread menu;
+	private final int DELAY = 50;
+	private GridLayout layoutMGR =new GridLayout(4,4,10,10);
 	private Board gameBoard;
 	private boolean addRecycleTower=false;
 	private boolean addInceneratorTower=false;
+	private boolean startWave=false;
 
 	public Menu(Board board){
 		gameBoard=board;
 		board.addMouseListener(new MouseTest());
 		setLayout(layoutMGR);
 		//ActionListener AL=new ActionListener();
-		JButton recycleButton=new JButton("Add Recycling");
+		JButton recycleButton=new JButton("Add Recycling-$200");
 		recycleButton.addActionListener(new RecycleButtonListener());
 		
-		JButton inceneratorButton=new JButton("Add Incenerator");
+		JButton inceneratorButton=new JButton("Add Incenerator-$100");
 		inceneratorButton.addActionListener(new InceneratorButtonListener());
+		
+		
+		JButton startWaveButton=new JButton("Send Next Wave");
+		startWaveButton.addActionListener(new StartWaveButtonListener());
+		
 		add(recycleButton);
 		add(inceneratorButton);
-		//add(new JButton("Button3"));
-		//add(new JButton("Button4"));
-		//add(new JButton("Button5"));
+		add(startWaveButton);
 
 
+	}
+	private class StartWaveButtonListener implements ActionListener{
+		
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			startWave=!startWave;
+			gameBoard.startWave();
+			System.out.println("SHIT");
+		}
 	}
 	private class RecycleButtonListener implements ActionListener{
 	
@@ -44,12 +61,6 @@ public class Menu extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			addRecycleTower=!addRecycleTower;
-			//System.out.println(e.getSource().toString());
-			// TODO Auto-generated method stub
-		    //Tower newTower= new Tower(200,200,1,25,Tower.TowerType.recycle);
-		    //gameBoard.addTower(newTower);
-			//System.exit(1);
-
 		}
 	}
 	private class InceneratorButtonListener implements ActionListener{
@@ -78,17 +89,23 @@ public class Menu extends JPanel {
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			if(addRecycleTower==true){
+		public  void mousePressed(MouseEvent e) {
+			
+			if(addRecycleTower==true && gameBoard.getBudget()>=getCost(Tower.TowerType.recycle)){
 				int mouseX=e.getPoint().x;
 				int mouseY=e.getPoint().y;
-				gameBoard.addTower(new Tower(mouseX,mouseY,1,25,Tower.TowerType.recycle));
-			}else if(addInceneratorTower==true)
+				gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.recycle));
+				gameBoard.removeMoney(200);
+
+			}else if(addInceneratorTower==true  && gameBoard.getBudget()>=getCost(Tower.TowerType.incenerator))
 			{
 				int mouseX=e.getPoint().x;
 				int mouseY=e.getPoint().y;
-				gameBoard.addTower(new Tower(mouseX,mouseY,1,25,Tower.TowerType.incenerator));
+				gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.incenerator));
+				gameBoard.removeMoney(200);
+	
+			}else if(startWave==true){
+			   
 			}
 		}
 
@@ -98,5 +115,53 @@ public class Menu extends JPanel {
 		}
 		
 	}
+	
+	public int getCost(Tower.TowerType type){
+		if(type==Tower.TowerType.recycle){
+		    return 200;
+		}else if(type==Tower.TowerType.incenerator){
+		    return 100;
+		}else{
+		    return 0;
+		}
+	    }
+
+	@Override
+	public void run() {
+	    long beforeTime, timeDiff, sleep;
+            
+	        beforeTime = System.currentTimeMillis();
+	        
+	           
+	        
+	        
+	        while (true) {
+	            
+	            long pause=0;
+	        	
+	            
+	          
+	            timeDiff = System.currentTimeMillis() - beforeTime;
+	            sleep = DELAY - timeDiff;
+
+	            if (sleep < 0)
+	                sleep = 2;
+	            try {
+	                Thread.sleep(sleep);
+	            } catch (InterruptedException e) {
+	                System.out.println("interrupted");
+	            }
+
+	            beforeTime = System.currentTimeMillis();
+	        }
+	        
+	    
+	}
+	
+	public void addNotify() {
+	        super.addNotify();
+	        menu = new Thread(this);
+	        menu.start();
+	    }
 
 }

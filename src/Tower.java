@@ -182,6 +182,8 @@ public class Tower{
     public double getY(){
 	return y;
     }
+    
+    
         
     
     public double getWidth(){

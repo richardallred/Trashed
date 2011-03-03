@@ -36,9 +36,9 @@ public class Board extends JPanel implements Runnable{
 
     private Thread animator;
     private boolean ingame=true;
-    private Font bigfont = new Font("Helvetica", Font.BOLD, 28);
+    private Font bigfont = new Font("Helvetica", Font.BOLD, 25);
     private Font smallfont=new Font("Helvetica", Font.BOLD, 14);
-    private Integer score=0;
+    private Integer score=300;
     private Double airQual=1000.0;
    
     private final int DELAY = 50;
@@ -57,6 +57,8 @@ public class Board extends JPanel implements Runnable{
     private final int gapPad=140;
     private Image background;
     private Image landFill;
+    
+    private static boolean inBetweenLevels=true;
  
 
     public Board() {
@@ -110,6 +112,7 @@ public class Board extends JPanel implements Runnable{
         animator = new Thread(this);
         animator.start();
     }
+    
 
     public void paint(Graphics g) {
 	super.paint(g);
@@ -138,42 +141,42 @@ public class Board extends JPanel implements Runnable{
             
 	}
 	g2d.setFont(smallfont);
-	g2d.drawString("Score: "+score.toString(), 250, 615);
+	g2d.drawString("Current Budget: $"+score.toString(), 400, 615);
+	g2d.drawString("Town Air Quality: "+airQual.toString(), 5, 615);
+	g2d.setFont(bigfont);
+	g2d.drawString(" | ", 163, 615);
 	Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
 
-    public void addTowerToBoard(int x, int y, int type){
+    public static void startWave(){
+	inBetweenLevels=false;
+    }
+    
+    public void removeMoney(int cost){
 	
-	if(type==1){
-	    Tower newTower= new Tower(x,y,1,25,Tower.TowerType.recycle);
-	    towers.add(newTower);
-		
-	}else{
-	    Tower newTower= new Tower(x,y,1,25,Tower.TowerType.incenerator);
-	    towers.add(newTower);
-	}
-	
-	
+	score-=cost;
+    }
+    
+    public int getBudget(){
+	return score;
     }
     
 
     public void run() {
 
         long beforeTime, timeDiff, sleep;
-        
-        addTowerToBoard(300,25,2);
-        addTowerToBoard(200,25,1);
-        
+                
         beforeTime = System.currentTimeMillis();
+        
         int counter=0;
         
-          
+       /*   
 	try {
 		
 	    //JJ- commented this out becasue it throws a file not found exception
 		//InputStream in = new FileInputStream("C:\\Users\\Richard\\workspace\\Trashed\\src\\Menu.au");
-		InputStream in = new FileInputStream("//Trashed//src//Menu.au");
+		InputStream in = new FileInputStream("//Trashed//Resources//audio//Menu.au");
 		// InputStream in = new FileInputStream("/Users/zachg/Trashed/src/Menu.au");
 	    
 		AudioStream as = new AudioStream(in); 
@@ -185,14 +188,24 @@ public class Board extends JPanel implements Runnable{
 	    e.printStackTrace();
 	}
                  
-		
+	*/	
         
         ingame=true;
         
         
         
         while (trash.size()>0) {
-            counter++;     
+            counter++;
+            
+            long pause=0;
+            while(inBetweenLevels){
+        	pause++;
+        	repaint();
+        	if(pause>1000000){
+        	    pause=0;
+        	}
+            }
+        	
             for(int i=0; i<trash.size(); i++){
         	
         	trash.get(i).followPath(pathX, pathY);
@@ -207,14 +220,16 @@ public class Board extends JPanel implements Runnable{
         
         	    }
         	    
+        	    //Second case to avoid null point errors after removing the trash from the array
         	    if(towers.get(j).getFiring() && (trash.get(i).isKilled() || towers.get(j).getFireCounter()>=9)  ){
+        		
+        		
         		
         		//Only fire every other frame
         		if(counter % 2==0){
         		    
                 		towers.get(j).fire();
                 		
-                		//System.out.println(towers.get(j).getFireCounter());
                 		
                 		if(towers.get(j).getFireCounter()==9 && trash.get(i).isKilled() ){
                 		    trash.remove(i);
@@ -246,6 +261,14 @@ public class Board extends JPanel implements Runnable{
         repaint();
         
     }
+    
+    //Method to determine if the user is adding the tower on top of the path
+    public boolean inPath(int x, int y){
+	
+	return true;
+    }
+    
+    
     //JJ
     public static void addTower(Tower t)
     {
