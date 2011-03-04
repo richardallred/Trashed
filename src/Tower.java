@@ -157,6 +157,14 @@ public class Tower{
 	return fireCounter;
     }
     
-    
-    
+    public void resetTower(){
+    	String fileString="pics/Towers/";
+    	if(this.type==TowerType.incenerator){
+    	    fileString+="Incenerator/flame";
+    	}else if(this.type==TowerType.recycle){
+    	    fileString+="Recycle/recycletower";
+    	}
+    	ImageIcon ii=new ImageIcon(this.getClass().getResource(fileString+"1.png"));
+    	towerPic=ii.getImage();
+    }
 }

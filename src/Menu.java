@@ -76,7 +76,7 @@ public class Menu extends JPanel implements Runnable{
 		    if(gameBoard.getBudget()>=getCost(Tower.TowerType.incenerator)){
 			addInceneratorTower=!addInceneratorTower;
 			addRecycleTower=false;
-			Board.pendingTower=new Tower(Integer.MIN_VALUE,Integer.MIN_VALUE,1,30,Tower.TowerType.incenerator);
+			
 		    }
 		}
 	}
@@ -134,11 +134,20 @@ public class Menu extends JPanel implements Runnable{
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			if(addInceneratorTower||addRecycleTower)
+			if((addInceneratorTower)&&!gameBoard.inPath(e.getX(), e.getY()))
 			{
-				Board.pendingTower.setX(e.getX()-15);
-				Board.pendingTower.setY(e.getY()-15);
+				gameBoard.pendingTower=new Tower(Integer.MIN_VALUE,Integer.MIN_VALUE,1,30,Tower.TowerType.incenerator);
+				gameBoard.pendingTower.setX(e.getX()-15);
+				gameBoard.pendingTower.setY(e.getY()-15);
 			}
+			else if((addRecycleTower)&&!gameBoard.inPath(e.getX(), e.getY())){ 
+				gameBoard.pendingTower=new Tower(Integer.MIN_VALUE,Integer.MIN_VALUE,1,30,Tower.TowerType.recycle);
+				gameBoard.pendingTower.setX(e.getX()-15);
+				gameBoard.pendingTower.setY(e.getY()-15);
+			}else{
+				gameBoard.pendingTower = null;
+			}
+				
 		}
 	}
 	

@@ -200,7 +200,7 @@ public class Board extends JPanel implements Runnable{
         String path = System.getProperty("user.dir");
         try {
 
-            path += "\\Resources\\audio\\Menu.au";
+            path += "/Resources/audio/Menu.au";
             InputStream in = new FileInputStream(path);
             // InputStream in = new FileInputStream("/Users/zachg/Trashed/src/Menu.au");
             AudioStream as = new AudioStream(in);
@@ -286,7 +286,7 @@ public class Board extends JPanel implements Runnable{
     
                 beforeTime = System.currentTimeMillis();
             }
-            
+            resetTowers();
             repaint();
             level++;
             
@@ -306,6 +306,11 @@ public class Board extends JPanel implements Runnable{
         
     }
     
+    private void resetTowers(){
+    	for(int i=0; i<towers.size();i++){
+    		towers.get(i).resetTower();
+    	}
+    }
     //Method to determine if the user is adding the tower on top of the path
     public boolean inPath(int x, int y){
 	
