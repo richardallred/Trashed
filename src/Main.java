@@ -32,20 +32,14 @@ public class Main extends JFrame {
         setLocationRelativeTo(null);
         setTitle("Trashed");
         setResizable(false);
-        
 
         
         JPanel menu=new Menu(board);
         add(menu,BorderLayout.LINE_END);
         
         setVisible(true);
-        
-        
-        
     }
-
     public static void main(String[] args) {
         new Main();
     }
-    
 }

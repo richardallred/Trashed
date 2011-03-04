@@ -7,7 +7,7 @@ public class Tower{
    
     private Image towerPic;
     TowerType type;
-    private double x, y, width, height;
+    private int x, y, width, height;
     private boolean isFiring;
     private int rate, range;
     private int fireCounter=0;
@@ -171,7 +171,7 @@ public class Tower{
     }
     
     
-    public double getX(){
+    public int getX(){
 	return x;
     }
     
@@ -179,18 +179,18 @@ public class Tower{
 	y=newY;
     }
     
-    public double getY(){
+    public int getY(){
 	return y;
     }
     
     
         
     
-    public double getWidth(){
+    public int getWidth(){
 	return width;
     }
     
-    public double getHeight(){
+    public int getHeight(){
 	return height;
     }
     

@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
 
 
 
@@ -20,13 +21,14 @@ public class Menu extends JPanel implements Runnable{
 	private final int DELAY = 50;
 	private GridLayout layoutMGR =new GridLayout(4,4,10,10);
 	private Board gameBoard;
-	private boolean addRecycleTower=false;
-	private boolean addInceneratorTower=false;
+	static private boolean addRecycleTower=false;
+	static private boolean addInceneratorTower=false;
 	private boolean startWave=false;
 
 	public Menu(Board board){
 		gameBoard=board;
-		board.addMouseListener(new MouseTest());
+		board.addMouseListener(new Mouse());
+		board.addMouseMotionListener(new Mouse());
 		setLayout(layoutMGR);
 		//ActionListener AL=new ActionListener();
 		JButton recycleButton=new JButton("Add Recycling-$200");
@@ -61,6 +63,8 @@ public class Menu extends JPanel implements Runnable{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			addRecycleTower=!addRecycleTower;
+			addInceneratorTower=false;
+			Board.pendingTower=new Tower(Integer.MIN_VALUE,Integer.MIN_VALUE,1,30,Tower.TowerType.recycle);
 		}
 	}
 	private class InceneratorButtonListener implements ActionListener{
@@ -68,10 +72,11 @@ public class Menu extends JPanel implements Runnable{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			addInceneratorTower=!addInceneratorTower;
+			addRecycleTower=false;
+			Board.pendingTower=new Tower(Integer.MIN_VALUE,Integer.MIN_VALUE,1,30,Tower.TowerType.incenerator);
 		}
-		
 	}
-	private class MouseTest implements MouseListener{
+	private class Mouse implements MouseInputListener{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -106,7 +111,7 @@ public class Menu extends JPanel implements Runnable{
 				gameBoard.removeMoney(getCost(Tower.TowerType.incenerator));
 	
 			}else if(startWave==true){
-			   
+				
 			}
 		}
 
@@ -114,7 +119,21 @@ public class Menu extends JPanel implements Runnable{
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
-		
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			if(addInceneratorTower||addRecycleTower)
+			{
+				Board.pendingTower.setX(e.getX());
+				Board.pendingTower.setY(e.getY());
+			}
+		}
 	}
 	
 	public int getCost(Tower.TowerType type){

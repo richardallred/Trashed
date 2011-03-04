@@ -34,9 +34,14 @@ public class Board extends JPanel implements Runnable{
     //Global Variables
     
     private final int DELAY = 50;
-    
+
     //Thread for the Board Class to run in seperately from everything else
     private Thread animator;
+
+
+    static Tower pendingTower;
+    
+
     
     //Board Dimensions used for making the path
     private final int boardWidth=600;
@@ -144,8 +149,14 @@ public class Board extends JPanel implements Runnable{
                 Tower curTower=towers.get(i);
                 g2d.drawImage(curTower.getImage(), (int)curTower.getX(),(int) curTower.getY(), this);
             }
-          
-           
+            
+            //JJ
+            if(pendingTower!=null && (pendingTower.getX()!=Integer.MIN_VALUE|| pendingTower.getY()!=Integer.MIN_VALUE))
+            {
+            	g2d.drawImage(pendingTower.getImage(),(int)pendingTower.getX(),(int)pendingTower.getY(),this);
+            }
+            
+
 	}else{
 	   g2d.setFont(bigfont);
 	   g2d.drawString("GAME OVER", 250, 300);
@@ -320,5 +331,13 @@ public class Board extends JPanel implements Runnable{
     public static void addTower(Tower t)
     {
     towers.add(t);	
+    }
+    public static void addPendingTower(Tower t)
+    {
+    pendingTower=t;
+    }
+    public static void removePendingTower()
+    {
+    pendingTower=null;
     }
 }
