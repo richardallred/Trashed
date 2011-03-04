@@ -45,6 +45,7 @@ public class Board extends JPanel implements Runnable{
    
     ArrayList<Trash> trash= new ArrayList<Trash>();
     static ArrayList<Tower> towers= new ArrayList<Tower>(); //not sure if this should be static but am trying to add towers on button press
+    static Tower pendingTower;
     ArrayList<Integer> pathX=new ArrayList<Integer>();
     ArrayList<Integer> pathY=new ArrayList<Integer>();
     
@@ -133,8 +134,14 @@ public class Board extends JPanel implements Runnable{
                 Tower curTower=towers.get(i);
                 g2d.drawImage(curTower.getImage(), (int)curTower.getX(),(int) curTower.getY(), this);
             }
-          
-           
+            
+            //JJ
+            if(pendingTower!=null && (pendingTower.getX()!=Integer.MIN_VALUE|| pendingTower.getY()!=Integer.MIN_VALUE))
+            {
+            	g2d.drawImage(pendingTower.getImage(),(int)pendingTower.getX(),(int)pendingTower.getY(),this);
+            }
+            
+
 	}else{
 	   g2d.setFont(bigfont);
 	   g2d.drawString("GAME OVER", 250, 300);
@@ -273,5 +280,13 @@ public class Board extends JPanel implements Runnable{
     public static void addTower(Tower t)
     {
     towers.add(t);	
+    }
+    public static void addPendingTower(Tower t)
+    {
+    pendingTower=t;
+    }
+    public static void removePendingTower()
+    {
+    pendingTower=null;
     }
 }
