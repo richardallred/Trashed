@@ -103,12 +103,16 @@ public class Menu extends JPanel implements Runnable{
 				
 				gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.recycle));
 				gameBoard.removeMoney(getCost(Tower.TowerType.recycle));
+				Board.pendingTower=null;
+				addRecycleTower=false;
 
 			}else if(addInceneratorTower==true  && gameBoard.getBudget()>=getCost(Tower.TowerType.incenerator)&& !gameBoard.inPath(mouseX, mouseY))
 			{
 				
 				gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.incenerator));
 				gameBoard.removeMoney(getCost(Tower.TowerType.incenerator));
+				Board.pendingTower=null;
+				addInceneratorTower=false;
 	
 			}else if(startWave==true){
 				
@@ -130,8 +134,8 @@ public class Menu extends JPanel implements Runnable{
 		public void mouseMoved(MouseEvent e) {
 			if(addInceneratorTower||addRecycleTower)
 			{
-				Board.pendingTower.setX(e.getX());
-				Board.pendingTower.setY(e.getY());
+				Board.pendingTower.setX(e.getX()-15);
+				Board.pendingTower.setY(e.getY()-15);
 			}
 		}
 	}

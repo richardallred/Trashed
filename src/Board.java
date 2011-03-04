@@ -195,21 +195,20 @@ public class Board extends JPanel implements Runnable{
         int counter=0;
         
           
-	try {
-		
-	    //JJ- commented this out becasue it throws a file not found exception
-		//InputStream in = new FileInputStream("C:\\Users\\Richard\\workspace\\Trashed\\src\\Menu.au");
-		InputStream in = new FileInputStream("\\Trashed\\src\\Menu.au");
-		// InputStream in = new FileInputStream("/Users/zachg/Trashed/src/Menu.au");
-	    
-		AudioStream as = new AudioStream(in); 
-	    AudioPlayer.player.start(as);
-	    
-	} catch (FileNotFoundException e1) {
-	    e1.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+        String path = System.getProperty("user.dir");
+        try {
+
+            path += "\\Resources\\audio\\Menu.au";
+            InputStream in = new FileInputStream(path);
+            // InputStream in = new FileInputStream("/Users/zachg/Trashed/src/Menu.au");
+            AudioStream as = new AudioStream(in);
+            AudioPlayer.player.start(as);
+
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
                  
 		
         
@@ -222,11 +221,11 @@ public class Board extends JPanel implements Runnable{
                 
                 long pause=0;
                 while(inBetweenLevels){
-            	pause++;
-            	repaint();
-            	if(pause>1000000){
-            	    pause=0;
-            	}
+                	pause++;
+                	repaint();
+                	if(pause>1000000){
+                	    pause=0;
+                	}
                 }
             	
                 for(int i=0; i<trash.size(); i++){
