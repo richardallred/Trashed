@@ -35,6 +35,7 @@ public class Main extends JFrame {
 
         
         JPanel menu=new Menu(board);
+        menu.setSize(300, 650);
         add(menu,BorderLayout.LINE_END);
         
         setVisible(true);

@@ -54,7 +54,7 @@ public class Menu extends JPanel implements Runnable{
 		public void actionPerformed(ActionEvent e) {
 			startWave=!startWave;
 			gameBoard.startWave();
-			System.out.println("SHIT");
+			//System.out.println("SHIT");
 		}
 	}
 	private class RecycleButtonListener implements ActionListener{

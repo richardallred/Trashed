@@ -165,11 +165,11 @@ public class Board extends JPanel implements Runnable{
             
 	}
 	g2d.setFont(smallfont);
-	g2d.drawString("Current Budget: $"+budget.toString(), 400, 615);
-	g2d.drawString("Town Air Quality: "+airQual.toString(), 5, 615);
-	g2d.drawString("Level:"+level.toString(), 177, 615);
+	//g2d.drawString("Current Budget: $"+budget.toString(), 400, 615);
+	g2d.drawString("Town Air Quality: "+airQual.toString()+ " |  Current Budget: $"+budget.toString()+ "  | Level:"+level.toString() , 5, 615);
+	//g2d.drawString("Level:"+level.toString(), 177, 615);
 	g2d.setFont(bigfont);
-	g2d.drawString(" | ", 163, 615);
+	//g2d.drawString(" | ", 163, 615);
 	Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
