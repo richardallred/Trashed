@@ -91,18 +91,19 @@ public class Menu extends JPanel implements Runnable{
 		@Override
 		public  void mousePressed(MouseEvent e) {
 			
-			if(addRecycleTower==true && gameBoard.getBudget()>=getCost(Tower.TowerType.recycle)){
-				int mouseX=e.getPoint().x;
-				int mouseY=e.getPoint().y;
+		    int mouseX=e.getPoint().x;
+		    int mouseY=e.getPoint().y;
+		    
+			if(addRecycleTower==true && gameBoard.getBudget()>=getCost(Tower.TowerType.recycle) && !gameBoard.inPath(mouseX, mouseY)){
+				
 				gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.recycle));
-				gameBoard.removeMoney(200);
+				gameBoard.removeMoney(getCost(Tower.TowerType.recycle));
 
-			}else if(addInceneratorTower==true  && gameBoard.getBudget()>=getCost(Tower.TowerType.incenerator))
+			}else if(addInceneratorTower==true  && gameBoard.getBudget()>=getCost(Tower.TowerType.incenerator)&& !gameBoard.inPath(mouseX, mouseY))
 			{
-				int mouseX=e.getPoint().x;
-				int mouseY=e.getPoint().y;
+				
 				gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.incenerator));
-				gameBoard.removeMoney(200);
+				gameBoard.removeMoney(getCost(Tower.TowerType.incenerator));
 	
 			}else if(startWave==true){
 			   

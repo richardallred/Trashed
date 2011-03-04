@@ -32,6 +32,7 @@ public class Main extends JFrame {
         setLocationRelativeTo(null);
         setTitle("Trashed");
         setResizable(false);
+        
 
         
         JPanel menu=new Menu(board);
