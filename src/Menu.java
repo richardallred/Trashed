@@ -62,18 +62,22 @@ public class Menu extends JPanel implements Runnable{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+		    if(gameBoard.getBudget()>=getCost(Tower.TowerType.recycle)){
 			addRecycleTower=!addRecycleTower;
 			addInceneratorTower=false;
 			Board.pendingTower=new Tower(Integer.MIN_VALUE,Integer.MIN_VALUE,1,30,Tower.TowerType.recycle);
+		    }
 		}
 	}
 	private class InceneratorButtonListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+		    if(gameBoard.getBudget()>=getCost(Tower.TowerType.incenerator)){
 			addInceneratorTower=!addInceneratorTower;
 			addRecycleTower=false;
 			Board.pendingTower=new Tower(Integer.MIN_VALUE,Integer.MIN_VALUE,1,30,Tower.TowerType.incenerator);
+		    }
 		}
 	}
 	private class Mouse implements MouseInputListener{
@@ -114,8 +118,6 @@ public class Menu extends JPanel implements Runnable{
 				Board.pendingTower=null;
 				addInceneratorTower=false;
 	
-			}else if(startWave==true){
-				
 			}
 		}
 

@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 
 
 
+
+
 public class Board extends JPanel implements Runnable{
 
     
@@ -117,7 +119,7 @@ public class Board extends JPanel implements Runnable{
         ii= new ImageIcon(this.getClass().getResource("pics/landfill.png"));
         landFill=ii.getImage(); 
                 
-        WaveGen Wave= new WaveGen(24,35,1,pathPad,types);
+        WaveGen Wave= new WaveGen(2,35,1,pathPad,types);
         
         trash=Wave.getWave();
        
@@ -255,7 +257,12 @@ public class Board extends JPanel implements Runnable{
                     		
                     		if(towers.get(j).getFireCounter()==9 && trash.get(i).isKilled() ){
                     		    trash.remove(i);
-                    		    budget+=100;
+                    		    if(towers.get(j).getType()==Tower.TowerType.incenerator){
+                    			budget+=10;
+                    			airQual-=15;
+                    		    }else if(towers.get(j).getType()==Tower.TowerType.recycle){
+                    			budget+=10;
+                    		    }
                     		    break;
                     		}
             		}
@@ -286,7 +293,7 @@ public class Board extends JPanel implements Runnable{
             WaveGen Wave= new WaveGen(48,35,1,pathPad,types);
             trash=Wave.getWave();
             
-            
+            inBetweenLevels=true;
             
             
             if(level>5){
@@ -329,14 +336,14 @@ public class Board extends JPanel implements Runnable{
     //JJ
     public static void addTower(Tower t)
     {
-    towers.add(t);	
+	towers.add(t);	
     }
     public static void addPendingTower(Tower t)
     {
-    pendingTower=t;
+	pendingTower=t;
     }
     public static void removePendingTower()
     {
-    pendingTower=null;
+	pendingTower=null;
     }
 }
