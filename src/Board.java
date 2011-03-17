@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,7 +15,10 @@ import sun.audio.*;
 
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
 
 
 
@@ -55,6 +59,7 @@ public class Board extends JPanel implements Runnable{
     private final int towerWidth=30;
     
     Trash.TrashType[] types= {Trash.TrashType.paper,Trash.TrashType.plastic};
+    private int TRASH_SPEED=2;
     
     //Images
     private Image background;
@@ -62,7 +67,12 @@ public class Board extends JPanel implements Runnable{
     
     //Fonts
     private Font bigfont = new Font("Helvetica", Font.BOLD, 25);
-    private Font smallfont=new Font("Helvetica", Font.BOLD, 14);
+    private Font smallfont=new Font("Comic Sans", Font.BOLD, 16);
+   
+    
+    //Audio Player
+    AudioStream as;
+    private static Boolean muted=true;
     
     /*Game State Variables*/
     
@@ -74,6 +84,7 @@ public class Board extends JPanel implements Runnable{
     private Integer budget=300;
     private Double airQual=1000.0;
     private Integer level=1;
+    private Integer landFillScore=0;
     
     //Game State Lists
     ArrayList<Trash> trash= new ArrayList<Trash>();
@@ -119,7 +130,7 @@ public class Board extends JPanel implements Runnable{
         ii= new ImageIcon(this.getClass().getResource("pics/landfill.png"));
         landFill=ii.getImage(); 
                 
-        WaveGen Wave= new WaveGen(2,35,1,pathPad,types);
+        WaveGen Wave= new WaveGen(20,35,TRASH_SPEED,pathPad,types);
         
         trash=Wave.getWave();
        
@@ -165,13 +176,17 @@ public class Board extends JPanel implements Runnable{
             
 	}
 	g2d.setFont(smallfont);
-	//g2d.drawString("Current Budget: $"+budget.toString(), 400, 615);
-	g2d.drawString("Town Air Quality: "+airQual.toString()+ " |  Current Budget: $"+budget.toString()+ "  | Level:"+level.toString() , 5, 615);
-	//g2d.drawString("Level:"+level.toString(), 177, 615);
-	g2d.setFont(bigfont);
-	//g2d.drawString(" | ", 163, 615);
+	g2d.setColor(Color.RED);
+	g2d.drawString("Air Quality: "+airQual.toString()+ " |  Current Budget: $"+budget.toString()+
+		"  | Level: "+level.toString()+" | Trash Left: "+trash.size()+"00 lbs" + 
+		" | Landfill "+ landFillScore.toString()+"% Full", 5, 615);
+	
 	Toolkit.getDefaultToolkit().sync();
         g.dispose();
+        
+        if(!AudioPlayer.player.isAlive()){
+            startMusic();
+        }
     }
 
     public static void startWave(){
@@ -187,6 +202,34 @@ public class Board extends JPanel implements Runnable{
 	return budget;
     }
     
+    public void startMusic(){
+	String path = System.getProperty("user.dir");
+        try {
+
+            path += "/Resources/audio/Menu.au";
+            InputStream in = new FileInputStream(path);
+            as = new AudioStream(in);
+            AudioPlayer.player.start(as);
+            
+
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        muted=false;
+    }
+    
+    public boolean isMuted(){
+	return muted;
+    }
+    
+    
+    public void stopMusic(){
+	AudioPlayer.player.stop((as));
+	muted=true;
+    }
+    
 
     public void run() {
 
@@ -197,20 +240,7 @@ public class Board extends JPanel implements Runnable{
         int counter=0;
         
           
-        String path = System.getProperty("user.dir");
-        try {
-
-            path += "/Resources/audio/Menu.au";
-            InputStream in = new FileInputStream(path);
-            // InputStream in = new FileInputStream("/Users/zachg/Trashed/src/Menu.au");
-            AudioStream as = new AudioStream(in);
-            AudioPlayer.player.start(as);
-
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //startMusic();
                  
 		
         
@@ -229,47 +259,56 @@ public class Board extends JPanel implements Runnable{
                 	    pause=0;
                 	}
                 }
+                
+                
             	
                 for(int i=0; i<trash.size(); i++){
             	
-            	trash.get(i).followPath(pathX, pathY);
+            		trash.get(i).followPath(pathX, pathY);
             	
-            	for(int j=0; j<towers.size(); j++){
-            	   
-            	    if(trash.get(i).detectCollisions(towers.get(j)) &&
-            		    !trash.get(i).isKilled() && !towers.get(j).getFiring()){
-                	    		
-            		towers.get(j).setFiring(true);
-            		trash.get(i).setKilled();
-            
-            	    }
-            	    
-            	    //Second case to avoid null point errors after removing the trash from the array
-            	    if(towers.get(j).getFiring() && (trash.get(i).isKilled() || towers.get(j).getFireCounter()>=9)  ){
-            		
-            		
-            		
-            		//Only fire every other frame
-            		if(counter % 2==0){
+            		for(int j=0; j<towers.size(); j++){
             		    
-                    		towers.get(j).fire();
+            		    //Windmills don't need to check for collisions
+            		    if(towers.get(j).getType()==Tower.TowerType.windmill){
+            			break;
+            		    }
+            		    	if(!trash.get(i).isKilled() && !towers.get(j).getFiring() && trash.get(i).detectCollisions(towers.get(j)) ){
+                	    		
+            		    	    	towers.get(j).setFiring(true);
+            		    	    	trash.get(i).setKilled();
+            
+            		    	}
+            	    
+            		    	//Second case to avoid null point errors after removing the trash from the array
+            		    	if(towers.get(j).getFiring() && (trash.get(i).isKilled() || towers.get(j).getFireCounter()>=9)  ){
+            		
+            		
+            		
+            		    	    //Only fire every other frame
+            		    	    if(counter % TRASH_SPEED==0){
+            		    
+                    			towers.get(j).fire(TRASH_SPEED);
                     		
-                    		
-                    		if(towers.get(j).getFireCounter()==9 && trash.get(i).isKilled() ){
-                    		    trash.remove(i);
-                    		    if(towers.get(j).getType()==Tower.TowerType.incenerator){
-                    			budget+=10;
-                    			airQual-=15;
-                    		    }else if(towers.get(j).getType()==Tower.TowerType.recycle){
-                    			budget+=10;
-                    		    }
-                    		    break;
-                    		}
+                    			if(towers.get(j).getFireCounter()>=9 && trash.get(i).isKilled() ){
+                    			    	trash.remove(i);
+                    			if(towers.get(j).getType()==Tower.TowerType.incenerator){
+                    			    	budget+=10;
+                    			    	airQual-=15;
+                    			}else if(towers.get(j).getType()==Tower.TowerType.recycle){
+                    			    	budget+=20;
+                    			}
+                    				break;
+                    			}
+            		    	    }
+            		    	}
             		}
-            	    }
-            	}
-            	
+            		//Check to make sure trash hasn't exited the board
+            		if(trash.get(i).getY()+30>boardHeight){
+            		    trash.remove(i);
+            		    landFillScore+=1;
+            		}
                 }
+               
                
                 repaint();
     
@@ -286,7 +325,17 @@ public class Board extends JPanel implements Runnable{
     
                 beforeTime = System.currentTimeMillis();
             }
+            
+            //Wave has now ended
             resetTowers();
+            
+            //Check for windmills
+            for(int g=0; g<towers.size(); g++){
+        	if(towers.get(g).getType()==Tower.TowerType.windmill){
+        	    budget+=150;
+        	}
+            }
+            
             repaint();
             level++;
             
@@ -313,6 +362,11 @@ public class Board extends JPanel implements Runnable{
     }
     //Method to determine if the user is adding the tower on top of the path
     public boolean inPath(int x, int y){
+	
+	//Inside actual game board
+	if((x>0 && x>boardWidth) || (y>0 && y>boardHeight)){
+	    return true;
+	}	
 	
 	//First row
 	if( (x>0 && x<boardWidth-pathPad+(towerWidth/2))  && (y>pathPad-(towerWidth/2) && y<pathPad+pathWidth+(towerWidth/2))){
@@ -347,8 +401,14 @@ public class Board extends JPanel implements Runnable{
     {
 	pendingTower=t;
     }
+    
+    
     public static void removePendingTower()
     {
 	pendingTower=null;
+    }
+    
+    public int getLevel(){
+	return level;
     }
 }

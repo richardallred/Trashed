@@ -80,18 +80,19 @@ public class Trash{
 	   
 	    Tower curTower= tower;
 	    
-	    int towerMidX=(int)(curTower.getX()+curTower.getWidth()/2);
-	    int towerMidY=(int)(curTower.getY()+curTower.getHeight()/2);
+	    int towerFireX=(int)(curTower.getX());
+	    int towerFireYBottom=(int)(curTower.getY()+curTower.getHeight()-30);
+	    int towerFireYTop=(int)(curTower.getY()+curTower.getHeight());
 	    
 	    int trashMidX=(int)(x+15);
 	    int trashMidY=(int)(y+15);
 	    
-	    if((towerMidX-curTower.getRange()<trashMidX && towerMidX+curTower.getRange()>trashMidX && 
-		    towerMidY-curTower.getRange()<trashMidY && towerMidY+curTower.getRange()>trashMidY)){
-		
-		if(curTower.getType()==Tower.TowerType.recycle && type==TrashType.plastic){
+	    if((towerFireX-speed<trashMidX && towerFireX+speed>trashMidX && 
+		    towerFireYBottom<trashMidY && towerFireYTop>trashMidY)){
+		//System.out.println("SHIT");
+		if(curTower.getType()==Tower.TowerType.recycle && (type==TrashType.plastic || type==TrashType.paper)){
 		    return true;
-		}else if(curTower.getType()==Tower.TowerType.incenerator && type==TrashType.paper){
+		}else if(curTower.getType()==Tower.TowerType.incenerator){
 		    return true;
 		}
 		
