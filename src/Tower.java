@@ -6,18 +6,18 @@ import javax.swing.ImageIcon;
 public class Tower{
    
     private Image base,arm;
-    TowerType type;
+    Util.TowerType type;
     String dir;
     private int x, y, width, height;
     private boolean isFiring;
     private int rate, range;
     private int fireCounter=0;
     int curPath;
-    enum TowerType {incenerator, compactor, recycle,windmill};
+    
     
 
-    //Different orientation
-    Tower(int initX, int initY, int fireRate, int towerRange, TowerType type, boolean isValid, String dir){
+    
+    Tower(int initX, int initY, int fireRate, int towerRange, Util.TowerType type, boolean isValid, String dir){
 	
 	ImageIcon ii;
 	
@@ -25,6 +25,7 @@ public class Tower{
 	ii=getBaseImageIcon(type,dir,isValid);
 	base = ii.getImage();
 	
+	this.dir=dir;
 	width=ii.getIconWidth();
 	height=ii.getIconHeight();
 	x=initX;
@@ -34,36 +35,35 @@ public class Tower{
 	isFiring=false;
 	
 	//Get image for the arm
-	ii=getArmImageIcon(type,dir);
-	arm = ii.getImage();
+	if(type!=Util.TowerType.windmill){
+	    ii=getArmImageIcon(type,dir);
+	    arm = ii.getImage();
+	}
+	
 	
 		
     }
     
-    public ImageIcon getArmImageIcon(TowerType type, String dir){
+    public ImageIcon getArmImageIcon(Util.TowerType type, String dir){
 	
 	ImageIcon ii;
 	
-	if(type==TowerType.incenerator){
+	if(type==Util.TowerType.incenerator){
 	    
 	    
 	    ii= new ImageIcon(this.getClass().getResource("pics/Towers/Incenerator/arm"+dir+".png"));
 	    
 	    
-	}else if(type==TowerType.compactor){
+	}else if(type==Util.TowerType.compactor){
 	    
 	    
 	    ii= new ImageIcon(this.getClass().getResource("pics/Towers/Compactor/arm"+dir+".png"));
 	
 	    
-	}else if(type==TowerType.recycle){
+	}else if(type==Util.TowerType.recycle){
 
 	    ii= new ImageIcon(this.getClass().getResource("pics/Towers/Recycle/arm"+dir+".png"));
 	    
-	}else if(type==TowerType.windmill){
-	   
-	    ii= new ImageIcon(this.getClass().getResource("pics/Towers/Windmill/arm"+dir+".png"));
-
 	}else{
 	    ii = new ImageIcon(this.getClass().getResource("pics/Trash/paper.png"));
 	}
@@ -72,11 +72,11 @@ public class Tower{
 	
     }
 	    
-    public ImageIcon getBaseImageIcon(TowerType type, String dir,boolean valid){
+    public ImageIcon getBaseImageIcon(Util.TowerType type, String dir,boolean valid){
 	
 	ImageIcon ii;
 	
-	if(type==TowerType.incenerator){
+	if(type==Util.TowerType.incenerator){
 	    
 	    if(valid){
 		ii= new ImageIcon(this.getClass().getResource("pics/Towers/Incenerator/base"+dir+".png"));
@@ -84,7 +84,7 @@ public class Tower{
 		ii= new ImageIcon(this.getClass().getResource("pics/Towers/Incenerator/base"+dir+"Invalid.png"));
 	    }
 	    
-	}else if(type==TowerType.compactor){
+	}else if(type==Util.TowerType.compactor){
 	    
 	    if(valid){
 		 ii= new ImageIcon(this.getClass().getResource("pics/Towers/Compactor/base"+dir+".png"));
@@ -92,7 +92,7 @@ public class Tower{
 		 ii= new ImageIcon(this.getClass().getResource("pics/Towers/Compactor/base"+dir+"Invalid.png"));
 	    }
 	    
-	}else if(type==TowerType.recycle){
+	}else if(type==Util.TowerType.recycle){
 	    
 	    if(valid){
 		     ii= new ImageIcon(this.getClass().getResource("pics/Towers/Recycle/base"+dir+".png"));
@@ -101,7 +101,7 @@ public class Tower{
 	    }
 	
 	//Windmills don't rotate    
-	}else if(type==TowerType.windmill){
+	}else if(type==Util.TowerType.windmill){
 	    if(valid){
 		     ii= new ImageIcon(this.getClass().getResource("pics/Towers/Windmill/base.png"));
 		    }else{
@@ -199,11 +199,11 @@ public class Tower{
 	return height;
     }
     
-    public void setType(TowerType newType){
+    public void setType(Util.TowerType newType){
 	this.type=newType;
     }
     
-    public TowerType getType(){
+    public Util.TowerType getType(){
 	return type;
     }
     
@@ -216,16 +216,19 @@ public class Tower{
     }
     
     
+    public String getDirection(){
+	return dir;
+    }
     public void resetTower(){
 	
 	//Windmills don't need reseting
-	if(this.type!=TowerType.windmill){
+	if(this.type!=Util.TowerType.windmill){
 	    
 	    String fileString="pics/Towers/";
         	
-	    if(this.type==TowerType.incenerator){
+	    if(this.type==Util.TowerType.incenerator){
         	 fileString+="Incenerator/";
-	    }else if(this.type==TowerType.recycle){
+	    }else if(this.type==Util.TowerType.recycle){
         	 fileString+="Recycle/";
 	    }
         	

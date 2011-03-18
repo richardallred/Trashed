@@ -89,7 +89,7 @@ public class Menu extends JPanel implements Runnable{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		    if(gameBoard.getBudget()>=getCost(Tower.TowerType.windmill)){
+		    if(gameBoard.getBudget()>=getCost(Util.TowerType.windmill)){
 			addWindmillTower=!addWindmillTower;
 			addInceneratorTower=false;
 			addRecycleTower=false;
@@ -102,7 +102,7 @@ public class Menu extends JPanel implements Runnable{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		    if(gameBoard.getBudget()>=getCost(Tower.TowerType.recycle)){
+		    if(gameBoard.getBudget()>=getCost(Util.TowerType.recycle)){
 			addRecycleTower=!addRecycleTower;
 			addInceneratorTower=false;
 			addWindmillTower=false;
@@ -113,7 +113,7 @@ public class Menu extends JPanel implements Runnable{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-		    if(gameBoard.getBudget()>=getCost(Tower.TowerType.incenerator)){
+		    if(gameBoard.getBudget()>=getCost(Util.TowerType.incenerator)){
 			addInceneratorTower=!addInceneratorTower;
 			addRecycleTower=false;
 			addWindmillTower=false;
@@ -141,55 +141,64 @@ public class Menu extends JPanel implements Runnable{
 		@Override
 		public  void mousePressed(MouseEvent e) {
 		    
+		    int mouseX=e.getPoint().x;
+		    int mouseY=e.getPoint().y;
+		    
+		    int adjX=mouseX-15;
+		    int adjY=mouseY-15;
+		    
 		    //Detect a left click
 		    if(e.getButton()==1){
 			
-        		    int mouseX=e.getPoint().x;
-        		    int mouseY=e.getPoint().y;
-        		    
-        			if(addRecycleTower==true && gameBoard.getBudget()>=getCost(Tower.TowerType.recycle) && !gameBoard.inPath(mouseX, mouseY)){
-        				
-        				gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.recycle,true,currentTowerDirection));
-        				gameBoard.removeMoney(getCost(Tower.TowerType.recycle));
-        				Board.pendingTower=null;
-        				addRecycleTower=false;
-        
-        			}else if(addInceneratorTower==true  && gameBoard.getBudget()>=getCost(Tower.TowerType.incenerator)&& !gameBoard.inPath(mouseX, mouseY))
-        			{
-        				
-        				gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.incenerator,true,currentTowerDirection));
-        				gameBoard.removeMoney(getCost(Tower.TowerType.incenerator));
-        				Board.pendingTower=null;
-        				addInceneratorTower=false;
-        	
-        			}else if(addWindmillTower==true && gameBoard.getBudget()>=getCost(Tower.TowerType.windmill)&& !gameBoard.inPath(mouseX, mouseY)){
-        			    	gameBoard.addTower(new Tower(mouseX-15,mouseY-15,1,25,Tower.TowerType.windmill,true,currentTowerDirection));
-    					gameBoard.removeMoney(getCost(Tower.TowerType.incenerator));
-    					Board.pendingTower=null;
-    					addWindmillTower=false;
-        			}
-        			
-        			
-		    }else if(e.getButton()==3){
-			currentTowerDirection=gameBoard.pendingTower.rotateDir();
-			
-			if(addInceneratorTower)
-			{
-			    if(!gameBoard.inPath(e.getX(), e.getY())){
-				 gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.incenerator,true, currentTowerDirection);
-			    }else{
-				gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.incenerator,false, currentTowerDirection);
-			    }
-			}else if((addRecycleTower))
-			{ 
+			 Util.TowerType type=null;
+			 
 			    
-			    if(!gameBoard.inPath(e.getX(), e.getY())){
-				gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.recycle,true, currentTowerDirection);
-			    }else{
-				 gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.recycle,false, currentTowerDirection);
-			    }
-			}
-				
+			 if(addInceneratorTower)
+			 {
+			     type=Util.TowerType.incenerator;
+    			     addInceneratorTower=false;
+    						    
+    			 }else if((addRecycleTower)){    
+    			     type=Util.TowerType.recycle;
+    			     addRecycleTower=false;
+    				    
+    			 }else if((addWindmillTower)){ 
+    				    
+    			     type=Util.TowerType.windmill;
+    			     addWindmillTower=false;
+    			 }
+			 
+			 boolean isValid=validTower(mouseX, mouseY, type);   
+        		 
+			 gameBoard.addTower(new Tower(adjX,adjY,1,25,type,isValid,currentTowerDirection));
+			 gameBoard.removeMoney(getCost(type));   
+        		 gameBoard.pendingTower=null;
+        			
+        	    //Detect a right click		
+		    }else if(e.getButton()==3){
+			
+			currentTowerDirection=gameBoard.pendingTower.rotateDir();
+						
+			Util.TowerType type=null;
+			 
+			    
+			 if(addInceneratorTower)
+			 {
+			     type=Util.TowerType.incenerator;
+   			    
+   						    
+   			 }else if((addRecycleTower)){    
+   			     type=Util.TowerType.recycle;
+   			     
+   				    
+   			 }else if((addWindmillTower)){ 
+   				    
+   			     type=Util.TowerType.windmill;
+   			    
+   			 }
+			 
+			 boolean isValid=validTower(mouseX, mouseY, type);   
+			 gameBoard.pendingTower=new Tower(adjX,adjY, 1, 25, type, isValid, currentTowerDirection);
 		    }
 		    
 		}
@@ -208,39 +217,62 @@ public class Menu extends JPanel implements Runnable{
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			
+		    Util.TowerType type=null;
+		    
+		    int mouseX=e.getPoint().x;
+		    int mouseY=e.getPoint().y;
+		    
+		    int adjX=mouseX-15;
+		    int adjY=mouseY-15;
+		    
+		    
+		    
 		    	if(addInceneratorTower)
 			{
-			    if(!gameBoard.inPath(e.getX(), e.getY())){
-				 gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.incenerator,true,currentTowerDirection);
-			    }else{
-				gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.incenerator,false,currentTowerDirection);
-			    }
-			}
-			else if((addRecycleTower)){ 
+		    	    type=Util.TowerType.incenerator;
+		    	    boolean isValid=validTower(mouseX, mouseY, type);
+			    gameBoard.pendingTower=new Tower(adjX,adjY,1,30,type,isValid,currentTowerDirection);
+				
 			    
-			    if(!gameBoard.inPath(e.getX(), e.getY())){
-				gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.recycle,true,currentTowerDirection);
-			    }else{
-				 gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.recycle,false,currentTowerDirection);
-			    }
+			}else if((addRecycleTower)){ 
+			    
+			    type=Util.TowerType.recycle;
+			    boolean isValid=validTower(mouseX, mouseY, type);
+			    gameBoard.pendingTower=new Tower(adjX,adjY,1,30,type,isValid,currentTowerDirection);
+			    
 			}else if((addWindmillTower)){ 
 			    
-			    if(!gameBoard.inPath(e.getX(), e.getY())){
-				gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.windmill,true,currentTowerDirection);
-			    }else{
-				 gameBoard.pendingTower=new Tower(e.getX()-15,e.getY()-15,1,30,Tower.TowerType.windmill,false,currentTowerDirection);
-			    }
+			    type=Util.TowerType.windmill;
+			    boolean isValid=validTower(mouseX, mouseY, type);
+			    gameBoard.pendingTower=new Tower(adjX,adjY,1,30,type,isValid,currentTowerDirection);
 			}
+		    
+		    
+		    
 				
 		}
 	}
+	public boolean validTower(int x, int y, Util.TowerType type){
+	    
+	    if(gameBoard.inPath(x, y)){
+		return false;
+	    }
+	    
+	    if(gameBoard.getBudget()<getCost(type)){
+		return false;
+	    }
+	    
+	    
+	    return true;
+	}
 	
-	public int getCost(Tower.TowerType type){
-		if(type==Tower.TowerType.recycle){
+	
+	public int getCost(Util.TowerType type){
+		if(type==Util.TowerType.recycle){
 		    return 200;
-		}else if(type==Tower.TowerType.incenerator){
+		}else if(type==Util.TowerType.incenerator){
 		    return 100;
-		}else if(type==Tower.TowerType.windmill){
+		}else if(type==Util.TowerType.windmill){
 		    return 300;
 		}else{
 		    return 0;

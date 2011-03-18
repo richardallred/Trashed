@@ -6,7 +6,7 @@ public class WaveGen {
     private ArrayList<Trash> wave= new ArrayList<Trash>();
     
     
-    public WaveGen(int num, int spacing, double speed, int initY, Trash.TrashType[] types){
+    public WaveGen(int num, int spacing, double speed, int initY, Util.TrashType[] types){
 	
 	int curX=-30;
 	

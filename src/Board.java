@@ -58,7 +58,7 @@ public class Board extends JPanel implements Runnable{
     private final int gapPad=140;
     private final int towerWidth=30;
     
-    Trash.TrashType[] types= {Trash.TrashType.paper,Trash.TrashType.plastic};
+    Util.TrashType[] types= {Util.TrashType.paper,Util.TrashType.plastic};
     private int TRASH_SPEED=2;
     
     //Images
@@ -96,32 +96,7 @@ public class Board extends JPanel implements Runnable{
         
         setDoubleBuffered(true);
         
-        pathX.add(0);
-        pathY.add(pathPad);
-        
-        pathX.add(boardWidth-pathPad-pathWidth);
-        pathY.add(pathPad);
-        
-        pathX.add(boardWidth-pathPad-pathWidth);
-        pathY.add(pathPad+pathHeight+gapPad);
-        
-        pathX.add(pathPad);
-        pathY.add(pathPad+pathHeight+gapPad);
-        
-        pathX.add(pathPad);
-        pathY.add(pathPad+pathHeight*2+gapPad*2);
-        
-        pathX.add(boardWidth-pathPad-pathWidth);
-        pathY.add(pathPad+pathHeight*2+gapPad*2);
-        
-        pathX.add(boardWidth-pathPad-pathWidth);
-        pathY.add(boardHeight+pathHeight);
-        
-        pathX.add(-pathWidth);
-        pathY.add(boardHeight+pathHeight);
-        
-        pathX.add(-pathWidth);
-        pathY.add(pathPad);
+        makeBoard(pathX,pathY);
         
        //My computer wants Board capitalized.  -JJ
         ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Board.png"));
@@ -140,6 +115,36 @@ public class Board extends JPanel implements Runnable{
         super.addNotify();
         animator = new Thread(this);
         animator.start();
+    }
+    
+    public void makeBoard(ArrayList<Integer> pathX, ArrayList<Integer> pathY){
+	
+	pathX.add(0);
+        pathY.add(pathPad);
+        
+        pathX.add(boardWidth-pathPad-pathWidth);
+        pathY.add(pathPad);
+        
+        pathX.add(boardWidth-pathPad-pathWidth);
+        pathY.add(pathPad+pathHeight+gapPad);
+        
+        pathX.add(pathPad);
+        pathY.add(pathPad+pathHeight+gapPad);
+        
+        pathX.add(pathPad);
+        pathY.add(pathPad+pathHeight*2+gapPad*2);
+        
+        pathX.add(boardWidth-pathPad-pathWidth);
+        pathY.add(pathPad+pathHeight*2+gapPad*2);
+        
+        pathX.add(boardWidth-pathPad-pathWidth);
+        pathY.add(boardHeight+pathHeight);
+        
+        pathX.add(-pathWidth);
+        pathY.add(boardHeight+pathHeight);
+        
+        pathX.add(-pathWidth);
+        pathY.add(pathPad);
     }
     
 
@@ -269,10 +274,11 @@ public class Board extends JPanel implements Runnable{
             		for(int j=0; j<towers.size(); j++){
             		    
             		    //Windmills don't need to check for collisions
-            		    if(towers.get(j).getType()==Tower.TowerType.windmill){
+            		    if(towers.get(j).getType()==Util.TowerType.windmill){
             			break;
             		    }
-            		    	if(!trash.get(i).isKilled() && !towers.get(j).getFiring() && trash.get(i).detectCollisions(towers.get(j)) ){
+            		    	
+            		    	if(!trash.get(i).isKilled() && !towers.get(j).getFiring() && trash.get(i).detectCollisions(towers.get(j),pathX,pathY) ){
                 	    		
             		    	    	towers.get(j).setFiring(true);
             		    	    	trash.get(i).setKilled();
@@ -291,10 +297,10 @@ public class Board extends JPanel implements Runnable{
                     		
                     			if(towers.get(j).getFireCounter()>=9 && trash.get(i).isKilled() ){
                     			    	trash.remove(i);
-                    			if(towers.get(j).getType()==Tower.TowerType.incenerator){
+                    			if(towers.get(j).getType()==Util.TowerType.incenerator){
                     			    	budget+=10;
                     			    	airQual-=15;
-                    			}else if(towers.get(j).getType()==Tower.TowerType.recycle){
+                    			}else if(towers.get(j).getType()==Util.TowerType.recycle){
                     			    	budget+=20;
                     			}
                     				break;
@@ -331,7 +337,7 @@ public class Board extends JPanel implements Runnable{
             
             //Check for windmills
             for(int g=0; g<towers.size(); g++){
-        	if(towers.get(g).getType()==Tower.TowerType.windmill){
+        	if(towers.get(g).getType()==Util.TowerType.windmill){
         	    budget+=150;
         	}
             }
