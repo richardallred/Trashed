@@ -165,13 +165,15 @@ public class Board extends JPanel implements Runnable{
             
             for(int i=0; i<towers.size(); i++){
                 Tower curTower=towers.get(i);
-                g2d.drawImage(curTower.getImage(), (int)curTower.getX(),(int) curTower.getY(), this);
+                g2d.drawImage(curTower.getArmImage(), (int)curTower.getArmX(),(int) curTower.getArmY(), this);
+                g2d.drawImage(curTower.getBaseImage(), (int)curTower.getX(),(int) curTower.getY(), this);
+                
             }
             
             //JJ
             if(pendingTower!=null && (pendingTower.getX()!=Integer.MIN_VALUE|| pendingTower.getY()!=Integer.MIN_VALUE))
             {
-            	g2d.drawImage(pendingTower.getImage(),(int)pendingTower.getX(),(int)pendingTower.getY(),this);
+            	g2d.drawImage(pendingTower.getBaseImage(),(int)pendingTower.getX(),(int)pendingTower.getY(),this);
             }
             
 
@@ -182,7 +184,7 @@ public class Board extends JPanel implements Runnable{
 	}
 	g2d.setFont(smallfont);
 	g2d.setColor(Color.RED);
-	g2d.drawString("Air Quality: "+airQual.toString()+ " |  Current Budget: $"+budget.toString()+
+	g2d.drawString("Air Quality: "+airQual.toString()+ " |  Budget: $"+budget.toString()+
 		"  | Level: "+level.toString()+" | Trash Left: "+trash.size()+"00 lbs" + 
 		" | Landfill "+ landFillScore.toString()+"% Full", 5, 615);
 	

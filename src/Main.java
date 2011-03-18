@@ -1,5 +1,6 @@
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
@@ -36,6 +37,9 @@ public class Main extends JFrame {
         
         JPanel menu=new Menu(board);
         menu.setSize(300, 650);
+        
+        menu.setPreferredSize(new Dimension(300,650));
+        menu.setMaximumSize(new Dimension(300,650));
         add(menu,BorderLayout.LINE_END);
         
         setVisible(true);

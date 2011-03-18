@@ -8,7 +8,7 @@ public class Tower{
     private Image base,arm;
     Util.TowerType type;
     String dir;
-    private int x, y, width, height;
+    private int x, y,armX,armY, width, height;
     private boolean isFiring;
     private int rate, range;
     private int fireCounter=0;
@@ -30,17 +30,17 @@ public class Tower{
 	height=ii.getIconHeight();
 	x=initX;
 	y=initY;
+	armX=initX;
+	armY=initY;
 	range=towerRange;
 	rate=fireRate;
 	isFiring=false;
 	
 	//Get image for the arm
-	if(type!=Util.TowerType.windmill){
+	if(type!=Util.TowerType.windmill && isValid){
 	    ii=getArmImageIcon(type,dir);
 	    arm = ii.getImage();
 	}
-	
-	
 		
     }
     
@@ -119,17 +119,15 @@ public class Tower{
 	
 	//Find the direction that we need to rotate to
 	if(dir.equalsIgnoreCase("north")){
+	    dir="East";
+        }else if(dir.equalsIgnoreCase("South")){
+            dir="West";
 	    
-	    dir="east";
-	
-        }else if(dir.equalsIgnoreCase("south")){
-            dir="west";
+	}else if(dir.equalsIgnoreCase("East")){
+	    dir="South";
 	    
-	}else if(dir.equalsIgnoreCase("east")){
-	    dir="south";
-	    
-	}else if(dir.equalsIgnoreCase("west")){
-	    dir="north";
+	}else if(dir.equalsIgnoreCase("West")){
+	    dir="North";
 	}
 	
 	
@@ -148,9 +146,31 @@ public class Tower{
 	
     }
     
+    public int getArmX(){
+	return armX;
+    }
+    
+    public int getArmY(){
+	return armY;
+    }
+    
+    public void extendArm(int dist){
+	
+	if(dir.equalsIgnoreCase("North")){
+	    armY-=dist;
+	}else if(dir.equalsIgnoreCase("Sorth")){
+	    armY+=dist;
+	}else if(dir.equalsIgnoreCase("East")){
+	    armX-=dist;
+	}else if(dir.equalsIgnoreCase("West")){
+	    armY+=dist;
+	}
+    }
+    
     
    
     public void fire(int speed){
+	
 		
     }
     
@@ -162,7 +182,7 @@ public class Tower{
 	isFiring=newFire;
     }
     
-    public Image getImage(){
+    public Image getBaseImage(){
 	return base;
     }
     
@@ -213,6 +233,10 @@ public class Tower{
     
     public int getFireCounter(){
 	return fireCounter;
+    }
+    
+    public Image getArmImage(){
+	return arm;
     }
     
     

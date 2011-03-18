@@ -109,15 +109,15 @@ public class Trash{
 
 	           if(tower.getDirection().equalsIgnoreCase("South")){
 	               if((tempX>=tower.getX() && tempX<=tower.getX() + tower.getWidth()) || (tempX+ trashPic.getWidth(null)>=tower.getX() && tempX+ trashPic.getWidth(null)<=tower.getX() + tower.getWidth())){
-	                   if((tempY>=tower.getY()+tower.getImage().getHeight(null) && tempY<=tower.getY()+tower.getImage().getHeight(null)+tower.getRange())
-	                       || (tempY+ trashPic.getHeight(null)>=tower.getY()+tower.getImage().getHeight(null) && tempY+ trashPic.getHeight(null)<=tower.getY()+tower.getImage().getHeight(null)+tower.getRange())){
+	                   if((tempY>=tower.getY()+tower.getBaseImage().getHeight(null) && tempY<=tower.getY()+tower.getBaseImage().getHeight(null)+tower.getRange())
+	                       || (tempY+ trashPic.getHeight(null)>=tower.getY()+tower.getBaseImage().getHeight(null) && tempY+ trashPic.getHeight(null)<=tower.getY()+tower.getBaseImage().getHeight(null)+tower.getRange())){
 	                       return true;
 	                   }
 	               }
 	           }else if(tower.getDirection().equalsIgnoreCase("East")){
 	               if((tempY>=tower.getY() && tempY<=tower.getY() + tower.getHeight()) || (tempY+ trashPic.getHeight(null)>=tower.getY() && tempY+ trashPic.getHeight(null)<=tower.getY() + tower.getHeight())){
-	                   if((tempX>=tower.getX()+tower.getImage().getWidth(null) && tempX<=tower.getX()+tower.getImage().getWidth(null)+tower.getRange())
-	                       || (tempX+ trashPic.getWidth(null)>=tower.getX()+tower.getImage().getWidth(null) && tempX+ trashPic.getWidth(null)<=tower.getX()+tower.getImage().getWidth(null)+tower.getRange())){
+	                   if((tempX>=tower.getX()+tower.getBaseImage().getWidth(null) && tempX<=tower.getX()+tower.getBaseImage().getWidth(null)+tower.getRange())
+	                       || (tempX+ trashPic.getWidth(null)>=tower.getX()+tower.getBaseImage().getWidth(null) && tempX+ trashPic.getWidth(null)<=tower.getX()+tower.getBaseImage().getWidth(null)+tower.getRange())){
 	                       return true;
 	                   }
 	               }

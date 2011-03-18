@@ -5,10 +5,7 @@ import java.awt.event.MouseEvent;
 
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.Popup;
-import javax.swing.PopupFactory;
 import javax.swing.event.MouseInputListener;
 
 
@@ -27,10 +24,11 @@ public class Menu extends JPanel implements Runnable{
 	static private boolean addInceneratorTower=false;
 	static private boolean addWindmillTower=false;
 	private boolean startWave=false;
-	private String currentTowerDirection="south";
+	private String currentTowerDirection="South";
 
 	public Menu(Board board){
-		gameBoard=board;
+		
+	    	gameBoard=board;
 		board.addMouseListener(new Mouse());
 		board.addMouseMotionListener(new Mouse());
 		
@@ -60,6 +58,7 @@ public class Menu extends JPanel implements Runnable{
 
 
 	}
+	
 	private class StartWaveButtonListener implements ActionListener{
 		
 
@@ -109,6 +108,7 @@ public class Menu extends JPanel implements Runnable{
 		    }
 		}
 	}
+	
 	private class InceneratorButtonListener implements ActionListener{
 
 		@Override
@@ -121,6 +121,7 @@ public class Menu extends JPanel implements Runnable{
 		    }
 		}
 	}
+	
 	private class Mouse implements MouseInputListener{
 
 		@Override
@@ -315,6 +316,7 @@ public class Menu extends JPanel implements Runnable{
 	        super.addNotify();
 	        menu = new Thread(this);
 	        menu.start();
-	    }
+	}
+	
 
 }
