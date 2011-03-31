@@ -145,8 +145,8 @@ public class Menu extends JPanel implements Runnable{
 		    int mouseX=e.getPoint().x;
 		    int mouseY=e.getPoint().y;
 		    
-		    int adjX=mouseX-15;
-		    int adjY=mouseY-15;
+		    int adjX=mouseX-20;
+		    int adjY=mouseY-20;
 		    
 		    //Detect a left click
 		    if(e.getButton()==1){
@@ -223,8 +223,8 @@ public class Menu extends JPanel implements Runnable{
 		    int mouseX=e.getPoint().x;
 		    int mouseY=e.getPoint().y;
 		    
-		    int adjX=mouseX-15;
-		    int adjY=mouseY-15;
+		    int adjX=mouseX-20;
+		    int adjY=mouseY-20;
 		    
 		    
 		    

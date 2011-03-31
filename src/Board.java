@@ -49,14 +49,7 @@ public class Board extends JPanel implements Runnable{
     
 
     
-    //Board Dimensions used for making the path
-    private final int boardWidth=600;
-    private final int boardHeight=600;
-    private final int pathWidth=30;
-    private final int pathHeight=30;
-    private final int pathPad=70;
-    private final int gapPad=140;
-    private final int towerWidth=30;
+    
     
     Util.TrashType[] types= {Util.TrashType.paper,Util.TrashType.plastic};
     private int TRASH_SPEED=2;
@@ -105,7 +98,7 @@ public class Board extends JPanel implements Runnable{
         ii= new ImageIcon(this.getClass().getResource("pics/landfill.png"));
         landFill=ii.getImage(); 
                 
-        WaveGen Wave= new WaveGen(20,35,TRASH_SPEED,pathPad,types);
+        WaveGen Wave= new WaveGen(20,35,TRASH_SPEED,Util.pathPad,types);
         
         trash=Wave.getWave();
        
@@ -120,31 +113,31 @@ public class Board extends JPanel implements Runnable{
     public void makeBoard(ArrayList<Integer> pathX, ArrayList<Integer> pathY){
 	
 	pathX.add(0);
-        pathY.add(pathPad);
+        pathY.add(Util.pathPad);
         
-        pathX.add(boardWidth-pathPad-pathWidth);
-        pathY.add(pathPad);
+        pathX.add(Util.boardWidth-Util.pathPad-Util.pathWidth);
+        pathY.add(Util.pathPad);
         
-        pathX.add(boardWidth-pathPad-pathWidth);
-        pathY.add(pathPad+pathHeight+gapPad);
+        pathX.add(Util.boardWidth-Util.pathPad-Util.pathWidth);
+        pathY.add(Util.pathPad+Util.pathHeight+Util.gapPad);
         
-        pathX.add(pathPad);
-        pathY.add(pathPad+pathHeight+gapPad);
+        pathX.add(Util.pathPad);
+        pathY.add(Util.pathPad+Util.pathHeight+Util.gapPad);
         
-        pathX.add(pathPad);
-        pathY.add(pathPad+pathHeight*2+gapPad*2);
+        pathX.add(Util.pathPad);
+        pathY.add(Util.pathPad+Util.pathHeight*2+Util.gapPad*2);
         
-        pathX.add(boardWidth-pathPad-pathWidth);
-        pathY.add(pathPad+pathHeight*2+gapPad*2);
+        pathX.add(Util.boardWidth-Util.pathPad-Util.pathWidth);
+        pathY.add(Util.pathPad+Util.pathHeight*2+Util.gapPad*2);
         
-        pathX.add(boardWidth-pathPad-pathWidth);
-        pathY.add(boardHeight+pathHeight);
+        pathX.add(Util.boardWidth-Util.pathPad-Util.pathWidth);
+        pathY.add(Util.boardHeight+Util.pathHeight);
         
-        pathX.add(-pathWidth);
-        pathY.add(boardHeight+pathHeight);
+        pathX.add(-Util.pathWidth);
+        pathY.add(Util.boardHeight+Util.pathHeight);
         
-        pathX.add(-pathWidth);
-        pathY.add(pathPad);
+        pathX.add(-Util.pathWidth);
+        pathY.add(Util.pathPad);
     }
     
 
@@ -274,44 +267,44 @@ public class Board extends JPanel implements Runnable{
             		trash.get(i).followPath(pathX, pathY);
             	
             		for(int j=0; j<towers.size(); j++){
-            		    
             		    //Windmills don't need to check for collisions
             		    if(towers.get(j).getType()==Util.TowerType.windmill){
             			break;
             		    }
+            		    towers.get(j).setFiring(true);
             		    	
-            		    	if(!trash.get(i).isKilled() && !towers.get(j).getFiring() && trash.get(i).detectCollisions(towers.get(j),pathX,pathY) ){
-                	    		
-            		    	    	towers.get(j).setFiring(true);
-            		    	    	trash.get(i).setKilled();
+            		    if(!trash.get(i).isKilled() && !towers.get(j).getFiring() && trash.get(i).detectCollisions(towers.get(j),pathX,pathY) ){
+                	    	System.out.println("SHIT");	
+            		    	towers.get(j).setFiring(true);
+            		    	trash.get(i).setKilled();
             
-            		    	}
+            		    }
             	    
-            		    	//Second case to avoid null point errors after removing the trash from the array
-            		    	if(towers.get(j).getFiring() && (trash.get(i).isKilled() || towers.get(j).getFireCounter()>=9)  ){
-            		
-            		
-            		
-            		    	    //Only fire every other frame
-            		    	    if(counter % TRASH_SPEED==0){
             		    
-                    			towers.get(j).fire(TRASH_SPEED);
+            		    if(towers.get(j).getFiring()){
+            			towers.get(j).fire();
+            		    }
+            		    	
                     		
-                    			if(towers.get(j).getFireCounter()>=9 && trash.get(i).isKilled() ){
-                    			    	trash.remove(i);
-                    			if(towers.get(j).getType()==Util.TowerType.incenerator){
-                    			    	budget+=10;
-                    			    	airQual-=15;
-                    			}else if(towers.get(j).getType()==Util.TowerType.recycle){
-                    			    	budget+=20;
-                    			}
-                    				break;
-                    			}
-            		    	    }
-            		    	}
+        			if(towers.get(j).getFireCounter()>=Util.pathWidth && trash.get(i).isKilled() ){
+        			    	trash.get(i).removeImage();
+        			    	if(towers.get(j).getType()==Util.TowerType.incenerator){
+        			    	    budget+=10;
+        			    	    airQual-=15;
+        			    	}else if(towers.get(j).getType()==Util.TowerType.recycle){
+        			    	    budget+=20;
+        			    	}
+        			}
+            		    	    
+            		    	
             		}
+            		//Remove dead trash from the array
+            		if(trash.get(i).isKilled()){
+            		    trash.remove(i);
+            		}
+            		
             		//Check to make sure trash hasn't exited the board
-            		if(trash.get(i).getY()+30>boardHeight){
+            		if(trash.get(i).getY()+30>Util.boardHeight){
             		    trash.remove(i);
             		    landFillScore+=1;
             		}
@@ -347,7 +340,7 @@ public class Board extends JPanel implements Runnable{
             repaint();
             level++;
             
-            WaveGen Wave= new WaveGen(48,35,1,pathPad,types);
+            WaveGen Wave= new WaveGen(48,35,1,Util.pathPad,types);
             trash=Wave.getWave();
             
             inBetweenLevels=true;
@@ -372,27 +365,27 @@ public class Board extends JPanel implements Runnable{
     public boolean inPath(int x, int y){
 	
 	//Inside actual game board
-	if((x>0 && x>boardWidth) || (y>0 && y>boardHeight)){
+	if((x>0 && x>Util.boardWidth) || (y>0 && y>Util.boardHeight)){
 	    return true;
 	}	
 	
 	//First row
-	if( (x>0 && x<boardWidth-pathPad+(towerWidth/2))  && (y>pathPad-(towerWidth/2) && y<pathPad+pathWidth+(towerWidth/2))){
+	if( (x>0 && x<Util.boardWidth-Util.pathPad+(Util.towerWidth/2))  && (y>Util.pathPad-(Util.towerWidth/2) && y<Util.pathPad+Util.pathWidth+(Util.towerWidth/2))){
 	    return true;
 	//First down
-	}else if( (x<boardWidth-pathPad+(towerWidth/2) && x>(boardWidth-pathPad-pathWidth-(towerWidth/2))) && (y>pathPad-(towerWidth/2) && (y<pathPad+gapPad+(towerWidth/2)))){
+	}else if( (x<Util.boardWidth-Util.pathPad+(Util.towerWidth/2) && x>(Util.boardWidth-Util.pathPad-Util.pathWidth-(Util.towerWidth/2))) && (y>Util.pathPad-(Util.towerWidth/2) && (y<Util.pathPad+Util.gapPad+(Util.towerWidth/2)))){
 	    return true;
 	//First Switch Back
-	}else if(x<boardWidth-pathPad+(towerWidth/2) && x>pathPad-(towerWidth/2) && y>pathPad+pathWidth+gapPad-(towerWidth/2) && y<pathPad+(2*pathWidth)+gapPad+(towerWidth/2)){
+	}else if(x<Util.boardWidth-Util.pathPad+(Util.towerWidth/2) && x>Util.pathPad-(Util.towerWidth/2) && y>Util.pathPad+Util.pathWidth+Util.gapPad-(Util.towerWidth/2) && y<Util.pathPad+(2*Util.pathWidth)+Util.gapPad+(Util.towerWidth/2)){
 	    return true;
 	//Second Down
-	}else if( x>pathPad-(towerWidth/2) && x<pathPad+pathWidth+(towerWidth/2) && y>pathPad+pathWidth+gapPad-(towerWidth/2) && y<pathPad+2*pathWidth+2*gapPad+(towerWidth/2) ){
+	}else if( x>Util.pathPad-(Util.towerWidth/2) && x<Util.pathPad+Util.pathWidth+(Util.towerWidth/2) && y>Util.pathPad+Util.pathWidth+Util.gapPad-(Util.towerWidth/2) && y<Util.pathPad+2*Util.pathWidth+2*Util.gapPad+(Util.towerWidth/2) ){
 	    return true;
 	//Second Switch Back
-	}else if( x>pathPad-(towerWidth/2) && x<boardWidth-pathPad+(towerWidth/2) && y>pathPad+2*pathWidth+2*gapPad-(towerWidth/2) && y<pathPad+(3*pathWidth)+2*gapPad+(towerWidth/2) ){
+	}else if( x>Util.pathPad-(Util.towerWidth/2) && x<Util.boardWidth-Util.pathPad+(Util.towerWidth/2) && y>Util.pathPad+2*Util.pathWidth+2*Util.gapPad-(Util.towerWidth/2) && y<Util.pathPad+(3*Util.pathWidth)+2*Util.gapPad+(Util.towerWidth/2) ){
 	    return true;
 	//Third Down
-	}else if( (x<boardWidth-pathPad+(towerWidth/2) && x>(boardWidth-pathPad-pathWidth-(towerWidth/2))) && y>pathPad+(3*pathWidth)+2*gapPad+(towerWidth/2) ){
+	}else if( (x<Util.boardWidth-Util.pathPad+(Util.towerWidth/2) && x>(Util.boardWidth-Util.pathPad-Util.pathWidth-(Util.towerWidth/2))) && y>Util.pathPad+(3*Util.pathWidth)+2*Util.gapPad+(Util.towerWidth/2) ){
 	    return true;
 	}
 	

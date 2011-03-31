@@ -12,6 +12,7 @@ public class Tower{
     private boolean isFiring;
     private int rate, range;
     private int fireCounter=0;
+    private boolean turnedAround=false;
     int curPath;
     
     
@@ -47,26 +48,29 @@ public class Tower{
     public ImageIcon getArmImageIcon(Util.TowerType type, String dir){
 	
 	ImageIcon ii;
+	String typeString="";
 	
 	if(type==Util.TowerType.incenerator){
+	    typeString = "Incenerator";
 	    
 	    
-	    ii= new ImageIcon(this.getClass().getResource("pics/Towers/Incenerator/arm"+dir+".png"));
 	    
 	    
 	}else if(type==Util.TowerType.compactor){
 	    
 	    
-	    ii= new ImageIcon(this.getClass().getResource("pics/Towers/Compactor/arm"+dir+".png"));
+	    typeString = "Compactor";
 	
 	    
 	}else if(type==Util.TowerType.recycle){
 
-	    ii= new ImageIcon(this.getClass().getResource("pics/Towers/Recycle/arm"+dir+".png"));
+	    typeString = "Recycle";
 	    
 	}else{
-	    ii = new ImageIcon(this.getClass().getResource("pics/Trash/paper.png"));
+	    typeString = "Recycle";
 	}
+	
+	ii= new ImageIcon(this.getClass().getResource("pics/Towers/"+typeString+"/arm"+dir+".png"));
 	
 	return ii;
 	
@@ -155,22 +159,37 @@ public class Tower{
     }
     
     public void extendArm(int dist){
-	
+	//System.out.println(dir);
 	if(dir.equalsIgnoreCase("North")){
 	    armY-=dist;
-	}else if(dir.equalsIgnoreCase("Sorth")){
+	}else if(dir.equalsIgnoreCase("South")){
 	    armY+=dist;
 	}else if(dir.equalsIgnoreCase("East")){
-	    armX-=dist;
+	    armX+=dist;
 	}else if(dir.equalsIgnoreCase("West")){
-	    armY+=dist;
+	    armX-=dist;
 	}
+	
     }
     
     
    
-    public void fire(int speed){
+    public void fire(){
 	
+	if(fireCounter<Util.pathWidth){
+	    extendArm(rate);
+	    fireCounter+=rate;
+	}else if(fireCounter<=Util.pathWidth*2){
+	    extendArm(-rate);
+	    fireCounter+=rate;
+	}else{
+	    fireCounter=0;
+	    armX=x;
+	    armY=y;
+	    isFiring=false;
+	}
+	
+		
 		
     }
     

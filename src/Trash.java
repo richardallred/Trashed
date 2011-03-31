@@ -30,6 +30,9 @@ public class Trash{
 	 speed=trashSpeed;
     }
     
+    public void removeImage(){
+	trashPic=null;
+    }
     
     public Image getImage(){
 	return trashPic;
@@ -81,7 +84,7 @@ public class Trash{
 	       double tempY = y;
 	      
 	       if((tower.getType()==Util.TowerType.recycle && type==Util.TrashType.plastic) || (tower.getType()==Util.TowerType.incenerator && type==Util.TrashType.paper)){
-	           for(int i=0; i<tower.getRate(); i++){
+	           for(int i=0; i<Util.pathWidth/tower.getRate(); i++){
 	               distX=X.get(tempCurPath)-tempX;
 	               distY=Y.get(tempCurPath)-tempY;
 
