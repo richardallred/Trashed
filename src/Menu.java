@@ -157,23 +157,31 @@ public class Menu extends JPanel implements Runnable{
 			 if(addInceneratorTower)
 			 {
 			     type=Util.TowerType.incenerator;
-    			     addInceneratorTower=false;
+    			    
     						    
     			 }else if((addRecycleTower)){    
     			     type=Util.TowerType.recycle;
-    			     addRecycleTower=false;
+    			     
     				    
     			 }else if((addWindmillTower)){ 
     				    
     			     type=Util.TowerType.windmill;
-    			     addWindmillTower=false;
+    			     
     			 }
 			 
 			 boolean isValid=validTower(mouseX, mouseY, type);   
         		 
-			 gameBoard.addTower(new Tower(adjX,adjY,1,25,type,isValid,currentTowerDirection));
-			 gameBoard.removeMoney(getCost(type));   
-        		 gameBoard.pendingTower=null;
+			 
+			 if(type!=null && isValid){
+			     addInceneratorTower=false;
+			     addRecycleTower=false;
+			     addWindmillTower=false;
+			     gameBoard.addTower(new Tower(adjX,adjY,1,25,type,isValid,currentTowerDirection));
+			     gameBoard.removeMoney(getCost(type));   
+			     gameBoard.pendingTower=null;
+			 }
+			 
+			 
         			
         	    //Detect a right click		
 		    }else if(e.getButton()==3){
