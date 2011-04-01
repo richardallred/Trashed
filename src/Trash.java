@@ -82,9 +82,10 @@ public class Trash{
 	       int tempCurPath = curPath;
 	       double tempX = x;
 	       double tempY = y;
-	      
+	       
 	       if((tower.getType()==Util.TowerType.recycle && type==Util.TrashType.plastic) || (tower.getType()==Util.TowerType.incenerator && type==Util.TrashType.paper)){
-	           for(int i=0; i<Util.pathWidth/tower.getRate(); i++){
+	           
+	    	   for(int i=0; i<Util.pathWidth/tower.getRate(); i++){
 	               distX=X.get(tempCurPath)-tempX;
 	               distY=Y.get(tempCurPath)-tempY;
 
@@ -111,30 +112,26 @@ public class Trash{
 	           //(x,y) = (x + trashPic.getWidth(null), y + trashPic.getHeight(null);
 
 	           if(tower.getDirection().equalsIgnoreCase("South")){
-	               if((tempX>=tower.getX() && tempX<=tower.getX() + tower.getWidth()) || (tempX+ trashPic.getWidth(null)>=tower.getX() && tempX+ trashPic.getWidth(null)<=tower.getX() + tower.getWidth())){
-	                   if((tempY>=tower.getY()+tower.getBaseImage().getHeight(null) && tempY<=tower.getY()+tower.getBaseImage().getHeight(null)+tower.getRange())
-	                       || (tempY+ trashPic.getHeight(null)>=tower.getY()+tower.getBaseImage().getHeight(null) && tempY+ trashPic.getHeight(null)<=tower.getY()+tower.getBaseImage().getHeight(null)+tower.getRange())){
+	               if(tempX+trashPic.getWidth(null)/2>=tower.getX()+tower.getWidth()/2-Math.ceil(speed/2) && tempX+trashPic.getWidth(null)/2<=tower.getX() + tower.getWidth()/2+Math.ceil(speed/2)){
+	                   if((tempY>=tower.getY()+tower.getBaseImage().getHeight(null) && tempY<=tower.getY()+tower.getBaseImage().getHeight(null)+tower.getRange())){
 	                       return true;
 	                   }
 	               }
 	           }else if(tower.getDirection().equalsIgnoreCase("East")){
-	               if((tempY>=tower.getY() && tempY<=tower.getY() + tower.getHeight()) || (tempY+ trashPic.getHeight(null)>=tower.getY() && tempY+ trashPic.getHeight(null)<=tower.getY() + tower.getHeight())){
-	                   if((tempX>=tower.getX()+tower.getBaseImage().getWidth(null) && tempX<=tower.getX()+tower.getBaseImage().getWidth(null)+tower.getRange())
-	                       || (tempX+ trashPic.getWidth(null)>=tower.getX()+tower.getBaseImage().getWidth(null) && tempX+ trashPic.getWidth(null)<=tower.getX()+tower.getBaseImage().getWidth(null)+tower.getRange())){
+	               if(tempY+ trashPic.getHeight(null)/2>=tower.getY()+tower.getHeight()/2-Math.ceil(speed/2) && tempY+ trashPic.getHeight(null)/2<=tower.getY()+tower.getHeight()/2+Math.ceil(speed/2)){
+	                   if((tempX>=tower.getX()+tower.getBaseImage().getWidth(null) && tempX<=tower.getX()+tower.getBaseImage().getWidth(null)+tower.getRange())){
 	                       return true;
 	                   }
 	               }
 	           }else if(tower.getDirection().equalsIgnoreCase("North")){
-	               if((tempX>=tower.getX() && tempX<=tower.getX() + tower.getWidth()) || (tempX+ trashPic.getWidth(null)>=tower.getX() && tempX+ trashPic.getWidth(null)<=tower.getX() + tower.getWidth())){
-	                   if((tempY<=tower.getY() && tempY>=tower.getY()-tower.getRange())
-	                       || (tempY+ trashPic.getHeight(null)<=tower.getY() && tempY+ trashPic.getHeight(null)<=tower.getY()-tower.getRange())){
+	               if((tempX+trashPic.getWidth(null)/2>=tower.getX()+tower.getWidth()/2-Math.ceil(speed/2) && tempX+trashPic.getWidth(null)/2<=tower.getX() + tower.getWidth()/2+Math.ceil(speed/2))){
+	                   if((tempY+ trashPic.getHeight(null)<=tower.getY() && tempY+ trashPic.getHeight(null)>=tower.getY()-tower.getRange())){
 	                       return true;
 	                   }
 	               }
 	           }else if(tower.getDirection().equalsIgnoreCase("West")){
-	               if((tempY>=tower.getY() && tempY<=tower.getY() + tower.getHeight()) || (tempY+ trashPic.getHeight(null)>=tower.getY() && tempY+ trashPic.getHeight(null)<=tower.getY() + tower.getHeight())){
-	                   if((tempX<=tower.getX() && tempX>=tower.getX()-tower.getRange())
-	                       || (tempX+ trashPic.getWidth(null)<=tower.getX() && tempX+ trashPic.getWidth(null)<=tower.getX()-tower.getRange())){
+	               if((tempY+ trashPic.getHeight(null)/2>=tower.getY()+tower.getHeight()/2-Math.ceil(speed/2) && tempY+ trashPic.getHeight(null)/2<=tower.getY()+tower.getHeight()/2+Math.ceil(speed/2))){
+	                   if((tempX+ trashPic.getWidth(null)<=tower.getX() && tempX+ trashPic.getWidth(null)>=tower.getX()-tower.getRange())){
 	                       return true;
 	                   }
 	               }
