@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
+import javax.swing.*;
 
+//update
 public class WaveGen {
     
     private ArrayList<Trash> wave= new ArrayList<Trash>();
