@@ -180,7 +180,7 @@ public class Menu extends JPanel implements Runnable {
 					boolean isValid = validTower(mouseX, mouseY, type);
 
 					if (type != null && isValid) {
-						gameBoard.addTower(new Tower(adjX, adjY, 2, 25, type,
+						gameBoard.addTower(new Tower(adjX, adjY, 1, 25, type,
 								isValid, currentTowerDirection));
 						gameBoard.removeMoney(getCost(type));
 						gameBoard.pendingTower = null;

@@ -52,7 +52,7 @@ public class Board extends JPanel implements Runnable {
 	private boolean ingame = true;
 
 	// Game State Variables
-	private Integer budget = 300;
+	private Integer budget = 3000;
 	private Double airQual = 1000.0;
 	private Integer level = 1;
 	private Integer landFillScore = 0;
@@ -60,12 +60,7 @@ public class Board extends JPanel implements Runnable {
 	// Game State Lists
 	static ArrayList<ImageIcon> messages=new ArrayList<ImageIcon>();
 	ArrayList<Trash> trash = new ArrayList<Trash>();
-	ArrayList<Tower> towers = new ArrayList<Tower>(); // not sure if this
-																// should be
-																// static but am
-																// trying to add
-																// towers on
-																// button press
+	ArrayList<Tower> towers = new ArrayList<Tower>(); // not sure if this should be static but am trying to add towers on button press
 	ArrayList<Integer> pathX = new ArrayList<Integer>();
 	ArrayList<Integer> pathY = new ArrayList<Integer>();
 
