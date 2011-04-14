@@ -24,4 +24,15 @@ public class WaveGen {
 	return wave;
     }
 
+public ArrayList<ImageIcon> getMessages(int level) {
+		ArrayList<ImageIcon> temp = new ArrayList<ImageIcon>();
+		// JJrandomShit
+		if (level == 1)
+			temp.add(new ImageIcon(this.getClass().getResource(
+					"pics/welcome1.png")));
+		if (level == 2)
+			temp.add(new ImageIcon(this.getClass().getResource(
+					"pics/welcome2.png")));
+		return temp;
+	}
 }
