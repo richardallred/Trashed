@@ -258,13 +258,11 @@ public class Board extends JPanel implements Runnable {
 						if (!trash.get(i).isKilled() && !towers.get(j).getFiring() && trash.get(i).detectCollisions(towers.get(j),pathX, pathY)) {
 							//System.out.println("SHIT");
 							calculateScore(towers.get(j),trash.get(i));
-							towers.get(j).setFiring(true);
+							towers.get(j).setFiring(true,trash.get(i));
 							trash.get(i).setKilled();
 						}
 
-						if (towers.get(j).getFireCounter() >= Util.pathWidth && trash.get(i).isKilled()) {
-							trash.get(i).removeImage();
-						}
+						
 
 					}
 					
