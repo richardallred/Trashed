@@ -266,15 +266,16 @@ public class Board extends JPanel implements Runnable {
 
 					}
 					
-
-					// Check to make sure trash hasn't exited the board
-					if (trash.get(i).getY() + 30 > Util.boardHeight) {
-						trash.remove(i);
-						landFillScore += 1;
-					}
 					if(trash.get(i).getImage()==null){
 						trash.remove(i);
 					}
+					// Check to make sure trash hasn't exited the board
+					else if (trash.get(i).getY() + 30 > Util.boardHeight) {
+						trash.remove(i);
+						landFillScore += 1;
+						System.out.println(landFillScore);
+					}
+					
 				}
 				
 				for(int i=0; i<towers.size();i++){
