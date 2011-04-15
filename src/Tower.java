@@ -12,6 +12,8 @@ public class Tower {
 	private int rate, range;
 	private int fireCounter = 0;
 	private boolean turnedAround = false;
+	private boolean trashRemoves = false;
+	private Trash theTrash;
 	int curPath;
 
 	Tower(int initX, int initY, int fireRate, int towerRange,
@@ -168,10 +170,16 @@ public class Tower {
 	}
 
 	public void fire() {
+		
 		if (fireCounter < Util.pathWidth) {
 			extendArm(rate);
 			fireCounter += rate;
 		} else if (fireCounter <= Util.pathWidth * 2) {
+			if (!trashRemoves){
+				theTrash.removeImage();
+				trashRemoves = true;
+			}
+			
 			extendArm(-rate);
 			fireCounter += rate;
 		} else {
@@ -179,6 +187,8 @@ public class Tower {
 			armX = x;
 			armY = y;
 			isFiring = false;
+			trashRemoves = false;
+			theTrash = null;
 		}
 	}
 
@@ -186,7 +196,8 @@ public class Tower {
 		return isFiring;
 	}
 
-	public void setFiring(boolean newFire) {
+	public void setFiring(boolean newFire, Trash aTrash) {
+		theTrash = aTrash;
 		isFiring = newFire;
 	}
 
