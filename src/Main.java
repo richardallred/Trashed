@@ -20,27 +20,35 @@ public class Main extends JFrame {
     Board board;
 
     //Helps define where different components are -JJ
-    private BorderLayout LayoutMGR=new BorderLayout();
+   // private BorderLayout LayoutMGR=new BorderLayout();
+//    private FlowLayout LayoutMGR = new FlowLayout();
     
     public Main() {
 	
-    	this.setLayout(LayoutMGR);
+    	this.setLayout(null);
     	
 	Board board= new Board();
-	add(board,BorderLayout.CENTER);
+	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900,650);
         setLocationRelativeTo(null);
         setTitle("Trashed");
         setResizable(false);
-
+     
+        board.setBounds(0, 0, 600, 650);
+        board.setPreferredSize(new Dimension(600,650));
+        board.setMaximumSize(new Dimension(600,650));
         
         JPanel menu=new Menu(board);
-        menu.setSize(300, 650);
+        menu.setSize(300, 550);
         
-        menu.setPreferredSize(new Dimension(300,650));
-        menu.setMaximumSize(new Dimension(300,650));
-        add(menu,BorderLayout.LINE_END);
+       
+       menu.setBounds(600, 0, 300, 550);
+       menu.setPreferredSize(new Dimension(300,550));
+       menu.setMaximumSize(new Dimension(300,550));
+       add(menu);
+        add(board);
+       
         
         setVisible(true);
     }

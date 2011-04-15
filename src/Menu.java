@@ -25,6 +25,7 @@ public class Menu extends JPanel implements Runnable {
 	private String currentTowerDirection = "South";
 
 	public Menu(Board board) {
+		setDoubleBuffered(true);
 		gameBoard = board;
 		board.addMouseListener(new Mouse());
 		board.addMouseMotionListener(new Mouse());
@@ -314,7 +315,7 @@ public class Menu extends JPanel implements Runnable {
 		while (true) {
 
 			long pause = 0;
-
+			repaint();
 			timeDiff = System.currentTimeMillis() - beforeTime;
 			sleep = DELAY - timeDiff;
 

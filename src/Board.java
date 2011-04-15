@@ -52,10 +52,14 @@ public class Board extends JPanel implements Runnable {
 	private boolean ingame = true;
 
 	// Game State Variables
-	private Integer budget = 3000;
+	private Integer budget = 150;
 	private Double airQual = 1000.0;
 	private Integer level = 1;
 	private Integer landFillScore = 0;
+	private Integer escapedTrash =0;
+	public Integer getLandFillScore() {
+		return landFillScore;
+	}
 
 	// Game State Lists
 	static ArrayList<ImageIcon> messages=new ArrayList<ImageIcon>();
@@ -63,7 +67,8 @@ public class Board extends JPanel implements Runnable {
 	ArrayList<Tower> towers = new ArrayList<Tower>(); // not sure if this should be static but am trying to add towers on button press
 	ArrayList<Integer> pathX = new ArrayList<Integer>();
 	ArrayList<Integer> pathY = new ArrayList<Integer>();
-
+	//Wavegen
+	WaveGen Wave = new WaveGen(this);
 	public Board() {
 
 		setDoubleBuffered(true);
@@ -78,10 +83,8 @@ public class Board extends JPanel implements Runnable {
 		ii = new ImageIcon(this.getClass().getResource("pics/landfill.png"));
 		landFill = ii.getImage();
 
-		WaveGen Wave = new WaveGen(20, 35, TRASH_SPEED, Util.pathPad, types);
 
-		trash = Wave.getWave();
-		messages=Wave.getMessages(level);
+		
 		
 	}
 
@@ -195,6 +198,9 @@ public class Board extends JPanel implements Runnable {
 	public int getBudget() {
 		return budget;
 	}
+	public void setBudget(int aBudget){
+		budget = aBudget;
+	}
 
 	public void startMusic() {
 		String path = System.getProperty("user.dir");
@@ -235,7 +241,8 @@ public class Board extends JPanel implements Runnable {
 		ingame = true;
 
 		while (true) {
-
+			trash = Wave.getWave(level);
+			messages=Wave.getMessages(level);
 			while (trash.size() > 0) {
 				counter++;
 
@@ -273,6 +280,7 @@ public class Board extends JPanel implements Runnable {
 					else if (trash.get(i).getY() + 30 > Util.boardHeight) {
 						trash.remove(i);
 						landFillScore += 1;
+						escapedTrash +=1;
 						System.out.println(landFillScore);
 					}
 					
@@ -312,10 +320,9 @@ public class Board extends JPanel implements Runnable {
 
 			repaint();
 			level++;
+			calculateBonus();
 
-			WaveGen Wave = new WaveGen(48, 35, 1, Util.pathPad, types);
-			trash = Wave.getWave();
-			messages=Wave.getMessages(level);
+			
 			inBetweenLevels = true;
 
 			if (level > 5) {
@@ -326,6 +333,15 @@ public class Board extends JPanel implements Runnable {
 
 		ingame = false;
 
+	}
+	private void calculateBonus(){
+		double multiplier = 1;
+		multiplier = (airQual/1000) * multiplier;
+		multiplier = (level/4) + multiplier; 
+		multiplier = multiplier - (escapedTrash/100);
+		
+		budget += (int)(multiplier*150);
+		
 	}
 	
 	private void calculateScore(Tower tower, Trash trash){
@@ -346,6 +362,19 @@ public class Board extends JPanel implements Runnable {
 		}
 	}
 
+	public boolean onTower(int x, int y){
+        for(int i=0; i<towers.size(); i++){
+            int tX=towers.get(i).getX();
+            int tY=towers.get(i).getY();
+            int tW=towers.get(i).getWidth();
+            int tH=towers.get(i).getHeight();
+            
+            if(tX<=x && tX+tW>=x && tY<=y && tY+tH>=y){
+                return true;
+            }
+        }
+        return false;
+    }
 	// Method to determine if the user is adding the tower on top of the path
 	public boolean inPath(int x, int y) {
 
