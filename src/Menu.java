@@ -41,10 +41,10 @@ public class Menu extends JPanel implements Runnable {
 		startWaveButton.addActionListener(new StartWaveButtonListener());
 		JButton windmillButton = new JButton("Add Windmill-$300");
 		windmillButton.addActionListener(new WindmillButtonListener());
-		JButton metalButton = new JButton("Add Scrap Metal-$150");
+		JButton metalButton = new JButton("Add Magnet-$150");
 		metalButton.addActionListener(new MetalButtonListener());
-		add(recycleButton);
 		add(inceneratorButton);
+		add(recycleButton);
 		add(metalButton);
 		add(windmillButton);
 		add(startWaveButton);
@@ -161,13 +161,16 @@ public class Menu extends JPanel implements Runnable {
 
 				// Detect a left click
 				if (e.getButton() == 1) {
+					int towerRate = 1;
 					Util.TowerType type = null;
 
 					if (addInceneratorTower) {
 						type = Util.TowerType.incenerator;
+						towerRate = 2;
 
 					} else if ((addRecycleTower)) {
 						type = Util.TowerType.recycle;
+						towerRate = 1;
 
 					} else if ((addWindmillTower)) {
 
@@ -181,7 +184,7 @@ public class Menu extends JPanel implements Runnable {
 					boolean isValid = validTower(mouseX, mouseY, type);
 
 					if (type != null && isValid) {
-						gameBoard.addTower(new Tower(adjX, adjY, 1, 25, type,
+						gameBoard.addTower(new Tower(adjX, adjY, towerRate, 25, type,
 								isValid, currentTowerDirection));
 						gameBoard.removeMoney(getCost(type));
 						gameBoard.pendingTower = null;

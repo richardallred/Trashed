@@ -347,9 +347,14 @@ public class Board extends JPanel implements Runnable {
 	private void calculateScore(Tower tower, Trash trash){
 		
 		if(tower.type==Util.TowerType.incenerator){
-			budget+=15;
+			budget+=10;
 			airQual-=15;
-		}else{
+		}else if (tower.type==Util.TowerType.recycle){
+			airQual +=5;
+			budget+=15;
+		}
+		
+		else{
 			budget+=25;
 		}
 		

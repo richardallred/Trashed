@@ -20,6 +20,9 @@ public class Trash{
 	}else if(type==Util.TrashType.plastic){
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/plastic.png"));
 	    trashPic = ii.getImage();
+	}else if(type==Util.TrashType.metal){
+	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/metal.png"));
+	    trashPic = ii.getImage();
 	}else if(type==Util.TrashType.aluminum){
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/aluminum.png"));
 	    trashPic = ii.getImage();
@@ -86,9 +89,11 @@ private boolean willTowerFire(Tower tower){
                 return true;
             }
         }else if(tower.getType()==Util.TowerType.incenerator){
+        		if (this.type==Util.TrashType.paper || this.type==Util.TrashType.plastic || this.type==Util.TrashType.food){
             return true;
+        		}
         }else if(tower.getType()==Util.TowerType.metal){
-            if(this.type==Util.TrashType.metal){
+            if(this.type==Util.TrashType.metal || this.type==Util.TrashType.aluminum){
                 return true;
             }
         }else if(tower.getType()==Util.TowerType.recycle){
