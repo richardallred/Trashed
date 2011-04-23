@@ -1,5 +1,14 @@
 import java.awt.Image;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 public class Tower {
@@ -178,8 +187,33 @@ public class Tower {
 		} else if (fireCounter <= Util.pathWidth * 2) {
 			if (!trashRemoves){
 				theTrash.removeImage();
+				if(!Board.muted){
+
+	                   String path = System.getProperty("user.dir");
+	                   path += "/Resources/audio/trashkill.wav";
+
+	                   try {
+	                       InputStream in = new FileInputStream(path);
+	                       AudioInputStream as = AudioSystem.getAudioInputStream(in);
+	                       Clip clip = AudioSystem.getClip();
+	                       clip.open(as);
+	                       clip.start();
+	                   } catch (FileNotFoundException e) {
+	                       // TODO Auto-generated catch block
+	                       e.printStackTrace();
+	                   } catch (UnsupportedAudioFileException e) {
+	                       // TODO Auto-generated catch block
+	                       e.printStackTrace();
+	                   } catch (IOException e) {
+	                       // TODO Auto-generated catch block
+	                       e.printStackTrace();
+	                   } catch (LineUnavailableException e) {
+	                       // TODO Auto-generated catch block
+	                       e.printStackTrace();
+	                   }
+	               }
 				trashRemoves = true;
-			}
+				}
 			
 			extendArm(-rate);
 			fireCounter += rate;

@@ -10,6 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import sun.audio.*;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -43,8 +49,10 @@ public class Board extends JPanel implements Runnable {
 	private Font smallfont = new Font("Comic Sans", Font.BOLD, 16);
 
 	// Audio Player
-	AudioStream as;
-	private static Boolean muted = true;
+	AudioInputStream as;
+	static Boolean muted = true;
+	private Clip clip;
+
 
 	/* Game State Variables */
 
@@ -124,6 +132,27 @@ public class Board extends JPanel implements Runnable {
 
 		pathX.add(-Util.pathWidth);
 		pathY.add(Util.pathPad);
+		
+		String path = System.getProperty("user.dir");
+	       path += "/Resources/audio/Menu.wav";
+	       try {
+	           InputStream in = new FileInputStream(path);
+	           as = AudioSystem.getAudioInputStream(in);
+	           clip = AudioSystem.getClip();
+	           clip.open(as);
+	       } catch (FileNotFoundException e) {
+	           // TODO Auto-generated catch block
+	           e.printStackTrace();
+	       } catch (UnsupportedAudioFileException e) {
+	           // TODO Auto-generated catch block
+	           e.printStackTrace();
+	       } catch (IOException e) {
+	           // TODO Auto-generated catch block
+	           e.printStackTrace();
+	       } catch (LineUnavailableException e) {
+	           // TODO Auto-generated catch block
+	           e.printStackTrace();
+	       }
 	}
 
 	public void paint(Graphics g) {
@@ -188,9 +217,7 @@ public class Board extends JPanel implements Runnable {
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
 
-		if (!AudioPlayer.player.isAlive()) {
-			startMusic();
-		}
+		
 	}
 
 	public static void startWave() {
@@ -210,30 +237,18 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	public void startMusic() {
-		String path = System.getProperty("user.dir");
-		try {
+	       clip.loop(Clip.LOOP_CONTINUOUSLY);
+	       muted = false;
+	   }
 
-			path += "/Resources/audio/Menu.au";
-			InputStream in = new FileInputStream(path);
-			as = new AudioStream(in);
-			AudioPlayer.player.start(as);
+	   public boolean isMuted() {
+	       return muted;
+	   }
 
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		muted = false;
-	}
-
-	public boolean isMuted() {
-		return muted;
-	}
-
-	public void stopMusic() {
-		AudioPlayer.player.stop((as));
-		muted = true;
-	}
+	   public void stopMusic() {
+	       clip.stop();
+	       muted = true;
+	   }
 
 	public void run() {
 
@@ -243,7 +258,7 @@ public class Board extends JPanel implements Runnable {
 
 		int counter = 0;
 
-		// startMusic();
+		 startMusic();
 
 		ingame = true;
 
