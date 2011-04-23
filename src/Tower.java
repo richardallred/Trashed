@@ -258,20 +258,7 @@ public class Tower {
 	}
 
 	public void resetTower() {
-		// Windmills don't need reseting
-		if (this.type != Util.TowerType.windmill) {
-
-			String fileString = "pics/Towers/";
-
-			if (this.type == Util.TowerType.incenerator) {
-				fileString += "Incenerator/";
-			} else if (this.type == Util.TowerType.recycle) {
-				fileString += "Recycle/";
-			}
-
-			ImageIcon ii = new ImageIcon(this.getClass().getResource(
-					fileString + "base.png"));
-			base = ii.getImage();
-		}
+		armX=x;
+		armY=y;
 	}
 }

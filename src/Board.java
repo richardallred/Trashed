@@ -25,7 +25,7 @@ public class Board extends JPanel implements Runnable {
 
 	private final int DELAY = 50;
 
-	// Thread for the Board Class to run in seperately from everything else
+	// Thread for the Board Class to run in separately from everything else
 	private Thread animator;
 
 	static Tower pendingTower;
@@ -309,7 +309,7 @@ public class Board extends JPanel implements Runnable {
 			}
 
 			// Wave has now ended
-			//resetTowers();
+			resetTowers();
 
 			// Check for windmills
 			for (int g = 0; g < towers.size(); g++) {

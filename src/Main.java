@@ -34,7 +34,7 @@ public class Main extends JFrame {
        
         
         JPanel menu=new Menu(board);
-        menu.setBounds(600, 0, 300, 550);
+        menu.setBounds(600, 0, 300, 600);
         
         JPanel scoreBoard=new Scoreboard(board);
         scoreBoard.setBounds(0,600,900, 50);
