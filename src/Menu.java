@@ -4,8 +4,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputListener;
+import javax.swing.text.JTextComponent;
 
 public class Menu extends JPanel implements Runnable {
 
@@ -23,28 +28,48 @@ public class Menu extends JPanel implements Runnable {
 	static private boolean addMetalTower = false;
 	private boolean startWave = false;
 	private String currentTowerDirection = "South";
+	private JLabel info = new JLabel("");
 
 	public Menu(Board board) {
 		setDoubleBuffered(true);
 		gameBoard = board;
 		board.addMouseListener(new Mouse());
 		board.addMouseMotionListener(new Mouse());
-		setLayout(layoutMGR);
-		// ActionListener AL=new ActionListener();
-		JButton recycleButton = new JButton("Add Recycling-$200");
+		setLayout(null);
+		
+		
+		info.setHorizontalAlignment(SwingConstants.CENTER);
+		info.setBounds(0,0, 300, 150);
+		
+		
+		JButton recycleButton = new JButton("Recycling-$200");
 		recycleButton.addActionListener(new RecycleButtonListener());
-		JButton inceneratorButton = new JButton("Add Incenerator-$100");
+		recycleButton.setBounds(0, 150, 150, 50);
+		
+		JButton inceneratorButton = new JButton("Incenerator-$100");
 		inceneratorButton.addActionListener(new InceneratorButtonListener());
-		JButton muteButton = new JButton("Mute");
-		muteButton.addActionListener(new MuteButtonListener());
+		inceneratorButton.setBounds(150, 150, 150, 50);
+		
+		JButton metalButton = new JButton("Scrap Metal-$150");
+		metalButton.addActionListener(new MetalButtonListener());
+		metalButton.setBounds(0, 200, 150, 50);
+		
+		JButton windmillButton = new JButton("Windmill-$300");
+		windmillButton.addActionListener(new WindmillButtonListener());
+		windmillButton.setBounds(150, 200, 150, 50);
+		
 		JButton startWaveButton = new JButton("Send Next Wave");
 		startWaveButton.addActionListener(new StartWaveButtonListener());
-		JButton windmillButton = new JButton("Add Windmill-$300");
-		windmillButton.addActionListener(new WindmillButtonListener());
-		JButton metalButton = new JButton("Add Magnet-$150");
-		metalButton.addActionListener(new MetalButtonListener());
-		add(inceneratorButton);
+		startWaveButton.setBounds(0, 250, 300, 50);
+		
+		JButton muteButton = new JButton("Mute");
+		muteButton.addActionListener(new MuteButtonListener());
+		muteButton.setBounds(0, 300, 100, 50);
+		
+		
+		add(info);
 		add(recycleButton);
+		add(inceneratorButton);
 		add(metalButton);
 		add(windmillButton);
 		add(startWaveButton);
@@ -82,6 +107,7 @@ public class Menu extends JPanel implements Runnable {
 
 			if (gameBoard.getBudget() >= getCost(Util.TowerType.metal)) {
 				addMetalTower = !addMetalTower;
+				info.setText("This tower is for picking up scrap metal");
 				addInceneratorTower = false;
 				addRecycleTower = false;
 				addWindmillTower = false;
@@ -96,6 +122,7 @@ public class Menu extends JPanel implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 			if (gameBoard.getBudget() >= getCost(Util.TowerType.windmill)) {
 				addWindmillTower = !addWindmillTower;
+				info.setText("Windmills help to reduce energy costs in your town and earn you money throughout the rounds");
 				addMetalTower = false;
 				addInceneratorTower = false;
 				addRecycleTower = false;
@@ -110,6 +137,7 @@ public class Menu extends JPanel implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 			if (gameBoard.getBudget() >= getCost(Util.TowerType.recycle)) {
 				addRecycleTower = !addRecycleTower;
+				info.setText("The recycle tower helps to properly dispose of the recycleable trash that is produced in the city.  While more expensive than the incenerator, it has less of an imact on the enviorment");
 				addInceneratorTower = false;
 				addMetalTower = false;
 				addWindmillTower = false;
@@ -161,16 +189,13 @@ public class Menu extends JPanel implements Runnable {
 
 				// Detect a left click
 				if (e.getButton() == 1) {
-					int towerRate = 1;
 					Util.TowerType type = null;
 
 					if (addInceneratorTower) {
 						type = Util.TowerType.incenerator;
-						towerRate = 2;
 
 					} else if ((addRecycleTower)) {
 						type = Util.TowerType.recycle;
-						towerRate = 1;
 
 					} else if ((addWindmillTower)) {
 
@@ -184,7 +209,7 @@ public class Menu extends JPanel implements Runnable {
 					boolean isValid = validTower(mouseX, mouseY, type);
 
 					if (type != null && isValid) {
-						gameBoard.addTower(new Tower(adjX, adjY, towerRate, 25, type,
+						gameBoard.addTower(new Tower(adjX, adjY, 1, 25, type,
 								isValid, currentTowerDirection));
 						gameBoard.removeMoney(getCost(type));
 						gameBoard.pendingTower = null;
@@ -280,6 +305,7 @@ public class Menu extends JPanel implements Runnable {
 		addInceneratorTower = false;
 		addRecycleTower = false;
 		addWindmillTower = false;
+		info.setText("");
 	}
 
 	public boolean validTower(int x, int y, Util.TowerType type) {
