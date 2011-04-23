@@ -23,6 +23,9 @@ public class Trash{
 	}else if(type==Util.TrashType.aluminum){
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/aluminum.png"));
 	    trashPic = ii.getImage();
+	}else if(type==Util.TrashType.metal){
+		    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/metal.png"));
+		    trashPic = ii.getImage();
 	}else{
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/paper.png"));
 	    trashPic = ii.getImage();

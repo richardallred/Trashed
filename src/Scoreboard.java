@@ -12,6 +12,10 @@ import sun.audio.AudioPlayer;
 
 public class Scoreboard extends JPanel  implements Runnable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Board gameBoard;
 	private Thread score;
 	private Font smallfont = new Font("Georgia", Font.BOLD, 16);
