@@ -18,36 +18,31 @@ public class Main extends JFrame {
     private static final long serialVersionUID = 4648172894076113183L;
 
     Board board;
-
-    //Helps define where different components are -JJ
-   // private BorderLayout LayoutMGR=new BorderLayout();
-//    private FlowLayout LayoutMGR = new FlowLayout();
     
     public Main() {
 	
     	this.setLayout(null);
     	
-	Board board= new Board();
+	    Board board= new Board();
 	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900,650);
         setLocationRelativeTo(null);
         setTitle("Trashed");
         setResizable(false);
-     
-        board.setBounds(0, 0, 600, 650);
-        board.setPreferredSize(new Dimension(600,650));
-        board.setMaximumSize(new Dimension(600,650));
+        board.setBounds(0, 0, 600, 600);
+       
         
         JPanel menu=new Menu(board);
-        menu.setSize(300, 550);
+        menu.setBounds(600, 0, 300, 550);
         
-       
-       menu.setBounds(600, 0, 300, 550);
-       menu.setPreferredSize(new Dimension(300,550));
-       menu.setMaximumSize(new Dimension(300,550));
-       add(menu);
+        JPanel scoreBoard=new Scoreboard(board);
+        scoreBoard.setBounds(0,600,900, 50);
+        
+
+        add(menu);
         add(board);
+        add(scoreBoard);
        
         
         setVisible(true);
