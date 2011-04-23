@@ -53,7 +53,7 @@ public class Board extends JPanel implements Runnable {
 
 	// Game State Variables
 	private Integer budget = 150;
-	private Double airQual = 1000.0;
+	Double airQual = 1000.0;
 	private Integer level = 1;
 	private Integer landFillScore = 0;
 	private Integer escapedTrash =0;
@@ -195,7 +195,7 @@ public class Board extends JPanel implements Runnable {
 		budget -= cost;
 	}
 
-	public int getBudget() {
+	public Integer getBudget() {
 		return budget;
 	}
 	public void setBudget(int aBudget){
@@ -347,14 +347,9 @@ public class Board extends JPanel implements Runnable {
 	private void calculateScore(Tower tower, Trash trash){
 		
 		if(tower.type==Util.TowerType.incenerator){
-			budget+=10;
-			airQual-=15;
-		}else if (tower.type==Util.TowerType.recycle){
-			airQual +=5;
 			budget+=15;
-		}
-		
-		else{
+			airQual-=15;
+		}else{
 			budget+=25;
 		}
 		
@@ -448,7 +443,7 @@ public class Board extends JPanel implements Runnable {
 		pendingTower = null;
 	}
 
-	public int getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
 }
