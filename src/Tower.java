@@ -13,6 +13,7 @@ public class Tower {
 	private int fireCounter = 0;
 	private boolean turnedAround = false;
 	private boolean trashRemoves = false;
+	private boolean highlighted = false;
 	private Trash theTrash;
 	int curPath;
 
@@ -46,9 +47,9 @@ public class Tower {
 		if (type == Util.TowerType.incenerator) {
 			typeString = "Incenerator";
 
-		} else if (type == Util.TowerType.compactor) {
+		} else if (type == Util.TowerType.compost) {
 
-			typeString = "Compactor";
+			typeString = "Compost";
 
 		} else if (type == Util.TowerType.recycle) {
 
@@ -79,14 +80,14 @@ public class Tower {
 						"pics/Towers/Incenerator/base" + dir + "Invalid.png"));
 			}
 
-		} else if (type == Util.TowerType.compactor) {
+		} else if (type == Util.TowerType.compost) {
 
 			if (valid) {
 				ii = new ImageIcon(this.getClass().getResource(
-						"pics/Towers/Compactor/base" + dir + ".png"));
+						"pics/Towers/Compost/base" + dir + ".png"));
 			} else {
 				ii = new ImageIcon(this.getClass().getResource(
-						"pics/Towers/Compactor/base" + dir + "Invalid.png"));
+						"pics/Towers/Compost/base" + dir + "Invalid.png"));
 			}
 
 		} else if (type == Util.TowerType.recycle) {
@@ -260,5 +261,12 @@ public class Tower {
 	public void resetTower() {
 		armX=x;
 		armY=y;
+	}
+	
+	public void setHighLight(boolean yes){
+		highlighted=yes;
+	}
+	public boolean isHighLight(){
+		return highlighted;
 	}
 }

@@ -36,6 +36,7 @@ public class Board extends JPanel implements Runnable {
 	// Images
 	private Image background;
 	private Image landFill;
+	private Image outline;
 
 	// Fonts
 	private Font bigfont = new Font("Helvetica", Font.BOLD, 25);
@@ -52,14 +53,12 @@ public class Board extends JPanel implements Runnable {
 	private boolean ingame = true;
 
 	// Game State Variables
-	private Integer budget = 150;
+	private Integer budget = 1500;
 	Double airQual = 1000.0;
 	private Integer level = 1;
 	private Integer landFillScore = 0;
 	private Integer escapedTrash =0;
-	public Integer getLandFillScore() {
-		return landFillScore;
-	}
+	
 
 	// Game State Lists
 	static ArrayList<ImageIcon> messages=new ArrayList<ImageIcon>();
@@ -83,6 +82,9 @@ public class Board extends JPanel implements Runnable {
 		ii = new ImageIcon(this.getClass().getResource("pics/landfill.png"));
 		landFill = ii.getImage();
 
+		ii = new ImageIcon(this.getClass().getResource(
+		"pics/outline.png"));
+		outline = ii.getImage();
 
 		
 		
@@ -145,6 +147,11 @@ public class Board extends JPanel implements Runnable {
 						(int) curTower.getArmY(), this);
 				g2d.drawImage(curTower.getBaseImage(), (int) curTower.getX(),
 						(int) curTower.getY(), this);
+				if(curTower.isHighLight()){
+					
+					g2d.drawImage(outline,(int) curTower.getX()-10,
+							(int) curTower.getY()-10, this);
+				}
 
 			}
 
@@ -362,6 +369,20 @@ public class Board extends JPanel implements Runnable {
 		}
 	}
 
+	public Tower onTowerReturn(int x, int y){
+        for(int i=0; i<towers.size(); i++){
+            int tX=towers.get(i).getX();
+            int tY=towers.get(i).getY();
+            int tW=towers.get(i).getWidth();
+            int tH=towers.get(i).getHeight();
+            
+            if(tX<=x && tX+tW>=x && tY<=y && tY+tH>=y){
+                return towers.get(i);
+            }
+        }
+        return null;
+    }
+	
 	public boolean onTower(int x, int y){
         for(int i=0; i<towers.size(); i++){
             int tX=towers.get(i).getX();
@@ -446,4 +467,13 @@ public class Board extends JPanel implements Runnable {
 	public Integer getLevel() {
 		return level;
 	}
+	
+	public void sellTower(Tower t, int cost){
+		budget+=cost;
+		towers.remove(t);
+	}
+	public Integer getLandFillScore() {
+		return landFillScore;
+	}
+	
 }

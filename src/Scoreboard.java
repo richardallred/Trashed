@@ -14,7 +14,7 @@ public class Scoreboard extends JPanel  implements Runnable{
 	
 	Board gameBoard;
 	private Thread score;
-	private Font smallfont = new Font("Comic Sans", Font.BOLD, 16);
+	private Font smallfont = new Font("Georgia", Font.BOLD, 16);
 	private final int DELAY = 50;
 	private JLabel info = new JLabel("");
 
@@ -23,10 +23,12 @@ public class Scoreboard extends JPanel  implements Runnable{
 		setDoubleBuffered(true);
 		this.gameBoard=gameBoard;
 		info.setBounds(0, 0, 900, 50);
-		info.setText("Air Quality: " + gameBoard.airQual.toString() + " |  Budget: $"
-				+ gameBoard.getBudget().toString() + "  | Level: " + gameBoard.getLevel().toString()
+		info.setText("Level: " + gameBoard.getLevel().toString() + " |  Budget: $"
+				+ gameBoard.getBudget().toString() + "  | Air Quality: " + gameBoard.airQual.toString()
 				+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
 				+ gameBoard.getLandFillScore().toString() + "% Full");
+		info.setFont(smallfont);
+		info.setForeground(Color.DARK_GRAY);
 		add(info);
 	}
 	
@@ -35,15 +37,7 @@ public class Scoreboard extends JPanel  implements Runnable{
 		score = new Thread(this);
 		score.start();
 	}
-	/*
-	public void paint(Graphics g){
-		info.setText("Air Quality: " + gameBoard.airQual.toString() + " |  Budget: $"
-				+ gameBoard.getBudget().toString() + "  | Level: " + gameBoard.getLevel().toString()
-				+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
-				+ gameBoard.getLandFillScore().toString() + "% Full");
-	}*/
 	
-
 	@Override
 	public void run() {
 		long beforeTime, timeDiff, sleep;
@@ -53,8 +47,8 @@ public class Scoreboard extends JPanel  implements Runnable{
 		while (true) {
 
 			long pause = 0;
-			info.setText("Air Quality: " + gameBoard.airQual.toString() + " |  Budget: $"
-					+ gameBoard.getBudget().toString() + "  | Level: " + gameBoard.getLevel().toString()
+			info.setText("Level: " + gameBoard.getLevel().toString() + " |  Budget: $"
+					+ gameBoard.getBudget().toString() + "  | Air Quality: " + gameBoard.airQual.toString()
 					+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
 					+ gameBoard.getLandFillScore().toString() + "% Full");
 			repaint();

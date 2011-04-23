@@ -26,7 +26,7 @@ public class Main extends JFrame {
 	    Board board= new Board();
 	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900,650);
+        setSize(900,655);
         setLocationRelativeTo(null);
         setTitle("Trashed");
         setResizable(false);
@@ -37,7 +37,7 @@ public class Main extends JFrame {
         menu.setBounds(600, 0, 300, 600);
         
         JPanel scoreBoard=new Scoreboard(board);
-        scoreBoard.setBounds(0,600,900, 50);
+        scoreBoard.setBounds(0,600,900, 55);
         
 
         add(menu);

@@ -25,7 +25,6 @@ public class WaveGen {
     	spacing = 135;
     	speed =2;
     	types.add(Util.TrashType.paper);
-    	
     		
     	}else if (level ==2){
     	
