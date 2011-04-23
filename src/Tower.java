@@ -8,16 +8,16 @@ public class Tower {
 	Util.TowerType type;
 	String dir;
 	private int x, y, armX, armY, width, height;
-	private boolean isFiring;
-	private int rate, range;
-	private int fireCounter = 0;
+	protected boolean isFiring;
+	protected int rate;
+	private int range;
+	protected int fireCounter = 0;
 	private boolean turnedAround = false;
 	private boolean trashRemoves = false;
 	private Trash theTrash;
 	int curPath;
 
-	Tower(int initX, int initY, int fireRate, int towerRange,
-			Util.TowerType type, boolean isValid, String dir) {
+	Tower(int initX, int initY, int fireRate, int towerRange, Util.TowerType type, boolean isValid, String dir) {
 		ImageIcon ii;
 		// Get image for the base
 		ii = getBaseImageIcon(type, dir, isValid);
@@ -61,8 +61,7 @@ public class Tower {
 		} else {
 			typeString = "Recycle";
 		}
-		ii = new ImageIcon(this.getClass().getResource(
-				"pics/Towers/" + typeString + "/arm" + dir + ".png"));
+		ii = new ImageIcon(this.getClass().getResource("pics/Towers/" + typeString + "/arm" + dir + ".png"));
 		return ii;
 	}
 
@@ -179,7 +178,6 @@ public class Tower {
 				theTrash.removeImage();
 				trashRemoves = true;
 			}
-			
 			extendArm(-rate);
 			fireCounter += rate;
 		} else {

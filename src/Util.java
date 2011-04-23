@@ -1,7 +1,7 @@
 public class Util {
     
     enum TowerType {incenerator, compactor, recycle,windmill,compost,metal};
-    enum TrashType {paper, plastic, metal,food};
+    enum TrashType {paper, plastic, metal,food, aluminum};
     
   //Board Dimensions used for making the path
     static final int boardWidth=600;
