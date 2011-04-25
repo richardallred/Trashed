@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,10 +23,11 @@ public class Menu extends JPanel implements Runnable {
 	static private boolean addWindmillTower = false;
 	static private boolean addMetalTower = false;
 	static private boolean addCompostTower = false;
+	static private boolean addNuclearTower = false;
 	private boolean startWave = false;
 	private String currentTowerDirection = "South";
 	private JLabel info = new JLabel("");
-	private JButton sellButton;
+	private JButton sellButton,cancelButton,muteButton,bckgrdMuteButton, effectMuteButton;
 	private Tower clickedTower;
 
 	public Menu(Board board) {
@@ -43,31 +45,44 @@ public class Menu extends JPanel implements Runnable {
 		
 		JButton inceneratorButton = new JButton("Incenerator-$100");
 		inceneratorButton.addActionListener(new TowerButtonListener(Util.TowerType.incenerator));
-		inceneratorButton.setBounds(0, 150, 150, 50);
+		inceneratorButton.setBounds(0, 250, 150, 50);
 		
 		JButton recycleButton = new JButton("Recycling-$200");
 		recycleButton.addActionListener(new TowerButtonListener(Util.TowerType.recycle));
-		recycleButton.setBounds(150, 150, 150, 50);
+		recycleButton.setBounds(150, 250, 150, 50);
 		
 		JButton metalButton = new JButton("Scrap Metal-$250");
 		metalButton.addActionListener(new TowerButtonListener(Util.TowerType.metal));
-		metalButton.setBounds(0, 200, 150, 50);
+		metalButton.setBounds(0, 300, 150, 50);
 		
 		JButton compostButton = new JButton("Compost-$250");
 		compostButton.addActionListener(new TowerButtonListener(Util.TowerType.compost));
-		compostButton.setBounds(150, 200, 150, 50);
+		compostButton.setBounds(150, 300, 150, 50);
 		
 		JButton windmillButton = new JButton("Windmill-$300");
 		windmillButton.addActionListener(new TowerButtonListener(Util.TowerType.windmill));
-		windmillButton.setBounds(0,250,150, 50);
+		windmillButton.setBounds(0,350,150, 50);
+		
+		JButton nuclearButton = new JButton("Nuclear-$400");
+		nuclearButton.addActionListener(new TowerButtonListener(Util.TowerType.nuclear));
+		nuclearButton.setBounds(150,350,150, 50);
 		
 		JButton startWaveButton = new JButton("Send Next Wave");
 		startWaveButton.addActionListener(new StartWaveButtonListener());
-		startWaveButton.setBounds(0, 300, 300, 50);
+		startWaveButton.setBounds(0, 450, 300, 50);
 		
-		JButton muteButton = new JButton("Mute");
+		muteButton = new JButton("Mute");
 		muteButton.addActionListener(new MuteButtonListener());
-		muteButton.setBounds(0, 350, 100, 50);
+		muteButton.setBounds(0, 550, 100, 50);
+		
+		bckgrdMuteButton = new JButton("Mute Music");
+		bckgrdMuteButton.addActionListener(new BackgroundMuteButtonListener());
+		bckgrdMuteButton.setBounds(100, 550, 100, 50);
+		
+		effectMuteButton = new JButton("Mute Effects");
+		effectMuteButton.addActionListener(new EffectMuteButtonListener());
+		effectMuteButton.setBounds(200,550, 100, 50);
+		
 		
 		
 		add(info);
@@ -76,11 +91,23 @@ public class Menu extends JPanel implements Runnable {
 		add(metalButton);
 		add(windmillButton);
 		add(compostButton);
+		add(nuclearButton);
 		add(startWaveButton);
 		add(muteButton);
+		add(bckgrdMuteButton);
+		add(effectMuteButton);
 
 	}
 
+	private class CancelButtonListener implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e){
+			resetButtons();
+			gameBoard.pendingTower=null;
+			remove(cancelButton);
+		}
+	}
 	private class StartWaveButtonListener implements ActionListener {
 
 		@Override
@@ -110,14 +137,54 @@ public class Menu extends JPanel implements Runnable {
 		}
 	}
 	
+	private class EffectMuteButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (gameBoard.effectMute) {
+				gameBoard.effectMute=false;
+				effectMuteButton.setBackground(null);
+				effectMuteButton.setForeground(null);
+			} else {
+				gameBoard.effectMute=true;
+				effectMuteButton.setBackground(Color.red);
+				effectMuteButton.setForeground(Color.black);
+			}
+
+		}
+	}
+	
+	
+	
 	private class MuteButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (gameBoard.isMuted()) {
+			if (gameBoard.muted) {
 				gameBoard.startMusic();
+				muteButton.setBackground(null);
+				muteButton.setForeground(null);
 			} else {
 				gameBoard.stopMusic();
+				muteButton.setBackground(Color.red);
+				muteButton.setForeground(Color.black);
+			}
+
+		}
+	}
+	
+	private class BackgroundMuteButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (gameBoard.backMute) {
+				gameBoard.backMute=false;
+				bckgrdMuteButton.setBackground(null);
+				bckgrdMuteButton.setForeground(null);
+			} else {
+				gameBoard.backMute=true;
+				bckgrdMuteButton.setBackground(Color.red);
+				bckgrdMuteButton.setForeground(Color.black);
 			}
 
 		}
@@ -131,6 +198,7 @@ public class Menu extends JPanel implements Runnable {
 				addRecycleTower = false;
 				addWindmillTower = false;
 				addCompostTower = false;
+				addNuclearTower = false;
 				break;
 			case recycle:
 				addRecycleTower = !addRecycleTower;
@@ -138,6 +206,7 @@ public class Menu extends JPanel implements Runnable {
 				addMetalTower = false;
 				addCompostTower = false;
 				addWindmillTower = false;
+				addNuclearTower = false;
 				break;
 			case windmill:
 				addWindmillTower = !addWindmillTower;
@@ -145,6 +214,7 @@ public class Menu extends JPanel implements Runnable {
 				addInceneratorTower = false;
 				addRecycleTower = false;
 				addCompostTower = false;
+				addNuclearTower = false;
 				break;
 			case incenerator:
 				addInceneratorTower = !addInceneratorTower;
@@ -152,6 +222,7 @@ public class Menu extends JPanel implements Runnable {
 				addWindmillTower = false;
 				addMetalTower = false;	
 				addCompostTower = false;
+				addNuclearTower = false;
 				break;
 			case compost:
 				addCompostTower = !addCompostTower;
@@ -159,6 +230,15 @@ public class Menu extends JPanel implements Runnable {
 				addRecycleTower = false;
 				addWindmillTower = false;
 				addMetalTower = false;	
+				addNuclearTower = false;
+				break;
+			case nuclear:
+				addNuclearTower = !addNuclearTower;
+				addInceneratorTower = false;
+				addRecycleTower = false;
+				addWindmillTower = false;
+				addMetalTower = false;	
+				addCompostTower= false;
 				break;
 				
 		}
@@ -185,6 +265,10 @@ public class Menu extends JPanel implements Runnable {
 				fixBooleans(thisType);
 				gameBoard.pendingTower = null;
 				setInfoText(thisType);
+				cancelButton = new JButton("Cancel Purchase");
+				cancelButton.setBounds(50, 135, 200, 50);
+				cancelButton.addActionListener(new CancelButtonListener());
+				add(cancelButton);
 			}
 		}
 	}
@@ -219,7 +303,7 @@ public class Menu extends JPanel implements Runnable {
 							clickedTower=gameBoard.onTowerReturn(mouseX, mouseY);
 							int cost=(int)(getCost(clickedTower.type)*.75);
 							sellButton = new JButton("Sell Tower $"+cost);
-							sellButton.setBounds(15, 75, 135, 50);
+							sellButton.setBounds(15, 135, 135, 50);
 							sellButton.addActionListener(new SellTowerButtonListener(clickedTower,cost));
 							add(sellButton);
 							setInfoText(clickedTower.type);
@@ -228,7 +312,9 @@ public class Menu extends JPanel implements Runnable {
 							info.setText("");
 							if(sellButton !=null){
 								remove(sellButton);
-								clickedTower.setHighLight(false);
+								if(clickedTower != null){
+									clickedTower.setHighLight(false);
+								}
 							}
 							clickedTower=null;
 							
@@ -250,10 +336,15 @@ public class Menu extends JPanel implements Runnable {
 						} else if ((addMetalTower)) {
 	
 							type = Util.TowerType.metal;
+							
 						} else if ((addCompostTower)) {
 							
 							type = Util.TowerType.compost;
-							System.out.println("Compost");
+							
+						} else if ((addNuclearTower)) {
+							
+							type = Util.TowerType.nuclear;
+							
 						}
 	
 						boolean isValid = validTower(mouseX, mouseY, type);
@@ -264,6 +355,7 @@ public class Menu extends JPanel implements Runnable {
 							gameBoard.removeMoney(getCost(type));
 							gameBoard.pendingTower = null;
 							resetButtons();
+							remove(cancelButton);
 						}
 					
 					}
@@ -287,6 +379,10 @@ public class Menu extends JPanel implements Runnable {
 						type = Util.TowerType.metal;
 					} else if ((addCompostTower)) {
 						type = Util.TowerType.compost;
+					} else if ((addNuclearTower)) {
+						
+						type = Util.TowerType.nuclear;
+						
 					}
 
 					boolean isValid = validTower(mouseX, mouseY, type);
@@ -355,6 +451,13 @@ public class Menu extends JPanel implements Runnable {
 				gameBoard.pendingTower = new Tower(adjX, adjY, 1, 30, type,
 						isValid, currentTowerDirection);
 	
+			} else if ((addNuclearTower)) {
+
+				type = Util.TowerType.nuclear;
+				boolean isValid = validTower(mouseX, mouseY, type);
+				gameBoard.pendingTower = new Tower(adjX, adjY, 1, 30, type,
+						isValid, currentTowerDirection);
+	
 			}
 
 		}
@@ -384,6 +487,7 @@ public class Menu extends JPanel implements Runnable {
 		addRecycleTower = false;
 		addWindmillTower = false;
 		addCompostTower = false;
+		addNuclearTower= false;
 		info.setText("");
 	}
 
@@ -415,6 +519,8 @@ public class Menu extends JPanel implements Runnable {
 				return 200;
 			case compactor:
 				return 500;
+			case nuclear:
+				return 400;
 			}
 		return 0;
 	}
@@ -451,6 +557,7 @@ public class Menu extends JPanel implements Runnable {
 			case recycle: info.setText("<html>Recycle Bins are able to recycle paper, plastic, and aluminum and help to improve air quality</html>"); break;
 			case windmill: info.setText("<html>Windmills help to create clean energy for your town, therefore saving you money each round on energy costs</html>"); break;
 			case compost: info.setText("<html>Compost has the ability to properly dispose of food trash that comes through the level and provides more money than using another type of tower on this trash</html>"); break;
+			case nuclear: info.setText("<html>Nuclear waste centers are for disposing of nuclear waste before it reaches the landfill, they are the only towers that can handle this type of waste</html>"); break;
 		}
 	}
 
