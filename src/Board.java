@@ -63,7 +63,7 @@ public class Board extends JPanel implements Runnable {
 	private boolean paintLevel =false;
 
 	// Game State Variables
-	private Integer budget = 1500;
+	private Integer budget = 200;
 	Double airQual = 1000.0;
 	private Integer level = 1;
 	private Integer landFillScore = 0;

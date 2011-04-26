@@ -27,7 +27,7 @@ public class WaveGen {
 			num =10;
 			spacing = 135;
 			speed =2;     //high for testing purposes, should be 2
-			types.add(Util.TrashType.nuclear);
+			types.add(Util.TrashType.paper);
 
 
 
@@ -54,6 +54,33 @@ public class WaveGen {
 			speed = 4;
 			types.add(Util.TrashType.plastic);
 			types.add(Util.TrashType.aluminum);
+		}else if (level ==5){
+			num = 30;
+			spacing= 60;
+			speed = 5;
+			types.add(Util.TrashType.styrofoam);
+			types.add(Util.TrashType.plastic);
+			types.add(Util.TrashType.aluminum);
+		}else if (level ==6){
+			num = 35;
+			spacing= 50;
+			speed = 6;
+			types.add(Util.TrashType.styrofoam);
+			types.add(Util.TrashType.paper);
+		}else if (level ==7){
+			num = 40;
+			spacing= 46;
+			speed = 7;
+			types.add(Util.TrashType.styrofoam);
+			types.add(Util.TrashType.aluminum);
+		}else if (level ==8){
+			num = 35;
+			spacing= 50;
+			speed = 6;
+			types.add(Util.TrashType.aluminum);
+			types.add(Util.TrashType.metal);
+			
+			
 		}
 
 
