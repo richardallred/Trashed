@@ -489,6 +489,12 @@ public class Board extends JPanel implements Runnable {
 		budget+=cost;
 		towers.remove(t);
 	}
+	
+	public void upgradeTower(Tower t, int cost){
+		budget-=cost;
+		t.upgrade();
+	}
+	
 	public Integer getLandFillScore() {
 		return landFillScore;
 	}

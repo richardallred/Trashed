@@ -20,6 +20,7 @@ public class Tower {
 	private boolean isFiring;
 	private int rate, range;
 	private int fireCounter = 0;
+	private int killCount = 0;
 	private boolean turnedAround = false;
 	private boolean trashRemoves = false;
 	private boolean highlighted = false;
@@ -202,7 +203,8 @@ public class Tower {
 		} else if (fireCounter <= Util.pathWidth * 2) {
 			if (!trashRemoves){
 				theTrash.removeImage();
-				if(!Board.muted){
+				killCount++;
+				if(!Board.effectMute){
 
 	                   String path = System.getProperty("user.dir");
 	                   path += "/Resources/audio/trashkill.wav";
@@ -317,5 +319,13 @@ public class Tower {
 	}
 	public boolean isHighLight(){
 		return highlighted;
+	}
+	
+	public int getKillCount(){
+		return killCount;
+	}
+	
+	public void upgrade(){
+		rate++;
 	}
 }
