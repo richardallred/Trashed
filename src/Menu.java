@@ -160,9 +160,9 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				gameBoard.upgradeTower(toBeUpgraded, cost);
 				setTowerInfoText(toBeUpgraded);
 				remove(upgradeButton);
-				upgradeButton= new JButton("Upgrade $"+clickedTower.getUpgradeCost());
+				upgradeButton= new JButton("<html>Upgrade $"+clickedTower.getUpgradeCost()+"</html>");
 				upgradeButton.setBounds(150,135,135,50);
-				upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, cost));
+				upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
 				add(upgradeButton);
 			}
 		}
@@ -340,7 +340,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 							
 							upgradeButton= new JButton("Upgrade $"+clickedTower.getUpgradeCost());
 							upgradeButton.setBounds(150,135,135,50);
-							upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, cost));
+							upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
 							
 							add(upgradeButton);
 							add(sellButton);
@@ -598,7 +598,11 @@ private class UpgradeTowerButtonListener implements ActionListener {
 
 	}
 	public void setTowerInfoText(Tower tower){
-		towerInfo.setText("<html><center>Fire-Rate:" + tower.getRate()+" | Kills:" + tower.getKillCount()+ "</center></html>");
+		if(tower.type!=Util.TowerType.windmill){
+			towerInfo.setText("<html><center>Fire-Rate:" + tower.getRate()+" | Kills:" + tower.getKillCount()+ "</center></html>");
+		}else{
+			towerInfo.setText("<html><center>Current Bonus: $"+tower.getWindmillBonus()+"</center></html>");
+		}
 	}
 	
 	public void setInfoText(Util.TowerType type){

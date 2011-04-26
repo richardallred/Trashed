@@ -18,7 +18,7 @@ public class Tower {
 	String dir;
 	private int x, y, armX, armY, width, height;
 	private boolean isFiring;
-	private int rate, range, cost,upgradeCost;
+	private int rate, range, cost,upgradeCost,windmillBonus;
 	private int fireCounter = 0;
 	private int killCount = 0;
 	private boolean turnedAround = false;
@@ -48,7 +48,9 @@ public class Tower {
 		if (type != Util.TowerType.windmill && isValid) {
 			ii = getArmImageIcon(type, dir);
 			arm = ii.getImage();
+			windmillBonus=100;
 		}
+		windmillBonus=100;
 		
 		switch(type){
 			case compost: cost=250; break;
@@ -193,7 +195,7 @@ public class Tower {
 	}
 
 	public void extendArm(int dist) {
-		// System.out.println(dir);
+		
 		if (dir.equalsIgnoreCase("North")) {
 			armY -= dist;
 		} else if (dir.equalsIgnoreCase("South")) {
@@ -338,6 +340,9 @@ public class Tower {
 	public void upgrade(){
 		upgradeCost*=2;
 		rate++;
+		if(type==Util.TowerType.windmill){
+			windmillBonus*=2;
+		}
 	}
 		
 	
@@ -347,6 +352,10 @@ public class Tower {
 	
 	public int getUpgradeCost(){
 		return upgradeCost;
+	}
+	
+	public int getWindmillBonus(){
+		return windmillBonus;
 	}
 	
 }
