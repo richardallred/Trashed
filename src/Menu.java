@@ -292,7 +292,7 @@ public class Menu extends JPanel implements Runnable {
 				if (e.getButton() == 1) {
 					
 					//None of the buttons have been pressed
-					if(!(addCompostTower || addInceneratorTower || addMetalTower || addRecycleTower || addWindmillTower )){
+					if(!(addCompostTower || addInceneratorTower || addMetalTower || addRecycleTower || addWindmillTower || addNuclearTower )){
 						//User clicks on a tower on the board, and hasn't previously pressed any buttons
 						if(gameBoard.onTower(mouseX, mouseY)){
 							//Change to new clicked tower

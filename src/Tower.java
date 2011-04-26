@@ -64,6 +64,10 @@ public class Tower {
 
 			typeString = "Recycle";
 
+		}else if (type == Util.TowerType.nuclear) {
+
+			typeString = "Nuclear";
+
 		} else if (type == Util.TowerType.metal) {
 
 			typeString = "Metal";
@@ -107,6 +111,17 @@ public class Tower {
 			} else {
 				ii = new ImageIcon(this.getClass().getResource(
 						"pics/Towers/Recycle/base" + dir + "Invalid.png"));
+			}
+
+		} 
+		else if (type == Util.TowerType.nuclear) {
+
+			if (valid) {
+				ii = new ImageIcon(this.getClass().getResource(
+						"pics/Towers/Nuclear/base" + dir + ".png"));
+			} else {
+				ii = new ImageIcon(this.getClass().getResource(
+						"pics/Towers/Nuclear/base" + dir + "Invalid.png"));
 			}
 
 		} else if (type == Util.TowerType.metal) {

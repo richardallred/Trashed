@@ -27,9 +27,8 @@ theBoard=aBoard;
     num =10;
     spacing = 135;
     speed =2;     //high for testing purposes, should be 2
-    types.add(Util.TrashType.paper);
-    types.add(Util.TrashType.aluminum);
-    types.add(Util.TrashType.metal);
+    types.add(Util.TrashType.nuclear);
+  
 
    
     }else if (level ==2){
@@ -87,10 +86,10 @@ temp.add(new ImageIcon(this.getClass().getResource(
 "pics/welcome1.png")));
 if (level == 2)
 temp.add(new ImageIcon(this.getClass().getResource(
-"pics/welcome3.png")));
+"pics/welcome2.png")));
 if (level == 3)
 temp.add(new ImageIcon(this.getClass().getResource(
-"pics/welcome2.png")));
+"pics/welcome3.png")));
 return temp;
 }
 }

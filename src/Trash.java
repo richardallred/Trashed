@@ -26,6 +26,9 @@ public class Trash{
 	}else if(type==Util.TrashType.metal){
 		    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/metal.png"));
 		    trashPic = ii.getImage();
+	}else if(type==Util.TrashType.nuclear){
+	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/nuclear.png"));
+	    trashPic = ii.getImage();
 	}else{
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/paper.png"));
 	    trashPic = ii.getImage();
@@ -94,7 +97,13 @@ private boolean willTowerFire(Tower tower){
             if(this.type==Util.TrashType.metal){
                 return true;
             }
-        }else if(tower.getType()==Util.TowerType.recycle){
+        }
+        else if(tower.getType()==Util.TowerType.nuclear){
+            if(this.type==Util.TrashType.nuclear){
+                return true;
+            }
+        }
+        else if(tower.getType()==Util.TowerType.recycle){
             if(this.type==Util.TrashType.paper || this.type==Util.TrashType.plastic){
                 return true;
             }
