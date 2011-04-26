@@ -139,6 +139,7 @@ public class Menu extends JPanel implements Runnable {
 			upgradeButton=null;
 			info.setText("");
 			towerInfo.setText("");
+			clickedTower=null;
 		}
 	}
 	
@@ -158,6 +159,11 @@ private class UpgradeTowerButtonListener implements ActionListener {
 			if(gameBoard.getBudget()>=cost){
 				gameBoard.upgradeTower(toBeUpgraded, cost);
 				setTowerInfoText(toBeUpgraded);
+				remove(upgradeButton);
+				upgradeButton= new JButton("Upgrade $"+clickedTower.getUpgradeCost());
+				upgradeButton.setBounds(150,135,135,50);
+				upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, cost));
+				add(upgradeButton);
 			}
 		}
 	}
@@ -315,19 +321,27 @@ private class UpgradeTowerButtonListener implements ActionListener {
 							//Change to new clicked tower
 							if(clickedTower != null){
 								clickedTower.setHighLight(false);
-								remove(upgradeButton);
-								remove(sellButton);
-								sellButton=null;
-								upgradeButton=null;
+								if(upgradeButton != null){
+									remove(upgradeButton);
+									upgradeButton=null;
+								}
+								if(sellButton != null){
+									remove(sellButton);
+									sellButton=null;
+								}
 							}
 							clickedTower=gameBoard.onTowerReturn(mouseX, mouseY);
 							int cost=(int)(getCost(clickedTower.type)*.75);
+							
 							sellButton = new JButton("Sell $"+cost);
 							sellButton.setBounds(15, 135, 135, 50);
 							sellButton.addActionListener(new SellTowerButtonListener(clickedTower,cost));
-							upgradeButton= new JButton("Upgrade $"+cost*2);
+							
+							
+							upgradeButton= new JButton("Upgrade $"+clickedTower.getUpgradeCost());
 							upgradeButton.setBounds(150,135,135,50);
 							upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, cost));
+							
 							add(upgradeButton);
 							add(sellButton);
 							setInfoText(clickedTower.type);
@@ -518,6 +532,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 		addNuclearTower= false;
 		info.setText("");
 		towerInfo.setText("");
+		clickedTower=null;
 	}
 
 	public boolean validTower(int x, int y, Util.TowerType type) {

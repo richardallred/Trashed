@@ -51,7 +51,6 @@ public class Board extends JPanel implements Runnable {
 	// Audio Player
 	AudioInputStream as;
 	static Boolean muted = false;
-	static Boolean backMute = false;
 	static Boolean effectMute = false;
 	private Clip clip;
 

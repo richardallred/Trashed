@@ -18,7 +18,7 @@ public class Tower {
 	String dir;
 	private int x, y, armX, armY, width, height;
 	private boolean isFiring;
-	private int rate, range;
+	private int rate, range, cost,upgradeCost;
 	private int fireCounter = 0;
 	private int killCount = 0;
 	private boolean turnedAround = false;
@@ -49,6 +49,16 @@ public class Tower {
 			ii = getArmImageIcon(type, dir);
 			arm = ii.getImage();
 		}
+		
+		switch(type){
+			case compost: cost=250; break;
+			case incenerator: cost=100; break;
+			case metal: cost=250; break;
+			case nuclear: cost=400; break;
+			case recycle: cost=200; break;
+			case windmill: cost=300; break;
+		}
+		upgradeCost=(int)(cost*1.5);
 	}
 
 	public ImageIcon getArmImageIcon(Util.TowerType type, String dir) {
@@ -326,6 +336,17 @@ public class Tower {
 	}
 	
 	public void upgrade(){
+		upgradeCost*=2;
 		rate++;
 	}
+		
+	
+	public int getCost(){
+		return cost;
+	}
+	
+	public int getUpgradeCost(){
+		return upgradeCost;
+	}
+	
 }
