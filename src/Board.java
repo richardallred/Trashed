@@ -45,8 +45,8 @@ public class Board extends JPanel implements Runnable {
 	private Image outline;
 
 	// Fonts
-	private Font bigfont = new Font("Helvetica", Font.BOLD, 25);
-	private Font smallfont = new Font("Comic Sans", Font.BOLD, 16);
+	private Font bigfont = new Font("Georgia", Font.BOLD, 30);
+	private Font smallfont = new Font("Georgia", Font.BOLD, 16);
 
 	// Audio Player
 	AudioInputStream as;
@@ -60,6 +60,7 @@ public class Board extends JPanel implements Runnable {
 	// Game State Booleans
 	public static boolean inBetweenLevels = true;
 	private boolean ingame = true;
+	private boolean paintLevel =false;
 
 	// Game State Variables
 	private Integer budget = 1500;
@@ -198,9 +199,13 @@ public class Board extends JPanel implements Runnable {
 
 			if(inBetweenLevels)
 			{
-				if(messages.size()!=0)
+				if(messages.size()!=0){
 					g2d.drawImage(messages.get(0).getImage(),135,135
 							,this);
+				}
+				g2d.setFont(bigfont);
+				g2d.setColor(Color.DARK_GRAY);
+				g2d.drawString("Level "+level, 300, 550);
 			}
 
 		} else {
@@ -264,12 +269,15 @@ public class Board extends JPanel implements Runnable {
 		ingame = true;
 
 		while (true) {
+			
 			trash = Wave.getWave(level);
 			messages=Wave.getMessages(level);
+			
 			while (trash.size() > 0) {
+				
 				counter++;
-
 				long pause = 0;
+				
 				while (inBetweenLevels) {
 					repaint();
 				}

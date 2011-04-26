@@ -437,6 +437,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 			if(Board.inBetweenLevels&&Board.messages.size()!=0)
 			{
 				Board.messages.remove(0);
+				Board.inBetweenLevels=false;
 			}
 
 
