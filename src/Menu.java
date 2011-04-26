@@ -48,43 +48,41 @@ public class Menu extends JPanel implements Runnable {
 		
 		
 		
-		JButton inceneratorButton = new JButton("Incenerator $100");
+		JButton inceneratorButton = new JButton("<html>Incenerator $100</html>");
 		inceneratorButton.addActionListener(new TowerButtonListener(Util.TowerType.incenerator));
 		inceneratorButton.setBounds(0, 250, 150, 50);
 		
-		JButton recycleButton = new JButton("Recycling $200");
+		JButton recycleButton = new JButton("<html>Recycling $200</html>");
 		recycleButton.addActionListener(new TowerButtonListener(Util.TowerType.recycle));
 		recycleButton.setBounds(150, 250, 150, 50);
 		
-		JButton metalButton = new JButton("Scrap Metal $250");
+		JButton metalButton = new JButton("<html>Scrap Metal $250</html>");
 		metalButton.addActionListener(new TowerButtonListener(Util.TowerType.metal));
 		metalButton.setBounds(0, 300, 150, 50);
 		
-		JButton compostButton = new JButton("Compost $250");
+		JButton compostButton = new JButton("<html>Compost $250</html>");
 		compostButton.addActionListener(new TowerButtonListener(Util.TowerType.compost));
 		compostButton.setBounds(150, 300, 150, 50);
 		
-		JButton windmillButton = new JButton("Windmill $300");
+		JButton windmillButton = new JButton("<html>Windmill $300</html>");
 		windmillButton.addActionListener(new TowerButtonListener(Util.TowerType.windmill));
 		windmillButton.setBounds(0,350,150, 50);
 		
-		JButton nuclearButton = new JButton("Nuclear $400");
+		JButton nuclearButton = new JButton("<html>Nuclear $400</html>");
 		nuclearButton.addActionListener(new TowerButtonListener(Util.TowerType.nuclear));
 		nuclearButton.setBounds(150,350,150, 50);
 		
-		JButton startWaveButton = new JButton("Send Next Wave");
+		JButton startWaveButton = new JButton("<html>Send Next Wave</html>");
 		startWaveButton.addActionListener(new StartWaveButtonListener());
 		startWaveButton.setBounds(0, 450, 300, 50);
 		
-		muteButton = new JButton("Mute Music ");
+		muteButton = new JButton("<html>Mute Music</html>");
 		muteButton.addActionListener(new MuteButtonListener());
 		muteButton.setBounds(0, 550, 150, 50);
 		
-		effectMuteButton = new JButton("Mute Effects");
+		effectMuteButton = new JButton("<html>Mute Effects</html>");
 		effectMuteButton.addActionListener(new EffectMuteButtonListener());
 		effectMuteButton.setBounds(150,550, 150, 50);
-		
-		
 		
 		add(info);
 		add(towerInfo);
@@ -286,7 +284,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				gameBoard.pendingTower = null;
 				setInfoText(thisType);
 				if(cancelButton==null){
-					cancelButton = new JButton("Cancel Purchase");
+					cancelButton = new JButton("<html>Cancel Purchase</html>");
 					cancelButton.setBounds(50, 135, 200, 50);
 					cancelButton.addActionListener(new CancelButtonListener());
 				}
@@ -333,20 +331,23 @@ private class UpgradeTowerButtonListener implements ActionListener {
 							clickedTower=gameBoard.onTowerReturn(mouseX, mouseY);
 							int cost=(int)(getCost(clickedTower.type)*.75);
 							
-							sellButton = new JButton("Sell $"+cost);
+							sellButton = new JButton("<html>Sell $"+cost+"</html>");
 							sellButton.setBounds(15, 135, 135, 50);
 							sellButton.addActionListener(new SellTowerButtonListener(clickedTower,cost));
 							
 							
-							upgradeButton= new JButton("Upgrade $"+clickedTower.getUpgradeCost());
+							upgradeButton= new JButton("<html>Upgrade $"+clickedTower.getUpgradeCost()+"</html>");
 							upgradeButton.setBounds(150,135,135,50);
 							upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
 							
 							add(upgradeButton);
 							add(sellButton);
+							
 							setInfoText(clickedTower.type);
 							setTowerInfoText(clickedTower);
+							
 							clickedTower.setHighLight(true);
+							
 						}else{
 							//Remove all focus from any previously clicked towers
 							info.setText("");
@@ -601,7 +602,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 		if(tower.type!=Util.TowerType.windmill){
 			towerInfo.setText("<html><center>Fire-Rate:" + tower.getRate()+" | Kills:" + tower.getKillCount()+ "</center></html>");
 		}else{
-			towerInfo.setText("<html><center>Current Bonus: $"+tower.getWindmillBonus()+"</center></html>");
+			towerInfo.setText("<html><center>Current Bonus: $"+tower.getWindmillBonus()+" each round</center></html>");
 		}
 	}
 	

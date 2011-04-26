@@ -23,8 +23,8 @@ import javax.swing.JPanel;
 public class Board extends JPanel implements Runnable {
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private static final long serialVersionUID = -5438534791450927749L;
 
 	// Global Variables
@@ -67,7 +67,7 @@ public class Board extends JPanel implements Runnable {
 	private Integer level = 1;
 	private Integer landFillScore = 0;
 	private Integer escapedTrash =0;
-	
+
 
 	// Game State Lists
 	static ArrayList<ImageIcon> messages=new ArrayList<ImageIcon>();
@@ -85,7 +85,7 @@ public class Board extends JPanel implements Runnable {
 
 		// My computer wants Board capitalized. -JJ
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(
-				"pics/Board.png"));
+		"pics/Board.png"));
 		background = ii.getImage();
 
 		ii = new ImageIcon(this.getClass().getResource("pics/landfill.png"));
@@ -95,8 +95,8 @@ public class Board extends JPanel implements Runnable {
 		"pics/outline.png"));
 		outline = ii.getImage();
 
-		
-		
+
+
 	}
 
 	public void addNotify() {
@@ -133,27 +133,27 @@ public class Board extends JPanel implements Runnable {
 
 		pathX.add(-Util.pathWidth);
 		pathY.add(Util.pathPad);
-		
+
 		String path = System.getProperty("user.dir");
-	       path += "/Resources/audio/Menu.wav";
-	       try {
-	           InputStream in = new FileInputStream(path);
-	           as = AudioSystem.getAudioInputStream(in);
-	           clip = AudioSystem.getClip();
-	           clip.open(as);
-	       } catch (FileNotFoundException e) {
-	           // TODO Auto-generated catch block
-	           e.printStackTrace();
-	       } catch (UnsupportedAudioFileException e) {
-	           // TODO Auto-generated catch block
-	           e.printStackTrace();
-	       } catch (IOException e) {
-	           // TODO Auto-generated catch block
-	           e.printStackTrace();
-	       } catch (LineUnavailableException e) {
-	           // TODO Auto-generated catch block
-	           e.printStackTrace();
-	       }
+		path += "/Resources/audio/Menu.wav";
+		try {
+			InputStream in = new FileInputStream(path);
+			as = AudioSystem.getAudioInputStream(in);
+			clip = AudioSystem.getClip();
+			clip.open(as);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void paint(Graphics g) {
@@ -178,7 +178,7 @@ public class Board extends JPanel implements Runnable {
 				g2d.drawImage(curTower.getBaseImage(), (int) curTower.getX(),
 						(int) curTower.getY(), this);
 				if(curTower.isHighLight()){
-					
+
 					g2d.drawImage(outline,(int) curTower.getX()-10,
 							(int) curTower.getY()-10, this);
 				}
@@ -193,14 +193,14 @@ public class Board extends JPanel implements Runnable {
 						(int) pendingTower.getX(), (int) pendingTower.getY(),
 						this);
 			}
-		
 
-		
+
+
 			if(inBetweenLevels)
 			{
 				if(messages.size()!=0)
-				g2d.drawImage(messages.get(0).getImage(),135,135
-						,this);
+					g2d.drawImage(messages.get(0).getImage(),135,135
+							,this);
 			}
 
 		} else {
@@ -218,7 +218,7 @@ public class Board extends JPanel implements Runnable {
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
 
-		
+
 	}
 
 	public static void startWave() {
@@ -238,18 +238,18 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	public void startMusic() {
-	       clip.loop(Clip.LOOP_CONTINUOUSLY);
-	       muted = false;
-	   }
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		muted = false;
+	}
 
-	   public boolean isMuted() {
-	       return muted;
-	   }
+	public boolean isMuted() {
+		return muted;
+	}
 
-	   public void stopMusic() {
-	       clip.stop();
-	       muted = true;
-	   }
+	public void stopMusic() {
+		clip.stop();
+		muted = true;
+	}
 
 	public void run() {
 
@@ -259,7 +259,7 @@ public class Board extends JPanel implements Runnable {
 
 		int counter = 0;
 
-		 startMusic();
+		startMusic();
 
 		ingame = true;
 
@@ -292,10 +292,10 @@ public class Board extends JPanel implements Runnable {
 							trash.get(i).setKilled();
 						}
 
-						
+
 
 					}
-					
+
 					if(trash.get(i).getImage()==null){
 						trash.remove(i);
 					}
@@ -306,9 +306,9 @@ public class Board extends JPanel implements Runnable {
 						escapedTrash +=1;
 						System.out.println(landFillScore);
 					}
-					
+
 				}
-				
+
 				for(int i=0; i<towers.size();i++){
 					if (towers.get(i).getFiring()){
 						towers.get(i).fire();
@@ -361,21 +361,21 @@ public class Board extends JPanel implements Runnable {
 		multiplier = (airQual/1000) * multiplier;
 		multiplier = (level/4) + multiplier; 
 		multiplier = multiplier - (escapedTrash/100);
-		
+
 		budget += (int)(multiplier*150);
-		
+
 	}
-	
+
 	private void calculateScore(Tower tower, Trash trash){
-		
-		if(tower.type==Util.TowerType.incenerator){
-			budget+=15;
-			airQual-=15;
-		}else{
-			budget+=25;
+
+		switch(tower.type){
+			case incenerator: 
+				budget+=15; airQual-=15; break;
+			case recycle: budget +=25; airQual+=10;
 		}
 		
-		
+
+
 	}
 
 	private void resetTowers() {
@@ -385,32 +385,32 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	public Tower onTowerReturn(int x, int y){
-        for(int i=0; i<towers.size(); i++){
-            int tX=towers.get(i).getX();
-            int tY=towers.get(i).getY();
-            int tW=towers.get(i).getWidth();
-            int tH=towers.get(i).getHeight();
-            
-            if(tX<=x && tX+tW>=x && tY<=y && tY+tH>=y){
-                return towers.get(i);
-            }
-        }
-        return null;
-    }
-	
+		for(int i=0; i<towers.size(); i++){
+			int tX=towers.get(i).getX();
+			int tY=towers.get(i).getY();
+			int tW=towers.get(i).getWidth();
+			int tH=towers.get(i).getHeight();
+
+			if(tX<=x && tX+tW>=x && tY<=y && tY+tH>=y){
+				return towers.get(i);
+			}
+		}
+		return null;
+	}
+
 	public boolean onTower(int x, int y){
-        for(int i=0; i<towers.size(); i++){
-            int tX=towers.get(i).getX();
-            int tY=towers.get(i).getY();
-            int tW=towers.get(i).getWidth();
-            int tH=towers.get(i).getHeight();
-            
-            if(tX<=x && tX+tW>=x && tY<=y && tY+tH>=y){
-                return true;
-            }
-        }
-        return false;
-    }
+		for(int i=0; i<towers.size(); i++){
+			int tX=towers.get(i).getX();
+			int tY=towers.get(i).getY();
+			int tW=towers.get(i).getWidth();
+			int tH=towers.get(i).getHeight();
+
+			if(tX<=x && tX+tW>=x && tY<=y && tY+tH>=y){
+				return true;
+			}
+		}
+		return false;
+	}
 	// Method to determine if the user is adding the tower on top of the path
 	public boolean inPath(int x, int y) {
 
@@ -435,31 +435,31 @@ public class Board extends JPanel implements Runnable {
 		} else if (x < Util.boardWidth - Util.pathPad + (Util.towerWidth / 2)
 				&& x > Util.pathPad - (Util.towerWidth / 2)
 				&& y > Util.pathPad + Util.pathWidth + Util.gapPad
-						- (Util.towerWidth / 2)
+				- (Util.towerWidth / 2)
 				&& y < Util.pathPad + (2 * Util.pathWidth) + Util.gapPad
-						+ (Util.towerWidth / 2)) {
+				+ (Util.towerWidth / 2)) {
 			return true;
 			// Second Down
 		} else if (x > Util.pathPad - (Util.towerWidth / 2)
 				&& x < Util.pathPad + Util.pathWidth + (Util.towerWidth / 2)
 				&& y > Util.pathPad + Util.pathWidth + Util.gapPad
-						- (Util.towerWidth / 2)
+				- (Util.towerWidth / 2)
 				&& y < Util.pathPad + 2 * Util.pathWidth + 2 * Util.gapPad
-						+ (Util.towerWidth / 2)) {
+				+ (Util.towerWidth / 2)) {
 			return true;
 			// Second Switch Back
 		} else if (x > Util.pathPad - (Util.towerWidth / 2)
 				&& x < Util.boardWidth - Util.pathPad + (Util.towerWidth / 2)
 				&& y > Util.pathPad + 2 * Util.pathWidth + 2 * Util.gapPad
-						- (Util.towerWidth / 2)
+				- (Util.towerWidth / 2)
 				&& y < Util.pathPad + (3 * Util.pathWidth) + 2 * Util.gapPad
-						+ (Util.towerWidth / 2)) {
+				+ (Util.towerWidth / 2)) {
 			return true;
 			// Third Down
 		} else if ((x < Util.boardWidth - Util.pathPad + (Util.towerWidth / 2) && x > (Util.boardWidth
 				- Util.pathPad - Util.pathWidth - (Util.towerWidth / 2)))
 				&& y > Util.pathPad + (3 * Util.pathWidth) + 2 * Util.gapPad
-						+ (Util.towerWidth / 2)) {
+				+ (Util.towerWidth / 2)) {
 			return true;
 		}
 
@@ -482,19 +482,19 @@ public class Board extends JPanel implements Runnable {
 	public Integer getLevel() {
 		return level;
 	}
-	
+
 	public void sellTower(Tower t, int cost){
 		budget+=cost;
 		towers.remove(t);
 	}
-	
+
 	public void upgradeTower(Tower t, int cost){
 		budget-=cost;
 		t.upgrade();
 	}
-	
+
 	public Integer getLandFillScore() {
 		return landFillScore;
 	}
-	
+
 }

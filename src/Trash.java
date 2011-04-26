@@ -29,6 +29,12 @@ public class Trash{
 	}else if(type==Util.TrashType.nuclear){
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/nuclear.png"));
 	    trashPic = ii.getImage();
+	}else if(type==Util.TrashType.styrofoam){
+		ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/styrofoam.png"));
+		trashPic = ii.getImage();
+	}else if(type==Util.TrashType.food){
+		ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/food.png"));
+		trashPic = ii.getImage();
 	}else{
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/paper.png"));
 	    trashPic = ii.getImage();
@@ -92,7 +98,10 @@ private boolean willTowerFire(Tower tower){
                 return true;
             }
         }else if(tower.getType()==Util.TowerType.incenerator){
-            return true;
+            if(this.type == Util.TrashType.paper || this.type==Util.TrashType.plastic || this.type == Util.TrashType.styrofoam || this.type==Util.TrashType.styrofoam){
+            	return true;
+            }
+        
         }else if(tower.getType()==Util.TowerType.metal){
             if(this.type==Util.TrashType.metal){
                 return true;
@@ -104,7 +113,7 @@ private boolean willTowerFire(Tower tower){
             }
         }
         else if(tower.getType()==Util.TowerType.recycle){
-            if(this.type==Util.TrashType.paper || this.type==Util.TrashType.plastic){
+            if(this.type==Util.TrashType.paper || this.type==Util.TrashType.plastic || this.type==Util.TrashType.aluminum){
                 return true;
             }
         }
