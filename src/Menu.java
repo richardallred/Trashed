@@ -38,7 +38,6 @@ public class Menu extends JPanel implements Runnable {
 		board.addMouseMotionListener(new Mouse());
 		setLayout(null);
 		
-		
 		info.setHorizontalAlignment(SwingConstants.CENTER);
 		info.setBounds(5,0, 290, 100);
 		
@@ -46,41 +45,39 @@ public class Menu extends JPanel implements Runnable {
 		towerInfo.setVerticalAlignment(SwingConstants.CENTER);
 		towerInfo.setBounds(5, 170, 290, 50);
 		
-		
-		
-		JButton inceneratorButton = new JButton("<html>Incenerator $100</html>");
+		JButton inceneratorButton = new JButton("<html><center>Incenerator $100</center></html>");
 		inceneratorButton.addActionListener(new TowerButtonListener(Util.TowerType.incenerator));
 		inceneratorButton.setBounds(0, 250, 150, 50);
 		
-		JButton recycleButton = new JButton("<html>Recycling $200</html>");
+		JButton recycleButton = new JButton("<html><center>Recycling $200</center></html>");
 		recycleButton.addActionListener(new TowerButtonListener(Util.TowerType.recycle));
 		recycleButton.setBounds(150, 250, 150, 50);
 		
-		JButton metalButton = new JButton("<html>Scrap Metal $250</html>");
+		JButton metalButton = new JButton("<html><center>Scrap Metal $250</center></html>");
 		metalButton.addActionListener(new TowerButtonListener(Util.TowerType.metal));
 		metalButton.setBounds(0, 300, 150, 50);
 		
-		JButton compostButton = new JButton("<html>Compost $250</html>");
+		JButton compostButton = new JButton("<html><center>Compost $250</center></html>");
 		compostButton.addActionListener(new TowerButtonListener(Util.TowerType.compost));
 		compostButton.setBounds(150, 300, 150, 50);
 		
-		JButton windmillButton = new JButton("<html>Windmill $300</html>");
+		JButton windmillButton = new JButton("<html><center>Windmill $300</center></html>");
 		windmillButton.addActionListener(new TowerButtonListener(Util.TowerType.windmill));
 		windmillButton.setBounds(0,350,150, 50);
 		
-		JButton nuclearButton = new JButton("<html>Nuclear $400</html>");
+		JButton nuclearButton = new JButton("<html><center>Nuclear $400</center></html>");
 		nuclearButton.addActionListener(new TowerButtonListener(Util.TowerType.nuclear));
 		nuclearButton.setBounds(150,350,150, 50);
 		
-		JButton startWaveButton = new JButton("<html>Send Next Wave</html>");
+		JButton startWaveButton = new JButton("<html><center>Send Next Wave</center></html>");
 		startWaveButton.addActionListener(new StartWaveButtonListener());
 		startWaveButton.setBounds(0, 450, 300, 50);
 		
-		muteButton = new JButton("<html>Mute Music</html>");
+		muteButton = new JButton("<html><center>Mute Music</center></html>");
 		muteButton.addActionListener(new MuteButtonListener());
 		muteButton.setBounds(0, 550, 150, 50);
 		
-		effectMuteButton = new JButton("<html>Mute Effects</html>");
+		effectMuteButton = new JButton("<html><center>Mute Effects</center></html>");
 		effectMuteButton.addActionListener(new EffectMuteButtonListener());
 		effectMuteButton.setBounds(150,550, 150, 50);
 		
@@ -158,7 +155,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				gameBoard.upgradeTower(toBeUpgraded, cost);
 				setTowerInfoText(toBeUpgraded);
 				remove(upgradeButton);
-				upgradeButton= new JButton("<html>Upgrade $"+clickedTower.getUpgradeCost()+"</html>");
+				upgradeButton= new JButton("<html><center>Upgrade $"+clickedTower.getUpgradeCost()+"</center></html>");
 				upgradeButton.setBounds(150,135,135,50);
 				upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
 				add(upgradeButton);
@@ -284,7 +281,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				gameBoard.pendingTower = null;
 				setInfoText(thisType);
 				if(cancelButton==null){
-					cancelButton = new JButton("<html>Cancel Purchase</html>");
+					cancelButton = new JButton("<html><center>Cancel Purchase</center></html>");
 					cancelButton.setBounds(50, 135, 200, 50);
 					cancelButton.addActionListener(new CancelButtonListener());
 				}
@@ -331,12 +328,12 @@ private class UpgradeTowerButtonListener implements ActionListener {
 							clickedTower=gameBoard.onTowerReturn(mouseX, mouseY);
 							int cost=(int)(getCost(clickedTower.type)*.75);
 							
-							sellButton = new JButton("<html>Sell $"+cost+"</html>");
+							sellButton = new JButton("<html><center>Sell $"+cost+"</center></html>");
 							sellButton.setBounds(15, 135, 135, 50);
 							sellButton.addActionListener(new SellTowerButtonListener(clickedTower,cost));
 							
 							
-							upgradeButton= new JButton("<html>Upgrade $"+clickedTower.getUpgradeCost()+"</html>");
+							upgradeButton= new JButton("<html><center>Upgrade $"+clickedTower.getUpgradeCost()+"</center></html>");
 							upgradeButton.setBounds(150,135,135,50);
 							upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
 							
