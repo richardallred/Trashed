@@ -135,17 +135,6 @@ private boolean willTowerFire(Tower tower){
                    tempX=tempX+speed*Math.round(Math.cos(angle));
                    tempY=tempY+speed*Math.round(Math.sin(angle));
                }
-               //if any 4 corners of trash inside 4 corners of range: FIRE!
-               //Tower Coords:
-               //(x,y) = (curTower.getX, curTower.getY()+2*curTower.getMidY())
-               //(x,y) = (curTower.getX, curTower.getY()+2*curTower.getMidY()+curTower.getRange())
-               //(x,y) = (curTower.getX + curTower.getWidth, curTower.getY()+2*curTower.getMidY())
-               //(x,y) = (curTower.getX + curTower.getWidth, curTower.getY()+2*curTower.getMidY()+curTower.getRange())
-               //Trash Coords:
-               //(x,y) = (x,y)
-               //(x,y) = (x + trashPic.getWidth(null),y)
-               //(x,y) = (x,y + trashPic.getHeight(null))
-               //(x,y) = (x + trashPic.getWidth(null), y + trashPic.getHeight(null);
 
                if(tower.getDirection().equalsIgnoreCase("South")){
                    if(tempX+trashPic.getWidth(null)/2>=tower.getX()+tower.getWidth()/2-Math.ceil(speed/2) && tempX+trashPic.getWidth(null)/2<=tower.getX() + tower.getWidth()/2+Math.ceil(speed/2)){

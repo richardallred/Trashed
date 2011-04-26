@@ -345,10 +345,9 @@ public class Board extends JPanel implements Runnable {
 			level++;
 			calculateBonus();
 
-			
 			inBetweenLevels = true;
 
-			if (level > 5) {
+			if (airQual <= 0 || landFillScore>=100) {
 				break;
 			}
 
