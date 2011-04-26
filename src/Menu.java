@@ -145,18 +145,20 @@ public class Menu extends JPanel implements Runnable {
 private class UpgradeTowerButtonListener implements ActionListener {
 		
 		Tower toBeUpgraded;
-		int moneyBack=0;
+		int cost=0;
 		
 		public UpgradeTowerButtonListener(Tower t, int cost){
 			toBeUpgraded=t;
-			moneyBack=cost;
+			this.cost=cost;
 		}
 		
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			gameBoard.upgradeTower(toBeUpgraded, moneyBack);
-			setTowerInfoText(toBeUpgraded);
+			if(gameBoard.getBudget()>=cost){
+				gameBoard.upgradeTower(toBeUpgraded, cost);
+				setTowerInfoText(toBeUpgraded);
+			}
 		}
 	}
 	
@@ -263,8 +265,14 @@ private class UpgradeTowerButtonListener implements ActionListener {
 
 			if(sellButton != null){
 				remove(sellButton);
+				sellButton=null;
+				remove(upgradeButton);
+				sellButton=null;
+				info.setText("");
+				towerInfo.setText("");
 				if(clickedTower != null){
 					clickedTower.setHighLight(false);
+					clickedTower=null;
 				}
 			}
 			if (gameBoard.getBudget() >= getCost(thisType)) {
@@ -555,6 +563,9 @@ private class UpgradeTowerButtonListener implements ActionListener {
 		while (true) {
 
 			long pause = 0;
+			if(clickedTower!=null){
+				setTowerInfoText(clickedTower);
+			}
 			repaint();
 			timeDiff = System.currentTimeMillis() - beforeTime;
 			sleep = DELAY - timeDiff;
