@@ -341,6 +341,7 @@ public class Tower {
 	
 	public void upgrade(){
 		upgradeCost*=2;
+		cost*=1.5;
 		rate++;
 		if(type==Util.TowerType.windmill){
 			windmillBonus*=2;

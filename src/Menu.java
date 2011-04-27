@@ -84,6 +84,8 @@ public class Menu extends JPanel implements Runnable {
 		startWaveButton.setBounds(0, 400, 300, 50);
 		
 		fact.setBounds(5, 450, 290, 100);
+		fact.setBackground(Color.blue);
+		fact.setForeground(Color.red);
 		
 		muteButton = new JButton("<html><center>Mute Music</center></html>");
 		muteButton.addActionListener(new MuteButtonListener());
@@ -187,6 +189,15 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				upgradeButton.setBounds(150,135,135,50);
 				upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
 				add(upgradeButton);
+				remove(sellButton);
+				
+				int value=Math.max((int)(getCost(clickedTower.type)*.75),clickedTower.getCost());
+				sellButton = new JButton("<html><center>Sell $"+value+"</center></html>");
+				sellButton.setBounds(15, 135, 135, 50);
+				sellButton.addActionListener(new SellTowerButtonListener(clickedTower,value));
+				add(sellButton);
+				
+				
 			}
 		}
 	}
@@ -354,7 +365,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 								}
 							}
 							clickedTower=gameBoard.onTowerReturn(mouseX, mouseY);
-							int cost=(int)(getCost(clickedTower.type)*.75);
+							int cost=Math.max((int)(getCost(clickedTower.type)*.75),clickedTower.getCost());
 							
 							sellButton = new JButton("<html><center>Sell $"+cost+"</center></html>");
 							sellButton.setBounds(15, 135, 135, 50);
@@ -420,10 +431,12 @@ private class UpgradeTowerButtonListener implements ActionListener {
 						if (type != null && isValid) {
 							gameBoard.addTower(new Tower(adjX, adjY, 1, 25, type,
 									isValid, currentTowerDirection));
+							
 							gameBoard.removeMoney(getCost(type));
 							gameBoard.pendingTower = null;
 							resetButtons();
 							remove(cancelButton);
+							
 						}
 					
 					}
@@ -462,7 +475,6 @@ private class UpgradeTowerButtonListener implements ActionListener {
 			if(Board.inBetweenLevels&&Board.messages.size()!=0)
 			{
 				Board.messages.remove(0);
-				Board.inBetweenLevels=false;
 			}
 
 

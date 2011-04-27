@@ -27,7 +27,7 @@ public class Scoreboard extends JPanel  implements Runnable{
 		setDoubleBuffered(true);
 		this.gameBoard=gameBoard;
 		info.setBounds(0, 0, 900, 50);
-		info.setText("Level: " + gameBoard.getLevel().toString() + " |  Budget: $"
+		info.setText("Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
 				+ gameBoard.getBudget().toString() + "  | Air Quality: " + gameBoard.airQual.toString()
 				+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
 				+ gameBoard.getLandFillScore().toString() + "% Full");
@@ -51,7 +51,7 @@ public class Scoreboard extends JPanel  implements Runnable{
 		while (true) {
 
 			long pause = 0;
-			info.setText("Level: " + gameBoard.getLevel().toString() + " |  Budget: $"
+			info.setText("Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
 					+ gameBoard.getBudget().toString() + "  | Air Quality: " + gameBoard.airQual.toString()
 					+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
 					+ gameBoard.getLandFillScore().toString() + "% Full");

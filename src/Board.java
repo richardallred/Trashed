@@ -46,7 +46,7 @@ public class Board extends JPanel implements Runnable {
 
 	// Fonts
 	private Font bigfont = new Font("Georgia", Font.BOLD, 30);
-	private Font smallfont = new Font("Georgia", Font.BOLD, 16);
+	private Font smallfont = new Font("Georgia", Font.BOLD, 20);
 
 	// Audio Player
 	AudioInputStream as;
@@ -68,6 +68,8 @@ public class Board extends JPanel implements Runnable {
 	private Integer level = 1;
 	private Integer landFillScore = 0;
 	private Integer escapedTrash =0;
+	private Integer moneyEarned = 0;
+	private Integer bonus = 0;
 
 
 	// Game State Lists
@@ -204,8 +206,14 @@ public class Board extends JPanel implements Runnable {
 							,this);
 				}
 				g2d.setFont(bigfont);
-				g2d.setColor(Color.DARK_GRAY);
-				g2d.drawString("Level "+level, 300, 550);
+				g2d.setColor(Color.WHITE);
+				g2d.drawString("Wave "+level, 300, 550);
+				
+				if(level>1){
+					g2d.setFont(smallfont);
+					g2d.setColor(Color.WHITE);
+					g2d.drawString("Last Wave - Money Earned: $"+moneyEarned+"  Bonus: $"+ bonus, 100, 580);
+				}
 			}
 
 		} else {
@@ -213,13 +221,7 @@ public class Board extends JPanel implements Runnable {
 			g2d.drawString("GAME OVER", 250, 300);
 
 		}
-		g2d.setFont(smallfont);
-		g2d.setColor(Color.RED);
-		g2d.drawString("Air Quality: " + airQual.toString() + " |  Budget: $"
-				+ budget.toString() + "  | Level: " + level.toString()
-				+ " | Trash Left: " + trash.size() + "00 lbs" + " | Landfill "
-				+ landFillScore.toString() + "% Full", 5, 615);
-
+		
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
 
@@ -265,6 +267,8 @@ public class Board extends JPanel implements Runnable {
 		int counter = 0;
 
 		startMusic();
+		
+		int oldBudget = budget;
 
 		ingame = true;
 
@@ -338,6 +342,8 @@ public class Board extends JPanel implements Runnable {
 
 				beforeTime = System.currentTimeMillis();
 			}
+			
+			moneyEarned=budget-oldBudget;
 
 			// Wave has now ended
 			resetTowers();
@@ -369,7 +375,7 @@ public class Board extends JPanel implements Runnable {
 		multiplier = (airQual/1000) * multiplier;
 		multiplier = (level/4) + multiplier; 
 		multiplier = multiplier - (escapedTrash/100);
-
+		bonus = (int)(multiplier*150);
 		budget += (int)(multiplier*150);
 
 	}
@@ -475,8 +481,9 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	// JJ
-	public void addTower(Tower t) {
+	public Tower addTower(Tower t) {
 		towers.add(t);
+		return t;
 	}
 
 	public static void addPendingTower(Tower t) {
