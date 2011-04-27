@@ -324,6 +324,8 @@ public class Tower {
 	public void resetTower() {
 		armX=x;
 		armY=y;
+		isFiring=false;
+		fireCounter=0;
 	}
 	
 	public void setHighLight(boolean yes){
