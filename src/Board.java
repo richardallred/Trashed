@@ -212,7 +212,7 @@ public class Board extends JPanel implements Runnable {
 				if(level>1){
 					g2d.setFont(smallfont);
 					g2d.setColor(Color.WHITE);
-					g2d.drawString("Last Wave - Money Earned: $"+moneyEarned+"  Bonus: $"+ bonus, 100, 580);
+					g2d.drawString("Last Wave - Profit: $"+moneyEarned+"  Bonus: $"+ bonus, 50, 580);
 				}
 			}
 
@@ -343,7 +343,6 @@ public class Board extends JPanel implements Runnable {
 				beforeTime = System.currentTimeMillis();
 			}
 			
-			moneyEarned=budget-oldBudget;
 
 			// Wave has now ended
 			resetTowers();
@@ -358,6 +357,9 @@ public class Board extends JPanel implements Runnable {
 			repaint();
 			level++;
 			calculateBonus();
+			
+			moneyEarned=budget-oldBudget;
+			oldBudget=budget;
 
 			inBetweenLevels = true;
 
