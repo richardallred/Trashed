@@ -442,7 +442,8 @@ private class UpgradeTowerButtonListener implements ActionListener {
 					}
 
 					// Detect a right click
-				} else if (e.getButton() == 3) {
+				} else if (e.getButton() == 3 && gameBoard.pendingTower!=null) {
+					
 					currentTowerDirection = gameBoard.pendingTower.rotateDir();
 					Util.TowerType type = null;
 
