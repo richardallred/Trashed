@@ -64,7 +64,7 @@ public class Board extends JPanel implements Runnable {
 
 	// Game State Variables
 	private Integer budget = 200;
-	Double airQual = 1000.0;
+	Double airQual = 2000.0;
 	private Integer level = 1;
 	private Integer landFillScore = 0;
 	private Integer escapedTrash =0;
@@ -107,6 +107,34 @@ public class Board extends JPanel implements Runnable {
 		animator = new Thread(this);
 		animator.start();
 	}
+	
+	public void setMusic(){
+		String path = System.getProperty("user.dir");
+		path += "/Resources/audio/Song2.wav";
+		if (level%2==0){
+			stopMusic();
+			clip.close();
+			path= System.getProperty("user.dir") + "/Resources/audio/Menu.wav";
+		}
+		try {
+			InputStream in = new FileInputStream(path);
+			as = AudioSystem.getAudioInputStream(in);
+			clip = AudioSystem.getClip();
+			clip.open(as);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public void makeBoard(ArrayList<Integer> pathX, ArrayList<Integer> pathY) {
 
@@ -137,26 +165,7 @@ public class Board extends JPanel implements Runnable {
 		pathX.add(-Util.pathWidth);
 		pathY.add(Util.pathPad);
 
-		String path = System.getProperty("user.dir");
-		path += "/Resources/audio/Menu.wav";
-		try {
-			InputStream in = new FileInputStream(path);
-			as = AudioSystem.getAudioInputStream(in);
-			clip = AudioSystem.getClip();
-			clip.open(as);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	public void paint(Graphics g) {
@@ -201,6 +210,8 @@ public class Board extends JPanel implements Runnable {
 
 			if(inBetweenLevels)
 			{
+			
+				
 				if(messages.size()!=0){
 					g2d.drawImage(messages.get(0).getImage(),135,135
 							,this);
@@ -265,14 +276,19 @@ public class Board extends JPanel implements Runnable {
 		beforeTime = System.currentTimeMillis();
 
 		int counter = 0;
-
-		startMusic();
+	
 		
 		int oldBudget = budget;
 
 		ingame = true;
 
 		while (true) {
+			if (inBetweenLevels){
+				setMusic();
+				stopMusic();
+				
+				startMusic();
+			}
 			
 			trash = Wave.getWave(level);
 			messages=Wave.getMessages(level);
@@ -388,6 +404,7 @@ public class Board extends JPanel implements Runnable {
 			case incenerator: 
 				budget+=15; airQual-=15; break;
 			case recycle: budget +=25; airQual+=10;
+			case windmill: airQual+=30;
 		}
 		
 

@@ -26,7 +26,7 @@ public class WaveGen {
 		if (level ==1){
 			num =10;
 			spacing = 135;
-			speed =2;     //high for testing purposes, should be 2
+			speed =6;     //high for testing purposes, should be 2
 			types.add(Util.TrashType.paper);
 			types.add(Util.TrashType.plastic);
 
@@ -46,45 +46,45 @@ public class WaveGen {
 		}else if (level ==4){
 			num = 30;
 			spacing= 80;
-			speed = 4;
+			speed = 3;
 			types.add(Util.TrashType.plastic);
 			types.add(Util.TrashType.aluminum);
 		}else if (level ==5){
 			num = 30;
 			spacing= 60;
-			speed = 5;
+			speed = 3;
 			types.add(Util.TrashType.styrofoam);
 			types.add(Util.TrashType.plastic);
 			types.add(Util.TrashType.aluminum);
 		}else if (level ==6){
 			num = 35;
 			spacing= 50;
-			speed = 6;
+			speed = 3;
 			types.add(Util.TrashType.styrofoam);
 			types.add(Util.TrashType.paper);
 		}else if (level ==7){
 			num = 40;
 			spacing= 46;
-			speed = 7;
+			speed = 3;
 			types.add(Util.TrashType.styrofoam);
 			types.add(Util.TrashType.aluminum);
 		}else if (level ==8){
 			num = 35;
 			spacing= 50;
-			speed = 6;
+			speed = 3;
 			types.add(Util.TrashType.aluminum);
 			types.add(Util.TrashType.metal);
 
 		}else if (level ==9){
 			num = 45;
 			spacing= 50;
-			speed = 7;
+			speed = 3;
 			types.add(Util.TrashType.plastic);
 			types.add(Util.TrashType.styrofoam);
 		}else if (level ==10){
 			num = 48;
 			spacing= 45;
-			speed = 7;
+			speed = 4;
 			types.add(Util.TrashType.paper);
 			types.add(Util.TrashType.styrofoam);
 			types.add(Util.TrashType.plastic);
@@ -92,7 +92,7 @@ public class WaveGen {
 		}else if (level ==11){
 			num = 48;
 			spacing= 40;
-			speed = 7;
+			speed = 4;
 			types.add(Util.TrashType.metal);
 			types.add(Util.TrashType.plastic);
 			types.add(Util.TrashType.aluminum);
@@ -101,20 +101,20 @@ public class WaveGen {
 		else if (level ==12){
 			num = 20;
 			spacing= 40;
-			speed = 7;
+			speed = 4;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.paper);
 		}else if (level ==13){
 			num = 40;
 			spacing= 37;
-			speed = 7;
+			speed = 4;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.paper);
 			types.add(Util.TrashType.aluminum);
 		}else if (level ==14){
 			num = 40;
 			spacing= 37;
-			speed = 8;
+			speed = 4;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.paper);
 			types.add(Util.TrashType.metal);
@@ -122,7 +122,7 @@ public class WaveGen {
 		}else if (level ==15){
 			num = 40;
 			spacing= 34;
-			speed = 8;
+			speed = 4;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.aluminum);
 			types.add(Util.TrashType.metal);
@@ -130,13 +130,13 @@ public class WaveGen {
 		}else if (level ==16){
 			num = 20;
 			spacing= 34;
-			speed = 8;
+			speed = 4;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 		}else if (level ==17){
 			num = 50;
 			spacing= 30;
-			speed = 9;
+			speed = 4;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);
@@ -146,7 +146,7 @@ public class WaveGen {
 		}else if (level ==18){
 			num = 50;
 			spacing= 27;
-			speed = 9;
+			speed = 4;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);
@@ -156,7 +156,7 @@ public class WaveGen {
 		}else if (level ==19){
 			num = 50;
 			spacing= 23;
-			speed = 10;
+			speed = 5;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);
@@ -166,7 +166,7 @@ public class WaveGen {
 		}else if (level ==20){
 			num = 60;
 			spacing= 25;
-			speed = 10;
+			speed = 5;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);
@@ -176,7 +176,7 @@ public class WaveGen {
 		}else if (level ==21){
 			num = 65;
 			spacing= 21;
-			speed = 11;
+			speed = 5;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);
@@ -186,7 +186,7 @@ public class WaveGen {
 		}else if (level ==22){
 			num = 65;
 			spacing= 17;
-			speed = 12;
+			speed = 5;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);
@@ -196,7 +196,7 @@ public class WaveGen {
 		}else if (level ==23){
 			num = 65;
 			spacing= 14;
-			speed = 13;
+			speed = 5;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);
@@ -206,7 +206,7 @@ public class WaveGen {
 		}else if (level ==24){
 			num = 65;
 			spacing= 14;
-			speed = 13;
+			speed = 5;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);
@@ -216,7 +216,7 @@ public class WaveGen {
 		}else if (level ==25){
 			num = 65;
 			spacing= 10;
-			speed = 14;
+			speed = 6;
 			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.nuclear);
 			types.add(Util.TrashType.metal);

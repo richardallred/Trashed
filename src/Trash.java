@@ -98,7 +98,7 @@ private boolean willTowerFire(Tower tower){
                 return true;
             }
         }else if(tower.getType()==Util.TowerType.incenerator){
-            if(this.type == Util.TrashType.paper || this.type==Util.TrashType.plastic || this.type == Util.TrashType.styrofoam || this.type==Util.TrashType.styrofoam){
+            if(this.type == Util.TrashType.paper || this.type==Util.TrashType.plastic || this.type == Util.TrashType.styrofoam){
             	return true;
             }
         

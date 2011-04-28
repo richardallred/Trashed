@@ -654,10 +654,10 @@ private class UpgradeTowerButtonListener implements ActionListener {
 	
 	public void setInfoText(Util.TowerType type){
 		switch(type){
-			case incenerator: info.setText("<html><center>Incenerators can handle many types of household trash, but have negative effects on air quality</center></html>"); break;
+			case incenerator: info.setText("<html><center>Incinerators can handle paper, plastic, and styrofoam, but will have negative effect on air quality</center></html>"); break;
 			case metal:  info.setText("<html><center>The magnet is for picking up scrap metal</center></html>"); break;
 			case recycle: info.setText("<html><center>Recycle Bins are able to recycle paper, plastic, and aluminum and help to improve air quality</center></html>"); break;
-			case windmill: info.setText("<html><center>Windmills help to create clean energy for your town, therefore saving you money each round on energy costs</center></html>"); break;
+			case windmill: info.setText("<html><center>Windmills help to create clean energy for your town, therefore saving you money each round on energy costs and improving air quality</center></html>"); break;
 			case compost: info.setText("<html><center>Compost has the ability to properly dispose of food trash that comes through the level and provides more money than using another type of tower on this trash</center></html>"); break;
 			case nuclear: info.setText("<html><center>Nuclear waste centers are for disposing of nuclear waste before it reaches the landfill, they are the only towers that can handle this type of waste</center></html>"); break;
 		}
