@@ -26,14 +26,14 @@ public class WaveGen {
 		if (level ==1){
 			num =10;
 			spacing = 135;
-			speed =6;     //high for testing purposes, should be 2
+			speed =2;
 			types.add(Util.TrashType.paper);
-			types.add(Util.TrashType.plastic);
+			types.add(Util.TrashType.styrofoam);
 
 
 		}else if (level ==2){
 			num =20;
-			spacing = 85;
+			spacing = 1055;
 			speed =3;
 			types.add(Util.TrashType.paper);
 
