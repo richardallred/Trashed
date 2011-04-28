@@ -68,9 +68,12 @@ public class Tower {
 	public ImageIcon getArrowImageIcon(String dir, boolean valid){
 		ImageIcon ii;
 		
+		
 		if(valid){
 			ii = new ImageIcon(this.getClass().getResource(
 				"pics/arrow" + dir + ".png"));
+			System.out.println(this.getClass().getResource(
+					"pics/arrow" + dir + ".png"));
 		}else{
 			ii = new ImageIcon(this.getClass().getResource(
 					"pics/arrow" + dir + "Invalid.png"));

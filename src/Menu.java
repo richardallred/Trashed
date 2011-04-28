@@ -3,8 +3,12 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -109,19 +113,20 @@ public class Menu extends JPanel implements Runnable {
 		add(fact);
 		try {
 			readFacts();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 	
-	private void readFacts() throws FileNotFoundException{
-		FileInputStream fis = new FileInputStream("Resources/facts.txt"); 
-		Scanner scan = new Scanner(fis);
+	private void readFacts() throws IOException{
+		  InputStream is = getClass().getResourceAsStream("facts.txt");
+		    InputStreamReader isr = new InputStreamReader(is);
+		    BufferedReader br = new BufferedReader(isr);
 		
-		while(scan.hasNextLine()){
-			facts.add("<html><center>"+scan.nextLine()+"</center></html>");
+		while(br.readLine()!=null){
+			facts.add("<html><center>"+br.readLine()+"</center></html>");
 		}
 	}
 
@@ -185,11 +190,13 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				gameBoard.upgradeTower(toBeUpgraded, cost);
 				setTowerInfoText(toBeUpgraded);
 				remove(upgradeButton);
+				upgradeButton=null;
 				upgradeButton= new JButton("<html><center>Upgrade $"+clickedTower.getUpgradeCost()+"</center></html>");
 				upgradeButton.setBounds(150,135,135,50);
 				upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
 				add(upgradeButton);
 				remove(sellButton);
+				sellButton=null;
 				
 				int value=Math.max((int)(getCost(clickedTower.type)*.75),clickedTower.getCost());
 				sellButton = new JButton("<html><center>Sell $"+value+"</center></html>");
@@ -307,7 +314,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				remove(sellButton);
 				sellButton=null;
 				remove(upgradeButton);
-				sellButton=null;
+				upgradeButton=null;
 				info.setText("");
 				towerInfo.setText("");
 				if(clickedTower != null){
@@ -390,7 +397,9 @@ private class UpgradeTowerButtonListener implements ActionListener {
 							towerInfo.setText("");
 							if(sellButton !=null){
 								remove(sellButton);
+								sellButton=null;
 								remove(upgradeButton);
+								upgradeButton=null;
 								if(clickedTower != null){
 									clickedTower.setHighLight(false);
 								}
@@ -618,6 +627,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 		int oldLevel=0;
 
 		while (true) {
+			
 			curLevel=gameBoard.getLevel();
 			if(curLevel>oldLevel){
 				fact.setText(getFact());
