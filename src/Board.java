@@ -111,10 +111,13 @@ public class Board extends JPanel implements Runnable {
 	public void setMusic(){
 		String path = System.getProperty("user.dir");
 		path += "/Resources/audio/Song2.wav";
-		if (level%2==0){
+		if (level%2==0 && clip != null){
 			stopMusic();
 			clip.close();
 			path= System.getProperty("user.dir") + "/Resources/audio/Menu.wav";
+		}else if (level !=1 && clip != null) {
+			stopMusic();
+			clip.close();
 		}
 		try {
 			InputStream in = new FileInputStream(path);
@@ -274,6 +277,7 @@ public class Board extends JPanel implements Runnable {
 
 		int counter = 0;
 	
+	
 		
 		int oldBudget = budget;
 
@@ -354,6 +358,9 @@ public class Board extends JPanel implements Runnable {
 				}
 
 				beforeTime = System.currentTimeMillis();
+				if (airQual <= 0 || landFillScore>=100) {
+					break;
+				}
 			}
 			
 
