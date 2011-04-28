@@ -198,12 +198,9 @@ public class Board extends JPanel implements Runnable {
 			}
 
 			// JJ
-			if (pendingTower != null
-					&& (pendingTower.getX() != Integer.MIN_VALUE || pendingTower
-							.getY() != Integer.MIN_VALUE)) {
-				g2d.drawImage(pendingTower.getBaseImage(),
-						(int) pendingTower.getX(), (int) pendingTower.getY(),
-						this);
+			if (pendingTower != null && (pendingTower.getX() != Integer.MIN_VALUE || pendingTower.getY() != Integer.MIN_VALUE)) {
+				g2d.drawImage(pendingTower.getBaseImage(),(int) pendingTower.getX(), (int) pendingTower.getY(),this);
+				g2d.drawImage(pendingTower.getArrowImage(),(int)pendingTower.getX(),(int)pendingTower.getY(), this);
 			}
 
 

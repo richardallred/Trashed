@@ -13,7 +13,7 @@ import javax.swing.*;
 
 public class Tower {
 
-	private Image base, arm;
+	private Image base, arm,arrow;
 	Util.TowerType type;
 	String dir;
 	private int x, y, armX, armY, width, height;
@@ -24,11 +24,11 @@ public class Tower {
 	private boolean turnedAround = false;
 	private boolean trashRemoves = false;
 	private boolean highlighted = false;
+	private boolean valid = false;
 	private Trash theTrash;
 	int curPath;
 
-	Tower(int initX, int initY, int fireRate, int towerRange,
-			Util.TowerType type, boolean isValid, String dir) {
+	Tower(int initX, int initY, int fireRate, int towerRange,Util.TowerType type, boolean isValid, String dir) {
 		ImageIcon ii;
 		// Get image for the base
 		ii = getBaseImageIcon(type, dir, isValid);
@@ -36,6 +36,7 @@ public class Tower {
 		this.dir = dir;
 		width = ii.getIconWidth();
 		height = ii.getIconHeight();
+		valid=isValid;
 		x = initX;
 		y = initY;
 		armX = initX;
@@ -44,6 +45,7 @@ public class Tower {
 		rate = fireRate;
 		isFiring = false;
 		this.type = type;
+		
 		// Get image for the arm
 		if (type != Util.TowerType.windmill && isValid) {
 			ii = getArmImageIcon(type, dir);
@@ -61,6 +63,19 @@ public class Tower {
 			case windmill: cost=300; break;
 		}
 		upgradeCost=(int)(cost*1.5);
+	}
+	
+	public ImageIcon getArrowImageIcon(String dir, boolean valid){
+		ImageIcon ii;
+		
+		if(valid){
+			ii = new ImageIcon(this.getClass().getResource(
+				"pics/arrow" + dir + ".png"));
+		}else{
+			ii = new ImageIcon(this.getClass().getResource(
+					"pics/arrow" + dir + "Invalid.png"));
+		}
+		return ii;
 	}
 
 	public ImageIcon getArmImageIcon(Util.TowerType type, String dir) {
@@ -267,6 +282,11 @@ public class Tower {
 
 	public Image getBaseImage() {
 		return base;
+	}
+	
+	public Image getArrowImage(){
+		arrow=getArrowImageIcon(this.dir,this.valid).getImage();
+		return arrow;
 	}
 
 	public int getRange() {
