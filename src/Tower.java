@@ -236,11 +236,11 @@ public class Tower {
 				killCount++;
 				if(!Board.effectMute){
 
-	                   String path = System.getProperty("user.dir");
-	                   path += "/Resources/audio/trashkill.wav";
+	                  
+	                   String path = "audio/trashkill.wav";
 
 	                   try {
-	                       InputStream in = new FileInputStream(path);
+	                	   InputStream in = getClass().getResourceAsStream(path);
 	                       AudioInputStream as = AudioSystem.getAudioInputStream(in);
 	                       Clip clip = AudioSystem.getClip();
 	                       clip.open(as);
