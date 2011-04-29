@@ -24,7 +24,7 @@ public class WaveGen {
 
 
 		if (level ==1){
-			num =10;
+			num =15;
 			spacing = 135;
 			speed =2;
 			types.add(Util.TrashType.paper);
@@ -74,7 +74,7 @@ public class WaveGen {
 			spacing= 50;
 			speed = 3;
 			types.add(Util.TrashType.aluminum);
-			types.add(Util.TrashType.metal);  //TODO Metal Warning
+			types.add(Util.TrashType.metal);  
 
 		}else if (level ==9){
 			num = 45;
@@ -104,7 +104,7 @@ public class WaveGen {
 			num = 20;
 			spacing= 40;
 			speed = 4;
-			types.add(Util.TrashType.food); //TODO Food warning
+			types.add(Util.TrashType.food);
 			types.add(Util.TrashType.paper);
 		}else if (level ==13){
 			num = 40;
@@ -248,7 +248,6 @@ public class WaveGen {
 
 	public ArrayList<ImageIcon> getMessages(int level) {
 		ArrayList<ImageIcon> temp = new ArrayList<ImageIcon>();
-		// JJrandomShit
 		if (level == 1)
 			temp.add(new ImageIcon(this.getClass().getResource(
 			"pics/welcome1.png")));
@@ -258,6 +257,15 @@ public class WaveGen {
 		if (level == 3)
 			temp.add(new ImageIcon(this.getClass().getResource(
 			"pics/welcome3.png")));
+		if (level == 8)
+			temp.add(new ImageIcon(this.getClass().getResource(
+			"pics/welcome4.png")));
+		if (level == 12)
+			temp.add(new ImageIcon(this.getClass().getResource(
+			"pics/welcome5.png")));
+		if (level == 16)
+			temp.add(new ImageIcon(this.getClass().getResource(
+			"pics/welcome6.png")));
 		return temp;
 	}
 }

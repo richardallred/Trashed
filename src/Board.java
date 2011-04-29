@@ -275,6 +275,10 @@ public class Board extends JPanel implements Runnable {
 		beforeTime = System.currentTimeMillis();
 
 		int counter = 0;
+		
+		//SWEET HACKZ
+		//level=25;
+		//budget=10000000;
 	
 	
 		
