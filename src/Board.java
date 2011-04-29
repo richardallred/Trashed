@@ -280,8 +280,6 @@ public class Board extends JPanel implements Runnable {
 		//level=25;
 		//budget=10000000;
 	
-	
-		
 		int oldBudget = budget;
 
 		ingame = true;

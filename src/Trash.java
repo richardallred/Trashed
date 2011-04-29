@@ -21,18 +21,22 @@ public class Trash{
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/plastic.png"));
 	    trashPic = ii.getImage();
 	}else if(type==Util.TrashType.aluminum){
+		trashSpeed*=1.15;
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/aluminum.png"));
 	    trashPic = ii.getImage();
 	}else if(type==Util.TrashType.metal){
+		trashSpeed*=1.25;
 		    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/metal.png"));
 		    trashPic = ii.getImage();
 	}else if(type==Util.TrashType.nuclear){
+		trashSpeed*=1.75;
 	    ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/nuclear.png"));
 	    trashPic = ii.getImage();
 	}else if(type==Util.TrashType.styrofoam){
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/styrofoam.png"));
 		trashPic = ii.getImage();
 	}else if(type==Util.TrashType.food){
+		trashSpeed*=1.25;
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("pics/Trash/food.png"));
 		trashPic = ii.getImage();
 	}else{

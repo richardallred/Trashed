@@ -374,9 +374,9 @@ private class UpgradeTowerButtonListener implements ActionListener {
 							clickedTower=gameBoard.onTowerReturn(mouseX, mouseY);
 							int cost=Math.max((int)(getCost(clickedTower.type)*.75),clickedTower.getCost());
 							
-							sellButton = new JButton("<html><center>Sell $"+cost+"</center></html>");
+							sellButton = new JButton("<html><center>Sell $"+(int)(cost*(.75))+"</center></html>");
 							sellButton.setBounds(15, 135, 135, 50);
-							sellButton.addActionListener(new SellTowerButtonListener(clickedTower,cost));
+							sellButton.addActionListener(new SellTowerButtonListener(clickedTower,(int)(cost*(.75))));
 							
 							
 							upgradeButton= new JButton("<html><center>Upgrade $"+clickedTower.getUpgradeCost()+"</center></html>");
