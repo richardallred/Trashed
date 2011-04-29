@@ -284,8 +284,8 @@ public class Board extends JPanel implements Runnable {
 		int counter = 0;
 		
 		//SWEET HACKZ
-		level=25;
-		budget=10000000;
+		//level=25;
+		//budget=10000000;
 	
 		int oldBudget = budget;
 

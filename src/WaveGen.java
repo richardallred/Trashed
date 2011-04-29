@@ -216,7 +216,7 @@ public class WaveGen {
 			types.add(Util.TrashType.paper);
 			types.add(Util.TrashType.plastic);
 		}else if (level ==25){
-			/*
+			
 			num = 405;
 			spacing= 10;
 			speed = 6;
@@ -226,11 +226,8 @@ public class WaveGen {
 			types.add(Util.TrashType.styrofoam);
 			types.add(Util.TrashType.paper);
 			types.add(Util.TrashType.plastic);
-			*/
-			num=1;
-			spacing=5;
-			speed=3;
-			types.add(Util.TrashType.nuclear);
+			
+			
 		}
 
 
