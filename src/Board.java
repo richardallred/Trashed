@@ -61,6 +61,7 @@ public class Board extends JPanel implements Runnable {
 	public static boolean inBetweenLevels = true;
 	private boolean ingame = true;
 	private boolean paintLevel =false;
+	boolean wonGame=false;
 
 	// Game State Variables
 	private Integer budget = 200;
@@ -227,9 +228,15 @@ public class Board extends JPanel implements Runnable {
 			}
 
 		} else {
-			g2d.setFont(bigfont);
-			g2d.drawString("GAME OVER", 250, 300);
-
+			if(!wonGame){
+				g2d.setFont(bigfont);
+				g2d.drawString("GAME OVER", 250, 300);
+			}else{
+				ImageIcon jj= new ImageIcon(this.getClass().getResource(
+				"pics/welcomeFinish.png"));
+				Image gameWon= jj.getImage();
+				g2d.drawImage(gameWon,135,135,this);
+			}
 		}
 		
 		Toolkit.getDefaultToolkit().sync();
@@ -277,8 +284,8 @@ public class Board extends JPanel implements Runnable {
 		int counter = 0;
 		
 		//SWEET HACKZ
-		//level=25;
-		//budget=10000000;
+		level=25;
+		budget=10000000;
 	
 		int oldBudget = budget;
 
@@ -385,6 +392,10 @@ public class Board extends JPanel implements Runnable {
 			inBetweenLevels = true;
 
 			if (airQual <= 0 || landFillScore>=100) {
+				break;
+			}
+			if(level==26){
+				wonGame=true;
 				break;
 			}
 

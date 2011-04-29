@@ -309,30 +309,31 @@ private class UpgradeTowerButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			if(sellButton != null){
-				remove(sellButton);
-				sellButton=null;
-				remove(upgradeButton);
-				upgradeButton=null;
-				info.setText("");
-				towerInfo.setText("");
-				if(clickedTower != null){
-					clickedTower.setHighLight(false);
-					clickedTower=null;
+			if (!gameBoard.wonGame) {
+				if(sellButton != null){
+					remove(sellButton);
+					sellButton=null;
+					remove(upgradeButton);
+					upgradeButton=null;
+					info.setText("");
+					towerInfo.setText("");
+					if(clickedTower != null){
+						clickedTower.setHighLight(false);
+						clickedTower=null;
+					}
 				}
-			}
-			if (gameBoard.getBudget() >= getCost(thisType)) {
-				fixBooleans(thisType);
-				gameBoard.pendingTower = null;
-				setInfoText(thisType);
-				if(cancelButton==null){
-					cancelButton = new JButton("<html><center>Cancel Purchase</center></html>");
-					cancelButton.setBounds(50, 135, 200, 50);
-					cancelButton.addActionListener(new CancelButtonListener());
+				if (gameBoard.getBudget() >= getCost(thisType)) {
+					fixBooleans(thisType);
+					gameBoard.pendingTower = null;
+					setInfoText(thisType);
+					if(cancelButton==null){
+						cancelButton = new JButton("<html><center>Cancel Purchase</center></html>");
+						cancelButton.setBounds(50, 135, 200, 50);
+						cancelButton.addActionListener(new CancelButtonListener());
+					}
+					add(cancelButton);
+					
 				}
-				add(cancelButton);
-				
 			}
 		}
 	}
@@ -347,7 +348,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 			int mouseX = e.getPoint().x;
 			int mouseY = e.getPoint().y;
 
-			//if (!Board.inBetweenLevels) {
+			if (!gameBoard.wonGame) {
 
 				int adjX = mouseX - 20;
 				int adjY = mouseY - 20;
@@ -480,7 +481,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 					gameBoard.pendingTower = new Tower(adjX, adjY, 1, 25, type,
 							isValid, currentTowerDirection);
 				}
-			//}
+			}
 			
 			if(Board.inBetweenLevels&&Board.messages.size()!=0)
 			{
