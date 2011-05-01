@@ -57,7 +57,7 @@ public class Menu extends JPanel implements Runnable {
 		
 		towerInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		towerInfo.setVerticalAlignment(SwingConstants.CENTER);
-		towerInfo.setBounds(5, 175, 290, 50);
+		towerInfo.setBounds(5, 185, 290, 50);
 		
 		JButton inceneratorButton = new JButton("<html><center>Incenerator $100</center></html>");
 		inceneratorButton.addActionListener(new TowerButtonListener(Util.TowerType.incenerator));
@@ -658,7 +658,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 	}
 	public void setTowerInfoText(Tower tower){
 		if(tower.type!=Util.TowerType.windmill){
-			towerInfo.setText("<html><center>Fire Rate:" + tower.getRate()+" <br /> Kills:" + tower.getKillCount()+ "</center></html>");
+			towerInfo.setText("<html><center>Fire Rate:" + tower.getRate()+" <br /> Kills:" + tower.getKillCount()+ " <br/>Is Firing: "+tower.getFiring()+"</center></html>");
 		}else{
 			towerInfo.setText("<html><center>Current Bonus: $"+tower.getWindmillBonus()+" each round</center></html>");
 		}

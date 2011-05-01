@@ -214,14 +214,30 @@ public class Tower {
 
 	public void extendArm(int dist) {
 		
+		
+		
+		
+		
 		if (dir.equalsIgnoreCase("North")) {
-			armY -= dist;
+			
+			
+				armY -= dist;
+			
+			
 		} else if (dir.equalsIgnoreCase("South")) {
-			armY += dist;
+			
+			
+				armY += dist;
+			
+			
 		} else if (dir.equalsIgnoreCase("East")) {
-			armX += dist;
+			
+				armX += dist;
+			
 		} else if (dir.equalsIgnoreCase("West")) {
-			armX -= dist;
+			
+				armX -= dist;
+			
 		}
 	}
 
