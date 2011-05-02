@@ -1,16 +1,8 @@
-import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
-
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
@@ -69,7 +61,12 @@ public class Main extends JFrame {
     
     private class Start extends JPanel{
     	
-    	public Start(){
+    	/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public Start(){
     		ImageIcon ii = new ImageIcon(this.getClass().getResource(
     		"pics/instructionswide.png"));
     		instructions = ii.getImage();

@@ -1,18 +1,13 @@
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -226,7 +221,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 	private class EffectMuteButtonListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public  void actionPerformed(ActionEvent e) {
 			if (gameBoard.effectMute) {
 				gameBoard.effectMute=false;
 				effectMuteButton.setBackground(null);
@@ -724,7 +719,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 	private String getFact(){
 		
 		
-		int rand=generator.nextInt(facts.size());
+		int rand=generator.nextInt(facts.size()-1);
 		
 		//System.out.println(rand);
 		

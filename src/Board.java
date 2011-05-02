@@ -1,27 +1,19 @@
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import sun.audio.*;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
@@ -39,7 +31,7 @@ public class Board extends JPanel implements Runnable {
 	// Thread for the Board Class to run in separately from everything else
 	private Thread animator;
 
-	static Tower pendingTower;
+	Tower pendingTower;
 
 	Util.TrashType[] types = { Util.TrashType.paper, Util.TrashType.plastic };
 
@@ -65,7 +57,6 @@ public class Board extends JPanel implements Runnable {
 	public static boolean inBetweenLevels = true;
 	boolean restart =false;
 	private boolean ingame = true;
-	private boolean paintLevel =false;
 	boolean wonGame=false;
 
 	// Game State Variables
@@ -276,7 +267,6 @@ public class Board extends JPanel implements Runnable {
 		trash= new ArrayList<Trash>();
 		inBetweenLevels = true;
 		ingame = true;
-		paintLevel =false;
 		wonGame=false;
 		restart=false;
 		stopMusic();
@@ -347,7 +337,6 @@ public class Board extends JPanel implements Runnable {
 			while (trash.size() > 0) {
 				
 				counter++;
-				long pause = 0;
 				
 				while (inBetweenLevels) {
 					repaint();
@@ -379,7 +368,7 @@ public class Board extends JPanel implements Runnable {
 						trash.remove(i);
 						landFillScore += 1;
 						escapedTrash +=1;
-						System.out.println(landFillScore);
+						//System.out.println(landFillScore);
 					}
 
 				}
@@ -576,11 +565,11 @@ public class Board extends JPanel implements Runnable {
 		return t;
 	}
 
-	public static void addPendingTower(Tower t) {
+	public void addPendingTower(Tower t) {
 		pendingTower = t;
 	}
 
-	public static void removePendingTower() {
+	public void removePendingTower() {
 		pendingTower = null;
 	}
 

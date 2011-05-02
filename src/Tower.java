@@ -1,5 +1,4 @@
 import java.awt.Image;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +20,6 @@ public class Tower {
 	private int rate, range, cost,upgradeCost,windmillBonus,totalWindmill;
 	private int fireCounter = 0;
 	private int killCount = 0;
-	private boolean turnedAround = false;
 	private boolean trashRemoves = false;
 	private boolean highlighted = false;
 	private boolean valid = false;

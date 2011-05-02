@@ -1,13 +1,8 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import sun.audio.AudioPlayer;
 
 
 public class Scoreboard extends JPanel  implements Runnable{
@@ -50,7 +45,7 @@ public class Scoreboard extends JPanel  implements Runnable{
 
 		while (true) {
 
-			long pause = 0;
+			
 			info.setText("Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
 					+ gameBoard.getBudget().toString() + "  | Air Quality: " + gameBoard.airQual.toString()
 					+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
