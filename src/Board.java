@@ -172,6 +172,7 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	public void paint(Graphics g) {
+		Tower highLightTower=null;
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(background, 0, 0, this);
@@ -193,13 +194,16 @@ public class Board extends JPanel implements Runnable {
 				g2d.drawImage(curTower.getBaseImage(), (int) curTower.getX(),
 						(int) curTower.getY(), this);
 				if(curTower.isHighLight()){
-
-					g2d.drawImage(outline,(int) curTower.getX()-10,
-							(int) curTower.getY()-10, this);
+					highLightTower=curTower;
+					
 				}
 
 			}
-
+			if(highLightTower!=null){
+				g2d.drawImage(outline,(int) highLightTower.getX()-10,
+						(int) highLightTower.getY()-10, this);
+			}
+			
 			// JJ
 			if (pendingTower != null && (pendingTower.getX() != Integer.MIN_VALUE || pendingTower.getY() != Integer.MIN_VALUE)) {
 				g2d.drawImage(pendingTower.getBaseImage(),(int) pendingTower.getX(), (int) pendingTower.getY(),this);
@@ -241,6 +245,7 @@ public class Board extends JPanel implements Runnable {
 		
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
+		highLightTower=null;
 
 
 	}
@@ -374,7 +379,8 @@ public class Board extends JPanel implements Runnable {
 			// Check for windmills
 			for (int g = 0; g < towers.size(); g++) {
 				if (towers.get(g).getType() == Util.TowerType.windmill) {
-					budget += 150;
+					budget += towers.get(g).getWindmillBonus();
+					towers.get(g).windmillBonus();
 				}
 			}
 

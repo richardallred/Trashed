@@ -59,7 +59,7 @@ public class Menu extends JPanel implements Runnable {
 		towerInfo.setVerticalAlignment(SwingConstants.CENTER);
 		towerInfo.setBounds(5, 185, 290, 50);
 		
-		JButton inceneratorButton = new JButton("<html><center>Incenerator $100</center></html>");
+		JButton inceneratorButton = new JButton("<html><center>Incinerator $100</center></html>");
 		inceneratorButton.addActionListener(new TowerButtonListener(Util.TowerType.incenerator));
 		inceneratorButton.setBounds(0, 250, 150, 50);
 		
@@ -658,9 +658,9 @@ private class UpgradeTowerButtonListener implements ActionListener {
 	}
 	public void setTowerInfoText(Tower tower){
 		if(tower.type!=Util.TowerType.windmill){
-			towerInfo.setText("<html><center>Fire Rate:" + tower.getRate()+" <br /> Kills:" + tower.getKillCount()+ " <br/>Is Firing: "+tower.getFiring()+"</center></html>");
+			towerInfo.setText("<html><center>Fire Rate:" + tower.getRate()+"ft/sec <br /> Kills:" + tower.getKillCount()+"pieces of trash</center></html>");
 		}else{
-			towerInfo.setText("<html><center>Current Bonus: $"+tower.getWindmillBonus()+" each round</center></html>");
+			towerInfo.setText("<html><center>Current Bonus: $"+tower.getWindmillBonus()+" each round<br/>Total Money Earned: $" +tower.getTotalWindmill()+"</center></html>");
 		}
 	}
 	
@@ -686,7 +686,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 		
 		int rand=generator.nextInt(facts.size());
 		
-		System.out.println(rand);
+		//System.out.println(rand);
 		
 		return facts.get(rand);
 		

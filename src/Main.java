@@ -89,7 +89,7 @@ public class Main extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			clicked=true;
-			System.out.println("CLICK");
+			//System.out.println("CLICK");
 		}
 
 		@Override
@@ -107,14 +107,14 @@ public class Main extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent arg0) {
 			clicked=true;
-			System.out.println("Pressed");
+			//System.out.println("Pressed");
 			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			clicked=true;
-			System.out.println("released");
+			//System.out.println("released");
 			
 		}
 

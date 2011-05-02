@@ -18,7 +18,7 @@ public class Tower {
 	String dir;
 	private int x, y, armX, armY, width, height;
 	private boolean isFiring;
-	private int rate, range, cost,upgradeCost,windmillBonus;
+	private int rate, range, cost,upgradeCost,windmillBonus,totalWindmill;
 	private int fireCounter = 0;
 	private int killCount = 0;
 	private boolean turnedAround = false;
@@ -27,6 +27,7 @@ public class Tower {
 	private boolean valid = false;
 	private Trash theTrash;
 	int curPath;
+	
 
 	Tower(int initX, int initY, int fireRate, int towerRange,Util.TowerType type, boolean isValid, String dir) {
 		ImageIcon ii;
@@ -247,6 +248,7 @@ public class Tower {
 			extendArm(rate);
 			fireCounter += rate;
 		} else if (fireCounter <= Util.pathWidth * 2) {
+			theTrash.removeImage();
 			if (!trashRemoves){
 				theTrash.removeImage();
 				killCount++;
@@ -400,6 +402,14 @@ public class Tower {
 	
 	public int getWindmillBonus(){
 		return windmillBonus;
+	}
+	
+	public void windmillBonus(){
+		totalWindmill+=windmillBonus;
+	}
+	
+	public int getTotalWindmill(){
+		return totalWindmill;
 	}
 	
 }
