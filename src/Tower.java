@@ -219,25 +219,40 @@ public class Tower {
 		
 		
 		
-		if (dir.equalsIgnoreCase("North")) {
+		if (dir.equalsIgnoreCase("North") && !(armY>y)) {
 			
-			
+			if(armY+dist>=y){
+				armY=y;
+			}else{
 				armY -= dist;
+			}
+				
 			
 			
-		} else if (dir.equalsIgnoreCase("South")) {
+		} else if (dir.equalsIgnoreCase("South") && !(armY<y)) {
 			
-			
-				armY += dist;
+				if(armY+dist<=y){
+					armY=y;
+				}else{
+					armY += dist;
+				}
+				
 			
 			
 		} else if (dir.equalsIgnoreCase("East")) {
-			
+			if(armX+dist<=x){
+				armX=x;
+			}else{
 				armX += dist;
-			
+			}
+				
 		} else if (dir.equalsIgnoreCase("West")) {
 			
+			if(armX+dist>x){
+				armX=x;
+			}else{
 				armX -= dist;
+			}
 			
 		}
 	}

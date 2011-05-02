@@ -1,9 +1,12 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,6 +20,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
@@ -37,7 +42,6 @@ public class Board extends JPanel implements Runnable {
 	static Tower pendingTower;
 
 	Util.TrashType[] types = { Util.TrashType.paper, Util.TrashType.plastic };
-	private int TRASH_SPEED = 2;
 
 	// Images
 	private Image background;
@@ -59,6 +63,7 @@ public class Board extends JPanel implements Runnable {
 
 	// Game State Booleans
 	public static boolean inBetweenLevels = true;
+	boolean restart =false;
 	private boolean ingame = true;
 	private boolean paintLevel =false;
 	boolean wonGame=false;
@@ -79,8 +84,11 @@ public class Board extends JPanel implements Runnable {
 	ArrayList<Tower> towers = new ArrayList<Tower>(); // not sure if this should be static but am trying to add towers on button press
 	ArrayList<Integer> pathX = new ArrayList<Integer>();
 	ArrayList<Integer> pathY = new ArrayList<Integer>();
+	
 	//Wavegen
 	WaveGen Wave = new WaveGen(this);
+	
+	
 	public Board() {
 
 		setDoubleBuffered(true);
@@ -241,6 +249,8 @@ public class Board extends JPanel implements Runnable {
 				Image gameWon= jj.getImage();
 				g2d.drawImage(gameWon,135,135,this);
 			}
+			
+			
 		}
 		
 		Toolkit.getDefaultToolkit().sync();
@@ -248,6 +258,28 @@ public class Board extends JPanel implements Runnable {
 		highLightTower=null;
 
 
+	}
+	
+	
+	
+	public void resetGame(){
+		budget = 200;
+		airQual = 1000.0;
+		level = 1;
+		landFillScore = 0;
+		escapedTrash =0;
+		moneyEarned = 0;
+		bonus = 0;
+		towers.removeAll(towers);
+		trash.removeAll(trash);
+		towers= new ArrayList<Tower>();
+		trash= new ArrayList<Trash>();
+		inBetweenLevels = true;
+		ingame = true;
+		paintLevel =false;
+		wonGame=false;
+		restart=false;
+		stopMusic();
 	}
 
 	public static void startWave() {
@@ -281,6 +313,8 @@ public class Board extends JPanel implements Runnable {
 	}
 
 	public void run() {
+		
+		
 
 		long beforeTime, timeDiff, sleep;
 
@@ -297,7 +331,10 @@ public class Board extends JPanel implements Runnable {
 		ingame = true;
 
 		while (true) {
-			if (inBetweenLevels){
+			
+			restart=false;
+			
+			if (inBetweenLevels  && !muted){
 				setMusic();
 				stopMusic();
 				
@@ -394,17 +431,28 @@ public class Board extends JPanel implements Runnable {
 			inBetweenLevels = true;
 
 			if (airQual <= 0 || landFillScore>=100) {
-				break;
+				restart=true;
+				ingame = false;
 			}
 			if(level==26){
 				wonGame=true;
-				break;
+				restart=true;
+				ingame = false;
+			}
+			
+			if(restart){
+				while(restart){
+					//System.out.println(restart);
+					repaint();
+				}
+				repaint();
 			}
 
 		}
 
-		ingame = false;
-		repaint();
+		
+		
+		
 
 	}
 	private void calculateBonus(){

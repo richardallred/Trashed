@@ -40,6 +40,8 @@ public class Menu extends JPanel implements Runnable {
 	private JLabel towerInfo = new JLabel("");
 	private JLabel fact = new JLabel("");
 	private JButton sellButton,cancelButton,muteButton,effectMuteButton,upgradeButton;
+	//StartOver Button
+	private JButton startOver;
 	private Tower clickedTower;
 	private ArrayList<String> facts= new ArrayList<String>();
 	Random generator = new Random();
@@ -118,6 +120,18 @@ public class Menu extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private class StartOverListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			gameBoard.resetGame();
+			remove(startOver);
+			startOver=null;
+			
+		}
+		
 	}
 	
 	private void readFacts() throws IOException{
@@ -636,10 +650,36 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				oldLevel=curLevel;
 			}
 			
-			long pause = 0;
-			if(clickedTower!=null){
-				setTowerInfoText(clickedTower);
+			if(gameBoard.restart && startOver==null){
+				
+				if(sellButton!=null){
+					remove(sellButton);
+					sellButton=null;
+					
+				}
+				if(cancelButton!=null){
+					remove(cancelButton);
+					cancelButton=null;
+				}
+				if(upgradeButton!=null){
+					remove(upgradeButton);
+					upgradeButton=null;
+				}
+				towerInfo.setText("");
+				info.setText("");
+				startOver = new JButton("Start Over");
+				startOver.addActionListener(new StartOverListener());
+				startOver.setBounds(50, 135, 200, 50);
+				add(startOver);
+				
+			}else{
+				if(clickedTower!=null && !gameBoard.restart){
+					setTowerInfoText(clickedTower);
+				}
 			}
+			
+			long pause = 0;
+			
 			repaint();
 			timeDiff = System.currentTimeMillis() - beforeTime;
 			sleep = DELAY - timeDiff;
@@ -658,7 +698,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 	}
 	public void setTowerInfoText(Tower tower){
 		if(tower.type!=Util.TowerType.windmill){
-			towerInfo.setText("<html><center>Fire Rate:" + tower.getRate()+"ft/sec <br /> Kills:" + tower.getKillCount()+"pieces of trash</center></html>");
+			towerInfo.setText("<html><center>Fire Rate: " + tower.getRate()+"0 ft/sec <br /> Kills: " + tower.getKillCount()*100+" pounds of trash</center></html>");
 		}else{
 			towerInfo.setText("<html><center>Current Bonus: $"+tower.getWindmillBonus()+" each round<br/>Total Money Earned: $" +tower.getTotalWindmill()+"</center></html>");
 		}
