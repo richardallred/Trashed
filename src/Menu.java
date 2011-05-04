@@ -49,17 +49,24 @@ public class Menu extends JPanel implements Runnable {
 	Random generator = new Random();
 	Font menuFont=new Font("Georgia",Font.BOLD, 12);
 	Font factFont=new Font("Georgia",Font.PLAIN,13);
-	int intBlue = Integer.parseInt( "99CCFF",16);
+	int intBlue = Integer.parseInt( "a0c0f0",16);
+	int intGreen= Integer.parseInt( "406020",16);
 	Color blue = new Color( intBlue );
+	Color green= new Color( intGreen);
+	int intBrown= Integer.parseInt( "604020",16);
 	int colorNum=Integer.parseInt("FFFFFF", 16);
 	Color light= new Color(colorNum);
-	Border thickBorder = new LineBorder(Color.DARK_GRAY, 3);
-	Border thinBorder = new LineBorder(Color.BLUE, 2);
+	Color brown= new Color(intBrown);
+	Border thickBorder = new LineBorder(brown, 2);
+	Border thinBorder = new LineBorder(brown, 2);
 	
 
 	public Menu(Board board) {
 		
-		this.setBackground(Color.GRAY);
+		int col = Integer.parseInt("c0c060",16);
+		Color back= new Color(col);
+		this.setBackground(back);
+		
 		
 		
 		
@@ -72,7 +79,7 @@ public class Menu extends JPanel implements Runnable {
 		info.setHorizontalAlignment(SwingConstants.CENTER);
 		info.setBounds(5,0, 290, 100);
 		info.setFont(factFont);
-		info.setForeground(Color.white);
+		info.setForeground(brown);
 		
 		error.setBounds(5, 100, 290, 40);
 		error.setHorizontalAlignment(SwingConstants.CENTER);
@@ -83,10 +90,10 @@ public class Menu extends JPanel implements Runnable {
 		towerInfo.setVerticalAlignment(SwingConstants.CENTER);
 		towerInfo.setBounds(5, 185, 290, 50);
 		towerInfo.setFont(factFont);
-		towerInfo.setForeground(Color.white);
+		towerInfo.setForeground(brown);
 		
 		ImageIcon incen= new ImageIcon(this.getClass().getResource("pics/Towers/Incenerator/baseSouth.png"));
-		JButton inceneratorButton = new JButton("<html><center>Incinerator $100</center></html>");
+		JButton inceneratorButton = new JButton("<html><center><font color=\"#604020\">Incinerator $100</font></center></html>");
 		inceneratorButton.addActionListener(new TowerButtonListener(Util.TowerType.incenerator));
 		inceneratorButton.setBounds(5, 235, 142, 50);
 		inceneratorButton.setFont(menuFont);
@@ -96,7 +103,7 @@ public class Menu extends JPanel implements Runnable {
 		inceneratorButton.setBorder(thinBorder);
 		
 		ImageIcon rec= new ImageIcon(this.getClass().getResource("pics/Towers/Recycle/baseSouth.png"));
-		JButton recycleButton = new JButton("<html><center>Recycling $200</center></html>");
+		JButton recycleButton = new JButton("<html><center><font color=\"#604020\">Recycling $200</font</center></html>");
 		recycleButton.addActionListener(new TowerButtonListener(Util.TowerType.recycle));
 		recycleButton.setBounds(150, 235, 142, 50);
 		recycleButton.setFont(menuFont);
@@ -106,7 +113,7 @@ public class Menu extends JPanel implements Runnable {
 		recycleButton.setBorder(thinBorder);
 		
 		ImageIcon met= new ImageIcon(this.getClass().getResource("pics/Towers/Metal/baseSouth.png"));
-		JButton metalButton = new JButton("<html><center>Scrap Metal $250</center></html>");
+		JButton metalButton = new JButton("<html><center><font color=\"#604020\">Scrap Metal $250</font></center></html>");
 		metalButton.addActionListener(new TowerButtonListener(Util.TowerType.metal));
 		metalButton.setBounds(5, 290, 142, 50);
 		metalButton.setFont(menuFont);
@@ -116,7 +123,7 @@ public class Menu extends JPanel implements Runnable {
 		metalButton.setBorder(thinBorder);
 		
 		ImageIcon comp= new ImageIcon(this.getClass().getResource("pics/Towers/Compost/baseSouth.png"));
-		JButton compostButton = new JButton("<html><center>Compost $250</center></html>");
+		JButton compostButton = new JButton("<html><center><font color=\"#604020\">Compost $250</font</center></html>");
 		compostButton.addActionListener(new TowerButtonListener(Util.TowerType.compost));
 		compostButton.setBounds(150, 290, 142, 50);
 		compostButton.setFont(menuFont);
@@ -126,7 +133,7 @@ public class Menu extends JPanel implements Runnable {
 		compostButton.setBorder(thinBorder);
 		
 		ImageIcon wind= new ImageIcon(this.getClass().getResource("pics/Towers/Windmill/base.png"));
-		JButton windmillButton = new JButton("<html><center>Windmill $300</center></html>");
+		JButton windmillButton = new JButton("<html><center><font color=\"#604020\">Windmill $300</font></center></html>");
 		windmillButton.addActionListener(new TowerButtonListener(Util.TowerType.windmill));
 		windmillButton.setBounds(5,345,142, 50);
 		windmillButton.setFont(menuFont);
@@ -136,7 +143,7 @@ public class Menu extends JPanel implements Runnable {
 		windmillButton.setBorder(thinBorder);
 		
 		ImageIcon nuc= new ImageIcon(this.getClass().getResource("pics/Towers/Nuclear/baseSouth.png"));
-		JButton nuclearButton = new JButton("<html><center>Nuclear $400</center></html>");
+		JButton nuclearButton = new JButton("<html><center><font color=\"#604020\">Nuclear $400</font></center></html>");
 		nuclearButton.addActionListener(new TowerButtonListener(Util.TowerType.nuclear));
 		nuclearButton.setBounds(150,345,142, 50);
 		nuclearButton.setFont(menuFont);
@@ -155,14 +162,14 @@ public class Menu extends JPanel implements Runnable {
 		startWaveButton.setForeground(Color.DARK_GRAY);
 		
 		fact.setBounds(5, 450, 290, 100);
-		fact.setForeground(Color.white);
+		fact.setForeground(green);
 		fact.setFont(factFont);
 		
 		muteButton = new JButton("<html><center>Mute Music</center></html>");
 		muteButton.addActionListener(new MuteButtonListener());
 		muteButton.setBounds(5, 550, 142, 50);
 		muteButton.setFont(menuFont);
-		muteButton.setForeground(Color.darkGray);
+		muteButton.setForeground(brown);
 		muteButton.setBackground(light);
 		muteButton.setBorder(thickBorder);
 
@@ -171,7 +178,7 @@ public class Menu extends JPanel implements Runnable {
 		effectMuteButton.addActionListener(new EffectMuteButtonListener());
 		effectMuteButton.setBounds(150,550, 140, 50);
 		effectMuteButton.setFont(menuFont);
-		effectMuteButton.setForeground(Color.darkGray);
+		effectMuteButton.setForeground(brown);
 		effectMuteButton.setBackground(light);
 		effectMuteButton.setBorder(thickBorder);
 		
@@ -821,9 +828,9 @@ private class UpgradeTowerButtonListener implements ActionListener {
 	}
 	public void setTowerInfoText(Tower tower){
 		if(tower.type!=Util.TowerType.windmill){
-			towerInfo.setText("<html><center>Fire Rate: <font color=\"#CC0000\">" + tower.getRate()+"0</font> ft/sec <br /> Kills: <font color=\"#CC0000\"><b>" + tower.getKillCount()*100+"</b></font> pounds of trash</center></html>");
+			towerInfo.setText("<html><center>Fire Rate: <b><font color=\"#406020\">" + tower.getRate()+"0</b></font> ft/sec <br /> Kills: <font color=\"#406020\"><b>" + tower.getKillCount()*100+"</b></font> pounds of trash</center></html>");
 		}else{
-			towerInfo.setText("<html><center>Current Bonus: <font color=\"#CC0000\">$"+tower.getWindmillBonus()+"</font> each round<br/>Total Money Earned: <b><font color=\"#CC0000\">$" +tower.getTotalWindmill()+"</font></b></center></html>");
+			towerInfo.setText("<html><center>Current Bonus: <font color=\"#406020\">$"+tower.getWindmillBonus()+"</font> each round<br/>Total Money Earned: <b><font color=\"#406020\">$" +tower.getTotalWindmill()+"</font></b></center></html>");
 		}
 	}
 	
