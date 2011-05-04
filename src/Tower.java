@@ -265,6 +265,7 @@ public class Tower {
 			if (!trashRemoves){
 				theTrash.removeImage();
 				killCount++;
+				calculateScore(this,theTrash);
 				if(!Board.effectMute){
 
 	                  
@@ -425,4 +426,21 @@ public class Tower {
 		return totalWindmill;
 	}
 	
+	private void calculateScore(Tower tower, Trash trash){
+
+		switch(tower.type){
+			case incenerator: 
+				Board.budget+=15; Board.airQual-=15; break;
+			case recycle: Board.budget +=25; Board.airQual+=10; break;
+			case windmill: Board.airQual+=30; break;
+			case compost: Board.budget+=30; Board.airQual+=5; break;
+			case metal: Board.budget+=35; break;
+			case nuclear: Board.budget+=25; break;
+				
+		}
+		
+
+
+	}
+
 }

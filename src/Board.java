@@ -64,8 +64,8 @@ public class Board extends JPanel implements Runnable {
 	boolean wonGame=false;
 
 	// Game State Variables
-	private Integer budget = 200;
-	Double airQual = 1000.0;
+	static Integer budget = 200;
+	static Double airQual = 1000.0;
 	private Integer level = 1;
 	private Integer landFillScore = 0;
 	private Integer escapedTrash =0;
@@ -376,7 +376,7 @@ public class Board extends JPanel implements Runnable {
 						//System.out.println("Trash Killed:"+trash.get(i).isKilled() +" Tower Firing:"+ towers.get(j).getFiring());
 						if (towers.get(j).getType()!=Util.TowerType.windmill && !trash.get(i).isKilled() && !towers.get(j).getFiring() && trash.get(i).detectCollisions(towers.get(j),pathX, pathY)) {
 							//System.out.println(" Tower: " + j + " Trash: "+ i +"  --"+counter);
-							calculateScore(towers.get(j),trash.get(i));
+							//calculateScore(towers.get(j),trash.get(i));
 							towers.get(j).setFiring(true,trash.get(i));
 							trash.get(i).setKilled();
 						}
@@ -479,23 +479,7 @@ public class Board extends JPanel implements Runnable {
 
 	}
 
-	private void calculateScore(Tower tower, Trash trash){
-
-		switch(tower.type){
-			case incenerator: 
-				budget+=15; airQual-=15; break;
-			case recycle: budget +=25; airQual+=10; break;
-			case windmill: airQual+=30; break;
-			case compost: budget+=30; airQual+=5; break;
-			case metal: budget+=35; break;
-			case nuclear: budget+=25; break;
-				
-		}
-		
-
-
-	}
-
+	
 	private void resetTowers() {
 		for (int i = 0; i < towers.size(); i++) {
 			towers.get(i).resetTower();
