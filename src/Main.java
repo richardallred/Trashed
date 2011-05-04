@@ -3,12 +3,13 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 
-public class Main extends JFrame {
+public class Main extends JFrame{
 
     /**
      * 
@@ -18,6 +19,7 @@ public class Main extends JFrame {
     Board board;
     Image instructions;
     boolean clicked=false;
+    
     
     public Main() {
 	

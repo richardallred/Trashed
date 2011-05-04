@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -8,10 +9,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.event.MouseInputListener;
 
 public class Menu extends JPanel implements Runnable {
@@ -29,20 +34,35 @@ public class Menu extends JPanel implements Runnable {
 	static private boolean addMetalTower = false;
 	static private boolean addCompostTower = false;
 	static private boolean addNuclearTower = false;
+	private boolean errorclick=false;
 	private boolean startWave = false;
 	private String currentTowerDirection = "South";
 	private JLabel info = new JLabel("");
 	private JLabel towerInfo = new JLabel("");
 	private JLabel fact = new JLabel("");
+	private JLabel error = new JLabel("");
 	private JButton sellButton,cancelButton,muteButton,effectMuteButton,upgradeButton;
 	//StartOver Button
 	private JButton startOver;
 	private Tower clickedTower;
 	private ArrayList<String> facts= new ArrayList<String>();
 	Random generator = new Random();
+	Font menuFont=new Font("Georgia",Font.BOLD, 12);
+	Font factFont=new Font("Georgia",Font.PLAIN,13);
+	int intBlue = Integer.parseInt( "99CCFF",16);
+	Color blue = new Color( intBlue );
+	int colorNum=Integer.parseInt("C2FFE3", 16);
+	Color light= new Color(colorNum);
+	Border thickBorder = new LineBorder(Color.DARK_GRAY, 3);
+	Border thinBorder = new LineBorder(Color.BLUE, 2);
 	
 
 	public Menu(Board board) {
+		
+		this.setBackground(Color.GRAY);
+		
+		
+		
 		setDoubleBuffered(true);
 		gameBoard = board;
 		board.addMouseListener(new Mouse());
@@ -51,50 +71,109 @@ public class Menu extends JPanel implements Runnable {
 		
 		info.setHorizontalAlignment(SwingConstants.CENTER);
 		info.setBounds(5,0, 290, 100);
+		info.setFont(factFont);
+		info.setForeground(Color.red);
+		
+		error.setBounds(5, 100, 290, 40);
+		error.setHorizontalAlignment(SwingConstants.CENTER);
+		error.setVerticalAlignment(SwingConstants.CENTER);
+		error.setFont(factFont);
 		
 		towerInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		towerInfo.setVerticalAlignment(SwingConstants.CENTER);
 		towerInfo.setBounds(5, 185, 290, 50);
+		towerInfo.setFont(factFont);
+		towerInfo.setForeground(Color.red);
 		
+		ImageIcon incen= new ImageIcon(this.getClass().getResource("pics/Towers/Incenerator/baseSouth.png"));
 		JButton inceneratorButton = new JButton("<html><center>Incinerator $100</center></html>");
 		inceneratorButton.addActionListener(new TowerButtonListener(Util.TowerType.incenerator));
-		inceneratorButton.setBounds(0, 250, 150, 50);
+		inceneratorButton.setBounds(5, 235, 142, 50);
+		inceneratorButton.setFont(menuFont);
+		inceneratorButton.setIcon(incen);
+		inceneratorButton.setForeground(Color.darkGray);
+		inceneratorButton.setBackground(blue);
+		inceneratorButton.setBorder(thinBorder);
 		
+		ImageIcon rec= new ImageIcon(this.getClass().getResource("pics/Towers/Recycle/baseSouth.png"));
 		JButton recycleButton = new JButton("<html><center>Recycling $200</center></html>");
 		recycleButton.addActionListener(new TowerButtonListener(Util.TowerType.recycle));
-		recycleButton.setBounds(150, 250, 150, 50);
+		recycleButton.setBounds(150, 235, 142, 50);
+		recycleButton.setFont(menuFont);
+		recycleButton.setIcon(rec);
+		recycleButton.setForeground(Color.darkGray);
+		recycleButton.setBackground(blue);
+		recycleButton.setBorder(thinBorder);
 		
+		ImageIcon met= new ImageIcon(this.getClass().getResource("pics/Towers/Metal/baseSouth.png"));
 		JButton metalButton = new JButton("<html><center>Scrap Metal $250</center></html>");
 		metalButton.addActionListener(new TowerButtonListener(Util.TowerType.metal));
-		metalButton.setBounds(0, 300, 150, 50);
+		metalButton.setBounds(5, 290, 142, 50);
+		metalButton.setFont(menuFont);
+		metalButton.setIcon(met);
+		metalButton.setForeground(Color.DARK_GRAY);
+		metalButton.setBackground(blue);
+		metalButton.setBorder(thinBorder);
 		
+		ImageIcon comp= new ImageIcon(this.getClass().getResource("pics/Towers/Compost/baseSouth.png"));
 		JButton compostButton = new JButton("<html><center>Compost $250</center></html>");
 		compostButton.addActionListener(new TowerButtonListener(Util.TowerType.compost));
-		compostButton.setBounds(150, 300, 150, 50);
+		compostButton.setBounds(150, 290, 142, 50);
+		compostButton.setFont(menuFont);
+		compostButton.setIcon(comp);
+		compostButton.setBackground(blue);
+		compostButton.setForeground(Color.darkGray);
+		compostButton.setBorder(thinBorder);
 		
+		ImageIcon wind= new ImageIcon(this.getClass().getResource("pics/Towers/Windmill/base.png"));
 		JButton windmillButton = new JButton("<html><center>Windmill $300</center></html>");
 		windmillButton.addActionListener(new TowerButtonListener(Util.TowerType.windmill));
-		windmillButton.setBounds(0,350,150, 50);
+		windmillButton.setBounds(5,345,142, 50);
+		windmillButton.setFont(menuFont);
+		windmillButton.setIcon(wind);
+		windmillButton.setBackground(blue);
+		windmillButton.setForeground(Color.DARK_GRAY);
+		windmillButton.setBorder(thinBorder);
 		
+		ImageIcon nuc= new ImageIcon(this.getClass().getResource("pics/Towers/Nuclear/baseSouth.png"));
 		JButton nuclearButton = new JButton("<html><center>Nuclear $400</center></html>");
 		nuclearButton.addActionListener(new TowerButtonListener(Util.TowerType.nuclear));
-		nuclearButton.setBounds(150,350,150, 50);
+		nuclearButton.setBounds(150,345,142, 50);
+		nuclearButton.setFont(menuFont);
+		nuclearButton.setForeground(Color.DARK_GRAY);
+		nuclearButton.setBackground(blue);
+		nuclearButton.setIcon(nuc);
+		nuclearButton.setBorder(thinBorder);
 		
 		JButton startWaveButton = new JButton("<html><center>Send Next Wave</center></html>");
 		startWaveButton.addActionListener(new StartWaveButtonListener());
-		startWaveButton.setBounds(0, 400, 300, 50);
+		startWaveButton.setBounds(5, 400, 287, 50);
+		startWaveButton.setFont(menuFont);
+		startWaveButton.setBorder(thickBorder);
+
+		startWaveButton.setBackground(light);
+		startWaveButton.setForeground(Color.DARK_GRAY);
 		
 		fact.setBounds(5, 450, 290, 100);
-		fact.setBackground(Color.blue);
 		fact.setForeground(Color.red);
+		fact.setFont(factFont);
 		
 		muteButton = new JButton("<html><center>Mute Music</center></html>");
 		muteButton.addActionListener(new MuteButtonListener());
-		muteButton.setBounds(0, 550, 150, 50);
+		muteButton.setBounds(5, 550, 142, 50);
+		muteButton.setFont(menuFont);
+		muteButton.setForeground(Color.darkGray);
+		muteButton.setBackground(light);
+		muteButton.setBorder(thickBorder);
+
 		
 		effectMuteButton = new JButton("<html><center>Mute Effects</center></html>");
 		effectMuteButton.addActionListener(new EffectMuteButtonListener());
-		effectMuteButton.setBounds(150,550, 150, 50);
+		effectMuteButton.setBounds(150,550, 140, 50);
+		effectMuteButton.setFont(menuFont);
+		effectMuteButton.setForeground(Color.darkGray);
+		effectMuteButton.setBackground(light);
+		effectMuteButton.setBorder(thickBorder);
 		
 		add(info);
 		add(towerInfo);
@@ -124,6 +203,7 @@ public class Menu extends JPanel implements Runnable {
 			gameBoard.resetGame();
 			remove(startOver);
 			startOver=null;
+			errorclick=false;
 			
 		}
 		
@@ -146,6 +226,7 @@ public class Menu extends JPanel implements Runnable {
 			resetButtons();
 			gameBoard.pendingTower=null;
 			remove(cancelButton);
+			errorclick=false;
 		}
 	}
 	private class StartWaveButtonListener implements ActionListener {
@@ -155,6 +236,7 @@ public class Menu extends JPanel implements Runnable {
 
 			startWave = !startWave;
 			gameBoard.startWave();
+			errorclick=false;
 		}
 	}
 
@@ -179,6 +261,7 @@ public class Menu extends JPanel implements Runnable {
 			info.setText("");
 			towerInfo.setText("");
 			clickedTower=null;
+			errorclick=false;
 		}
 	}
 	
@@ -203,7 +286,11 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				upgradeButton= new JButton("<html><center>Upgrade $"+clickedTower.getUpgradeCost()+"</center></html>");
 				upgradeButton.setBounds(150,135,135,50);
 				upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
+				upgradeButton.setFont(menuFont);
 				add(upgradeButton);
+				upgradeButton.setBackground(light);
+				upgradeButton.setForeground(Color.DARK_GRAY);
+				upgradeButton.setBorder(thickBorder);
 				remove(sellButton);
 				sellButton=null;
 				
@@ -211,9 +298,18 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				sellButton = new JButton("<html><center>Sell $"+value+"</center></html>");
 				sellButton.setBounds(15, 135, 135, 50);
 				sellButton.addActionListener(new SellTowerButtonListener(clickedTower,value));
+				sellButton.setFont(menuFont);
+				sellButton.setBackground(light);
+				sellButton.setForeground(Color.DARK_GRAY);
+				sellButton.setBorder(thickBorder);
 				add(sellButton);
 				
 				
+			}else{
+				error.setText("<html><center>Your budget is inadequate for this purchase!</center></html>");
+				error.setForeground(Color.red);
+				error.repaint();
+				errorclick=true;
 			}
 		}
 	}
@@ -224,8 +320,8 @@ private class UpgradeTowerButtonListener implements ActionListener {
 		public  void actionPerformed(ActionEvent e) {
 			if (gameBoard.effectMute) {
 				gameBoard.effectMute=false;
-				effectMuteButton.setBackground(null);
-				effectMuteButton.setForeground(null);
+				effectMuteButton.setBackground(light);
+				effectMuteButton.setForeground(Color.darkGray);
 			} else {
 				gameBoard.effectMute=true;
 				effectMuteButton.setBackground(Color.red);
@@ -243,13 +339,14 @@ private class UpgradeTowerButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (gameBoard.muted) {
 				gameBoard.startMusic();
-				muteButton.setBackground(null);
-				muteButton.setForeground(null);
+				muteButton.setBackground(light);
+				muteButton.setForeground(Color.DARK_GRAY);
 			} else {
 				gameBoard.stopMusic();
 				muteButton.setBackground(Color.red);
 				muteButton.setForeground(Color.black);
 			}
+			errorclick=false;
 
 		}
 	}
@@ -339,9 +436,20 @@ private class UpgradeTowerButtonListener implements ActionListener {
 						cancelButton = new JButton("<html><center>Cancel Purchase</center></html>");
 						cancelButton.setBounds(50, 135, 200, 50);
 						cancelButton.addActionListener(new CancelButtonListener());
+						cancelButton.setFont(menuFont);
+						cancelButton.setBackground(light);
+						cancelButton.setForeground(Color.DARK_GRAY);
+						cancelButton.setBorder(thickBorder);
+						
 					}
 					add(cancelButton);
+					errorclick=false;
 					
+				}else{
+					error.setText("<html><center>Your budget is inadequate for this purchase!</center></html>");
+					error.setForeground(Color.red);
+					error.repaint();
+					errorclick=true;
 				}
 			}
 		}
@@ -385,13 +493,20 @@ private class UpgradeTowerButtonListener implements ActionListener {
 							int cost=Math.max((int)(getCost(clickedTower.type)*.75),clickedTower.getCost());
 							
 							sellButton = new JButton("<html><center>Sell $"+(int)(cost*(.75))+"</center></html>");
-							sellButton.setBounds(15, 135, 135, 50);
+							sellButton.setBounds(15, 135, 132, 50);
 							sellButton.addActionListener(new SellTowerButtonListener(clickedTower,(int)(cost*(.75))));
-							
+							sellButton.setFont(menuFont);
+							sellButton.setBackground(light);
+							sellButton.setForeground(Color.DARK_GRAY);
+							sellButton.setBorder(thickBorder);
 							
 							upgradeButton= new JButton("<html><center>Upgrade $"+clickedTower.getUpgradeCost()+"</center></html>");
-							upgradeButton.setBounds(150,135,135,50);
+							upgradeButton.setBounds(150,135,132,50);
 							upgradeButton.addActionListener(new UpgradeTowerButtonListener(clickedTower, clickedTower.getUpgradeCost()));
+							upgradeButton.setFont(menuFont);
+							upgradeButton.setBackground(light);
+							upgradeButton.setForeground(Color.DARK_GRAY);
+							upgradeButton.setBorder(thickBorder);
 							
 							add(upgradeButton);
 							add(sellButton);
@@ -416,6 +531,11 @@ private class UpgradeTowerButtonListener implements ActionListener {
 							}
 							clickedTower=null;
 							
+						}
+						if(errorclick){
+							errorclick=false;
+						}else{
+						error.setText("");
 						}
 						
 					}else{
@@ -619,7 +739,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 			case metal:
 				return 250;
 			case compost:
-				return 200;
+				return 250;
 			case compactor:
 				return 500;
 			case nuclear:
@@ -645,6 +765,13 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				oldLevel=curLevel;
 			}
 			
+			if(errorclick){
+				add(error);
+			}else{
+				error.setText("");
+				remove(error);
+			}
+			
 			if(gameBoard.restart && startOver==null){
 				
 				if(sellButton!=null){
@@ -665,6 +792,7 @@ private class UpgradeTowerButtonListener implements ActionListener {
 				startOver = new JButton("Start Over");
 				startOver.addActionListener(new StartOverListener());
 				startOver.setBounds(50, 135, 200, 50);
+				startOver.setFont(menuFont);
 				add(startOver);
 				
 			}else{

@@ -8,6 +8,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -177,6 +181,10 @@ public class Board extends JPanel implements Runnable {
 		g2d.drawImage(background, 0, 0, this);
 
 		if (ingame) {
+			
+			//direction variables for adjusting arrow image
+			int addArrowX=0;
+			int addArrowY=0;
 
 			g2d.drawImage(landFill, 0, 0, this);
 			// Draw each piece of trash in our trash array onto the frame
@@ -185,9 +193,12 @@ public class Board extends JPanel implements Runnable {
 				g2d.drawImage(curTrash.getImage(), (int) curTrash.getX(),
 						(int) curTrash.getY(), this);
 			}
-
+			//Draw all of the towers onto the board
 			for (int i = 0; i < towers.size(); i++) {
 				Tower curTower = towers.get(i);
+				
+				
+				
 				g2d.drawImage(curTower.getArmImage(), (int) curTower.getArmX(),
 						(int) curTower.getArmY(), this);
 				g2d.drawImage(curTower.getBaseImage(), (int) curTower.getX(),
@@ -203,10 +214,22 @@ public class Board extends JPanel implements Runnable {
 						(int) highLightTower.getY()-10, this);
 			}
 			
+			
+			
 			// JJ
 			if (pendingTower != null && (pendingTower.getX() != Integer.MIN_VALUE || pendingTower.getY() != Integer.MIN_VALUE)) {
+				String dir=pendingTower.dir;
+				if(dir.equalsIgnoreCase("east")){
+					addArrowX+=40;
+				}else if(dir.equalsIgnoreCase("west")){
+					addArrowX-=40;
+				}else if(dir.equalsIgnoreCase("north")){
+					addArrowY-=40;
+				}else if(dir.equalsIgnoreCase("south")){
+					addArrowY+=40;
+				}
 				g2d.drawImage(pendingTower.getBaseImage(),(int) pendingTower.getX(), (int) pendingTower.getY(),this);
-				g2d.drawImage(pendingTower.getArrowImage(),(int)pendingTower.getX(),(int)pendingTower.getY(), this);
+				g2d.drawImage(pendingTower.getArrowImage(),(int)pendingTower.getX()+addArrowX,(int)pendingTower.getY()+addArrowY, this);
 			}
 
 
@@ -234,6 +257,8 @@ public class Board extends JPanel implements Runnable {
 			if(!wonGame){
 				g2d.setFont(bigfont);
 				g2d.drawString("GAME OVER", 250, 300);
+				g2d.drawString("Final Score "+getFinalScore().toString()+" points", 100, 350);
+				
 			}else{
 				ImageIcon jj= new ImageIcon(this.getClass().getResource(
 				"pics/welcomeFinish.png"));
@@ -423,7 +448,7 @@ public class Board extends JPanel implements Runnable {
 				restart=true;
 				ingame = false;
 			}
-			if(level==26){
+			if(level==26 && ingame){
 				wonGame=true;
 				restart=true;
 				ingame = false;
@@ -562,6 +587,7 @@ public class Board extends JPanel implements Runnable {
 	// JJ
 	public Tower addTower(Tower t) {
 		towers.add(t);
+		Collections.sort(towers,new TowerComparator());
 		return t;
 	}
 
@@ -590,5 +616,55 @@ public class Board extends JPanel implements Runnable {
 	public Integer getLandFillScore() {
 		return landFillScore;
 	}
+	
+	public Integer getFinalScore(){
+		
+		Integer score=0;
+		score+=airQual.intValue()-1000;
+		score+=budget-200;
+		score*=(100-landFillScore/10000);
+		if(score<0){
+			score=0;
+		}
+		
+		return score;
+		
+	}
+	
+	private class TowerComparator implements Comparator{
+		   
+	    public int compare(Object t1, Object t2){
+	  	       
+	        int t1x = ((Tower)t1).getX();        
+	        int t1y = ((Tower)t2).getY();
+	        
+	        int t2x = ((Tower)t2).getX();
+	        int t2y = ((Tower)t2).getY();
+	        
+	        //Tower 1 is above Tower 2
+	        if(t1y-t2y>Util.gapPad){
+	        	return 1;
+	        //Tower 2 is above Tower 1
+	        }else if(t2y-t1y>Util.gapPad){
+	        	return -1;
+	        //Towers are on same switchback and it is middle
+	        }else if(t1y>Util.pathPad+Util.pathHeight && t1y<Util.pathPad+Util.pathHeight*2+Util.gapPad*2 && t2y>Util.pathPad+Util.pathHeight && t2y<Util.pathPad+Util.pathHeight*2+Util.gapPad*2){
+	        	if(t1x<t2x){
+	        		return 1;
+	        	}else{
+	        		return -1;
+	        	}
+	    	}else{
+	    		if(t1x>t2x){
+	        		return 1;
+	        	}else{
+	        		return -1;
+	        	}
+	    	}
+	          
+	    }
+	   
+	}
+	
 
 }

@@ -219,7 +219,7 @@ public class Tower {
 		
 		if (dir.equalsIgnoreCase("North") && !(armY>y)) {
 			
-			if(armY+dist>=y){
+			if(armY-dist>=y){
 				armY=y;
 			}else{
 				armY -= dist;
@@ -246,7 +246,7 @@ public class Tower {
 				
 		} else if (dir.equalsIgnoreCase("West")) {
 			
-			if(armX+dist>x){
+			if(armX-dist>x){
 				armX=x;
 			}else{
 				armX -= dist;

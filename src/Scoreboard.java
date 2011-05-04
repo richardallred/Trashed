@@ -19,10 +19,12 @@ public class Scoreboard extends JPanel  implements Runnable{
 
 	
 	public Scoreboard(Board gameBoard){
+		this.setBackground(Color.gray);
+		info.setForeground(Color.red);
 		setDoubleBuffered(true);
 		this.gameBoard=gameBoard;
 		info.setBounds(0, 0, 900, 50);
-		info.setText("Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
+		info.setText("Score: "+gameBoard.getFinalScore()+" | Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
 				+ gameBoard.getBudget().toString() + " | Air Quality: " + gameBoard.airQual.toString()
 				+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
 				+ gameBoard.getLandFillScore().toString() + "% Full");
@@ -46,10 +48,11 @@ public class Scoreboard extends JPanel  implements Runnable{
 		while (true) {
 
 			
-			info.setText("Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
+			info.setText("Score: "+gameBoard.getFinalScore()+" | Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
 					+ gameBoard.getBudget().toString() + "  | Air Quality: " + gameBoard.airQual.toString()
 					+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
 					+ gameBoard.getLandFillScore().toString() + "% Full");
+			info.setForeground(Color.red);
 			repaint();
 			timeDiff = System.currentTimeMillis() - beforeTime;
 			sleep = DELAY - timeDiff;
