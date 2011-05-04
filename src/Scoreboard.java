@@ -24,12 +24,12 @@ public class Scoreboard extends JPanel  implements Runnable{
 		setDoubleBuffered(true);
 		this.gameBoard=gameBoard;
 		info.setBounds(0, 0, 900, 50);
-		info.setText("Score: "+gameBoard.getFinalScore()+" | Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
-				+ gameBoard.getBudget().toString() + " | Air Quality: " + gameBoard.airQual.toString()
-				+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
-				+ gameBoard.getLandFillScore().toString() + "% Full");
+		info.setText("<html><center>Score: <b><font color=\"#CC0000\">"+gameBoard.getFinalScore()+"</font></b> | Wave: <b><font color=\"#CC0000\">" + gameBoard.getLevel().toString() + "</font></b> |  Budget: $<b><font color=\"#CC0000\">"
+				+ gameBoard.getBudget().toString() + "</font></b> | Air Quality: <font color=\"#CC0000\">" + gameBoard.airQual.toString()
+				+ "</font><b> | Trash Left: <font color=\"#CC0000\">" + gameBoard.trash.size()*100 + "</font></b> lbs" + " | Landfill <font color=\"#CC0000\">"
+				+ gameBoard.getLandFillScore().toString() + "</font</b>% Full</center></html>");
 		info.setFont(smallfont);
-		info.setForeground(Color.DARK_GRAY);
+		//info.setForeground(Color.DARK_GRAY);
 		add(info);
 	}
 	
@@ -48,11 +48,11 @@ public class Scoreboard extends JPanel  implements Runnable{
 		while (true) {
 
 			
-			info.setText("Score: "+gameBoard.getFinalScore()+" | Wave: " + gameBoard.getLevel().toString() + " |  Budget: $"
-					+ gameBoard.getBudget().toString() + "  | Air Quality: " + gameBoard.airQual.toString()
-					+ " | Trash Left: " + gameBoard.trash.size()*100 + " lbs" + " | Landfill "
-					+ gameBoard.getLandFillScore().toString() + "% Full");
-			info.setForeground(Color.red);
+			info.setText("<html><center>Score: <b><font color=\"#CC0000\">"+gameBoard.getFinalScore()+"</font></b> | Wave: <b><font color=\"#CC0000\">" + gameBoard.getLevel().toString() + "</font></b> |  Budget: $<b><font color=\"#CC0000\">"
+					+ gameBoard.getBudget().toString() + "</font></b> | Air Quality: <font color=\"#CC0000\">" + gameBoard.airQual.toString()
+					+ "</font><b> | Trash Left: <font color=\"#CC0000\">" + gameBoard.trash.size()*100 + "</font></b> lbs" + " | Landfill <font color=\"#CC0000\">"
+					+ gameBoard.getLandFillScore().toString() + "</font</b>% Full</center></html>");
+			info.setForeground(Color.white);
 			repaint();
 			timeDiff = System.currentTimeMillis() - beforeTime;
 			sleep = DELAY - timeDiff;

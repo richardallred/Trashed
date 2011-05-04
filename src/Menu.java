@@ -51,7 +51,7 @@ public class Menu extends JPanel implements Runnable {
 	Font factFont=new Font("Georgia",Font.PLAIN,13);
 	int intBlue = Integer.parseInt( "99CCFF",16);
 	Color blue = new Color( intBlue );
-	int colorNum=Integer.parseInt("C2FFE3", 16);
+	int colorNum=Integer.parseInt("FFFFFF", 16);
 	Color light= new Color(colorNum);
 	Border thickBorder = new LineBorder(Color.DARK_GRAY, 3);
 	Border thinBorder = new LineBorder(Color.BLUE, 2);
@@ -72,7 +72,7 @@ public class Menu extends JPanel implements Runnable {
 		info.setHorizontalAlignment(SwingConstants.CENTER);
 		info.setBounds(5,0, 290, 100);
 		info.setFont(factFont);
-		info.setForeground(Color.red);
+		info.setForeground(Color.white);
 		
 		error.setBounds(5, 100, 290, 40);
 		error.setHorizontalAlignment(SwingConstants.CENTER);
@@ -83,7 +83,7 @@ public class Menu extends JPanel implements Runnable {
 		towerInfo.setVerticalAlignment(SwingConstants.CENTER);
 		towerInfo.setBounds(5, 185, 290, 50);
 		towerInfo.setFont(factFont);
-		towerInfo.setForeground(Color.red);
+		towerInfo.setForeground(Color.white);
 		
 		ImageIcon incen= new ImageIcon(this.getClass().getResource("pics/Towers/Incenerator/baseSouth.png"));
 		JButton inceneratorButton = new JButton("<html><center>Incinerator $100</center></html>");
@@ -155,7 +155,7 @@ public class Menu extends JPanel implements Runnable {
 		startWaveButton.setForeground(Color.DARK_GRAY);
 		
 		fact.setBounds(5, 450, 290, 100);
-		fact.setForeground(Color.red);
+		fact.setForeground(Color.white);
 		fact.setFont(factFont);
 		
 		muteButton = new JButton("<html><center>Mute Music</center></html>");
@@ -821,9 +821,9 @@ private class UpgradeTowerButtonListener implements ActionListener {
 	}
 	public void setTowerInfoText(Tower tower){
 		if(tower.type!=Util.TowerType.windmill){
-			towerInfo.setText("<html><center>Fire Rate: " + tower.getRate()+"0 ft/sec <br /> Kills: " + tower.getKillCount()*100+" pounds of trash</center></html>");
+			towerInfo.setText("<html><center>Fire Rate: <font color=\"#CC0000\">" + tower.getRate()+"0</font> ft/sec <br /> Kills: <font color=\"#CC0000\"><b>" + tower.getKillCount()*100+"</b></font> pounds of trash</center></html>");
 		}else{
-			towerInfo.setText("<html><center>Current Bonus: $"+tower.getWindmillBonus()+" each round<br/>Total Money Earned: $" +tower.getTotalWindmill()+"</center></html>");
+			towerInfo.setText("<html><center>Current Bonus: <font color=\"#CC0000\">$"+tower.getWindmillBonus()+"</font> each round<br/>Total Money Earned: <b><font color=\"#CC0000\">$" +tower.getTotalWindmill()+"</font></b></center></html>");
 		}
 	}
 	
@@ -832,8 +832,8 @@ private class UpgradeTowerButtonListener implements ActionListener {
 			case incenerator: info.setText("<html><center>Incinerators can handle paper, plastic, and styrofoam, but will have negative effect on air quality</center></html>"); break;
 			case metal:  info.setText("<html><center>The magnet is for picking up scrap metal</center></html>"); break;
 			case recycle: info.setText("<html><center>Recycle Bins are able to recycle paper, plastic, and aluminum and help to improve air quality</center></html>"); break;
-			case windmill: info.setText("<html><center>Windmills help to create clean energy for your town, therefore saving you money each round on energy costs and improving air quality</center></html>"); break;
-			case compost: info.setText("<html><center>Compost has the ability to properly dispose of food trash that comes through the level and provides more money than using another type of tower on this trash</center></html>"); break;
+			case windmill: info.setText("<html><center>Windmills help to create clean energy for your town, therefore saving you  money each round  on energy costs and  improving air quality</center></html>"); break;
+			case compost: info.setText("<html><center>Compost has the ability to properly dispose of food trash that comes through the level and provides  more money than using another type of tower on this trash</center></html>"); break;
 			case nuclear: info.setText("<html><center>Nuclear waste centers are for disposing of nuclear waste before it reaches the landfill, they are the only towers that can handle this type of waste</center></html>"); break;
 		}
 	}
